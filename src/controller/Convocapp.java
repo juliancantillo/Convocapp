@@ -6,17 +6,26 @@
 
 package controller;
 
+import gui.forms.LoginForm;
+
 /**
  *
  * @author kahmos
  */
 public class Convocapp {
+    
+    public LoginForm loginForm;
 
+    public Convocapp() {
+        loginForm = new LoginForm();
+        loginForm.setVisible(true);
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Convocapp app = new Convocapp();
     }
     
 }
