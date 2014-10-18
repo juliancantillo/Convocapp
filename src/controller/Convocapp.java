@@ -7,6 +7,7 @@
 package controller;
 
 import gui.forms.LoginForm;
+import gui.forms.UsersForm;
 
 /**
  *
@@ -15,6 +16,7 @@ import gui.forms.LoginForm;
 public class Convocapp {
     
     public LoginForm loginForm;
+    public UsersForm usersForm;
 
     public Convocapp() {
         loginForm = new LoginForm();

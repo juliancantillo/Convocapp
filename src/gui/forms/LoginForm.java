@@ -6,6 +6,8 @@ package gui.forms;
  * Desarrollo de Software 
  * @author kahmos
  */
+import dbhandler.dao.UserModel;
+import entities.User;
 import helpers.GBHelper;
 import helpers.Gap;
 import java.awt.BorderLayout;
@@ -14,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
 import javax.swing.*;
 import resources.R;
 
@@ -108,8 +111,8 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
         String user = fldUser.getText();
         String pass = new String(fldPass.getPassword());
         
-        if(user.equals("") && pass.equals("")){
-            JOptionPane.showMessageDialog(this, "El campo usuario y/o contraseña esta vacio", "Error", JOptionPane.WARNING_MESSAGE);
+        if(user.equals("") || pass.equals("")){
+            JOptionPane.showMessageDialog(this, R.ERROR_LOGIN_NULL_CREDENTIALS, R.STR_ERROR, JOptionPane.WARNING_MESSAGE);
             return false;
         }
         
@@ -122,7 +125,22 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
     }
     
     public void login(){
-        validateForm();
+        UserModel userModel = new UserModel();
+        
+        if (validateForm()){
+            try {
+                User user = userModel.getByCredentials(this.fldUser.getText(), String.valueOf(this.fldPass.getPassword()));
+                
+                if( user != null ){
+                    JOptionPane.showMessageDialog(this, user);
+                    this.dispose();
+                    UsersForm form = new UsersForm();
+                    form.setVisible(true);
+                }
+            } catch (SQLException | NullPointerException ex) {
+                JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOGIN_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
         
     public void close(){

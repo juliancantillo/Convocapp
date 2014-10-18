@@ -14,10 +14,13 @@ import java.sql.Timestamp;
 public class User implements Serializable{
 
     private Integer id, active;
-    private String username, password, email, firstname, lastname, address, phone, cellphone;
+    private String identification, username, password, email, firstname, lastname, address, phone, cellphone;
     private Timestamp create_time, update_time;
 
-    public User(String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone) {
+    public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, Timestamp create_time, Timestamp update_time) {
+        this.id = id;
+        this.active = active;
+        this.identification = identification;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -26,6 +29,8 @@ public class User implements Serializable{
         this.address = address;
         this.phone = phone;
         this.cellphone = cellphone;
+        this.create_time = create_time;
+        this.update_time = update_time;
     }
 
     public User() {
@@ -33,6 +38,10 @@ public class User implements Serializable{
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public boolean isActive() {
@@ -70,6 +79,14 @@ public class User implements Serializable{
         catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(String identification) {
+        this.identification = identification;
     }
 
     public String getEmail() {
@@ -127,5 +144,10 @@ public class User implements Serializable{
     public Timestamp getUpdateTime() {
         return update_time;
     }
-    
+
+    @Override
+    public String toString() {
+        return String.format("%s %s [ %s ]", firstname, lastname, email);
+    }
+        
 }
