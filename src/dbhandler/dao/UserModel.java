@@ -25,7 +25,9 @@ public class UserModel implements Model {
     @Override
     public int create(Object obj) throws SQLException {
         User user = (User) obj;
-        String insert = String.format("INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`, `active`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+        int id = 0; //st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
+        user.setId(id);
+        String insert = String.format("INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`, `active`) VALUES ('%s', '%s', MD5('%s'), '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
                 user.getIdentification(),
                 user.getUsername(),
                 user.getPassword(),
@@ -35,12 +37,14 @@ public class UserModel implements Model {
                 user.getAddress(),
                 user.getPhone(),
                 user.getCellphone(),
-                user.isActive()
+                user.Estado_sql()
         );
 
-        Statement st = conn.createStatement();
-        int id = st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
-        user.setId(id);
+        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        String test = "INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`) VALUES\n"
+                + "('14495546', 'pepe', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'pepe@gmail.com', 'Pepe', 'Perez', 'Calle 3 # 13 - 32', '3247598', '3197842535');";
+        System.out.println("Sql con problemas: " + insert);
+        st.executeUpdate(insert);
 
         return id;
 
@@ -113,7 +117,7 @@ public class UserModel implements Model {
         st.executeUpdate(sql);
 
     }
-    
+
     public User getByCredentials(String username, String password) throws SQLException {
         User user = null;
 

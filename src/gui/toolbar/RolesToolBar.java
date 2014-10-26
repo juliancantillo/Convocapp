@@ -11,7 +11,7 @@ import resources.R;
  * @author kahmos
  */
 public class RolesToolBar extends JToolBar{
-
+String asa;
     public RolesToolBar(String rol, ActionListener listener) {
         
         JButton btnNewUser = new JButton( R.STR_NEW_USER );
