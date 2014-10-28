@@ -144,6 +144,8 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
                     this.dispose();
                     UsersForm form = new UsersForm();
                     form.setVisible(true);
+                }else{
+                    JOptionPane.showMessageDialog(this, R.ERROR_LOGIN_FAILS_PASSWORD_OR_USER, R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException | NullPointerException ex) {
                 JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOGIN_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);

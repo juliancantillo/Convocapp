@@ -50,6 +50,7 @@ public class R {
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos",
             ERROR_LOGIN_FAILS = "Error al iniciar sesión.\n\nDescipción: %s",
+            ERROR_LOGIN_FAILS_PASSWORD_OR_USER = "Usuario o contraseña incorrectos, intente de nuevo\n\nSi no recuerda su información de ingreso comuniquese con el Administrador",
             ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacío, por favor ingrese su información de logueo";
 
     // Columns Names
