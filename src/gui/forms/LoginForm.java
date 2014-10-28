@@ -31,7 +31,7 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
     private JPasswordField fldPass;
 
     public LoginForm() {
-        super(R.STR_LOGIN_FORM_TITLE);
+        super("JULIAN");
         
         setIconImage( R.ICON_PASSWORD_SMALL.getImage() );
 
