@@ -30,6 +30,22 @@ public class User implements Serializable{
         this.update_time = update_time;
     }
 
+        public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone) {
+        /*Funcion creada para agregar los usurios a la base datos problema con las fechas*/
+        this.id = id;
+        this.active = active;
+        this.identification = identification;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        
+    }
+    
     public User() {
     }
 
@@ -44,7 +60,13 @@ public class User implements Serializable{
     public boolean isActive() {
         return active == 1;
     }
-
+    
+    public int Estado_sql() {
+        /*Este metodo retorna el estado del usurio en valor numerico para realizar la insertcion en la 
+        base de datos*/
+        return active;
+    }
+    
     public void setActive(boolean active) {
         this.active = active ? 1 : 0;
     }
