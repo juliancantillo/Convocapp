@@ -8,7 +8,7 @@ package controller;
 
 import gui.forms.LoginForm;
 import gui.forms.UsersForm;
-import gui.forms.Adduser;
+import gui.forms.CreateUserForm;
 
 /**
  *
@@ -18,12 +18,14 @@ public class Convocapp {
     
     public LoginForm loginForm;
     public UsersForm usersForm;
-    public Adduser adduser;
+    public CreateUserForm adduser;
 
 
     public Convocapp() {
             loginForm = new LoginForm();
-            loginForm.setVisible(true);     
+            loginForm.setVisible(true);
+//        adduser = new CreateUserForm();
+//        adduser.setVisible(true);
     }
     
     /**

@@ -1,5 +1,13 @@
 package resources;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,6 +27,7 @@ public class R {
             STR_USERS_MANAGEMENT = "Administración de Usuarios",
             STR_NEW_USER = "Nuevo Usuario",
             STR_PASSWORD = "Contraseña",
+            STR_PASSWORD_CONFIRM = "Confirmar Contraseña",
             STR_LOGIN = "Entrar",
             STR_ERROR = "Error",
             STR_CANCEL = "Cancelar",
@@ -33,11 +42,13 @@ public class R {
             STR_CELLPHONE = "Celular",
             STR_ACTIVE = "Activo",
             STR_CREATE_TIME = "Fecha de Creación",
-            STR_UPDATE_TIME = "Fecha de Actualización";
+            STR_UPDATE_TIME = "Fecha de Actualización",
+            STR_PERSONAL_INFO = "Información Personal",
+            STR_LOGIN_INFO = "Información de Ingreso",
+            STR_SAVE = "Guardar";
 
     // String Errors
-    public static final String 
-            ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos",
+    public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos",
             ERROR_LOGIN_FAILS = "Error al iniciar sesión.\n\nDescipción: %s",
             ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacío, por favor ingrese su información de logueo";
 
@@ -47,14 +58,30 @@ public class R {
 
     // Commands Constans
     public static final String CMD_NEW_USER = "CMD_NEW_USER";
+    public static final String CMD_LOGIN = "CMD_LOGIN";
+    public static final String CMD_CANCEL = "CMD_CANCEL";
+    public static final String CMD_SAVE = "CMD_SAVE";
 
     // Roles
     public static final String ROL_ADMINISTRATOR = "Administrador";
 
     // Icons constans
-    public static final Icon ICON_PASSWORD = getIcon("password.png");
+    public static final ImageIcon ICON_PASSWORD = getIcon("password.png");
+    public static final ImageIcon ICON_PASSWORD_SMALL = getIcon("password-24x24.png");
+    public static final ImageIcon ICON_UNLOCK = getIcon("lock-open.png");
+    public static final ImageIcon ICON_UNLOCK_SMALL = getIcon("lock-open-24x24.png");
+    public static final ImageIcon ICON_ADD_USER = getIcon("add-user.png");
+    public static final ImageIcon ICON_ADD_USER_SMALL = getIcon("add-user-24x24.png");
+    public static final ImageIcon ICON_USERS = getIcon("users.png");
+    public static final ImageIcon ICON_USERS_SMALL = getIcon("users-24x24.png");
+    public static final ImageIcon ICON_SAVE = getIcon("save.png");
+    public static final ImageIcon ICON_SAVE_SMALL = getIcon("save-24x24.png");
+    public static final ImageIcon ICON_CANCEL = getIcon("error.png");
+    public static final ImageIcon ICON_CANCEL_SMALL = getIcon("error-24x24.png");
+    public static final ImageIcon ICON_CHECK = getIcon("check.png");
+    public static final ImageIcon ICON_CHECK_SMALL = getIcon("check-24x24.png");
 
-    private static Icon getIcon(String path) {
+    private static ImageIcon getIcon(String path) {
         URL resource = R.class.getResource("icons/" + path);
         if (resource == null) {
             // Log something...

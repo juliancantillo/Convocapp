@@ -12,6 +12,7 @@ import helpers.GBHelper;
 import helpers.Gap;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -26,12 +27,13 @@ import resources.R;
  */
 public class LoginForm extends JFrame implements ActionListener, KeyListener{
     
-    private JButton btnLogin, btnCancel;
     private JTextField fldUser;
     private JPasswordField fldPass;
 
     public LoginForm() {
         super(R.STR_LOGIN_FORM_TITLE);
+        
+        setIconImage( R.ICON_PASSWORD_SMALL.getImage() );
 
         JPanel pnlContainer = new JPanel();
         pnlContainer.setLayout(new BorderLayout());
@@ -74,7 +76,7 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
         
         GBHelper pos = new GBHelper();
         
-        panel.add(lblIcon, pos.height(3).expandH());
+        panel.add(lblIcon, pos.height(4).expandH());
         
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(lblUser, pos.nextCol());
@@ -87,6 +89,8 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(fldPass, pos.nextCol().expandW());
         
+        panel.add(new Gap() , pos.nextRow().expandH());
+        
         panel.addKeyListener(this);
 
         return panel;
@@ -95,10 +99,14 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
     public final JPanel pnlLoginButtons(){
         JPanel panel = new JPanel();
                 
-        btnLogin = new JButton(R.STR_LOGIN);
+        JButton btnLogin = new JButton(R.STR_LOGIN);
+        btnLogin.setIcon(R.ICON_UNLOCK_SMALL);
+        btnLogin.setActionCommand(R.CMD_LOGIN);
         btnLogin.addActionListener(this);
         
-        btnCancel = new JButton(R.STR_CANCEL);
+        JButton btnCancel = new JButton(R.STR_CANCEL);
+        btnCancel.setIcon(R.ICON_CANCEL_SMALL);
+        btnCancel.setActionCommand(R.CMD_CANCEL);
         btnCancel.addActionListener(this);
         
         panel.add(btnLogin);
@@ -150,10 +158,10 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnLogin){
+        if(e.getActionCommand().equals(R.CMD_LOGIN)){
             login();
         }
-        if(e.getSource() == btnCancel){
+        if(e.getActionCommand().equals(R.CMD_CANCEL)){
             System.exit(0);
         }
     }
@@ -165,6 +173,9 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
     public void keyPressed(KeyEvent e) {
         if( e.getKeyCode() == KeyEvent.VK_ENTER ){
             login();
+        }
+        if( e.getKeyCode() == KeyEvent.VK_ESCAPE ){
+            System.exit(0);
         }
     }
 

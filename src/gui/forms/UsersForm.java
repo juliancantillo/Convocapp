@@ -30,6 +30,7 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
 
     public UsersForm() {
         super(R.STR_USERS_MANAGEMENT);
+        setIconImage(R.ICON_USERS_SMALL.getImage());
 
         setLayout(new BorderLayout(R.H, R.W));
 
@@ -58,6 +59,7 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
         tblUsers = new JTable(new ResultsetTableModel(tableData, R.SRT_USERS_COLUMNS));
         tblUsers.getModel().addTableModelListener(this);
         tblUsers.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblUsers.setRowHeight(28);
         tblUsers.addMouseListener(this);
 
         panel.add(new JScrollPane(tblUsers), BorderLayout.CENTER);
@@ -68,6 +70,10 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
     @Override
    
     public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals(R.CMD_NEW_USER)){
+            CreateUserForm newUserForm = new CreateUserForm();
+            newUserForm.setVisible(true);
+        }
     }
 
     @Override
