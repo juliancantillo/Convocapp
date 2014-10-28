@@ -12,3 +12,12 @@
 hs_err_pid*
 /Convocapp/nbproject/private/
 /build/
+/dist/
+/nbproject/
+/nbproject/build-impl.xml
+/private/
+/nbproject/project.properties
+/nbproject/project.xml
+/src/
+/test/
+/build.xml
