@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Universidad del Valle
- * Desarrollo de Software 
+ * Universidad del Valle Desarrollo de Software
+ *
  * @author kahmos
  */
-public class User implements Serializable{
+public class User implements Serializable {
 
     private Integer id, active;
     private String identification, username, password, email, firstname, lastname, address, phone, cellphone;
@@ -30,7 +30,7 @@ public class User implements Serializable{
         this.update_time = update_time;
     }
 
-        public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone) {
+    public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone) {
         /*Funcion creada para agregar los usurios a la base datos problema con las fechas*/
         this.id = id;
         this.active = active;
@@ -43,9 +43,9 @@ public class User implements Serializable{
         this.address = address;
         this.phone = phone;
         this.cellphone = cellphone;
-        
+
     }
-    
+
     public User() {
     }
 
@@ -60,13 +60,13 @@ public class User implements Serializable{
     public boolean isActive() {
         return active == 1;
     }
-    
-    public int Estado_sql() {
+
+    public int getActive() {
         /*Este metodo retorna el estado del usurio en valor numerico para realizar la insertcion en la 
-        base de datos*/
+         base de datos*/
         return active;
     }
-    
+
     public void setActive(boolean active) {
         this.active = active ? 1 : 0;
     }
@@ -155,5 +155,5 @@ public class User implements Serializable{
     public String toString() {
         return String.format("%s %s [ %s ]", firstname, lastname, email);
     }
-        
+
 }

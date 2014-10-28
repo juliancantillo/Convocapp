@@ -37,7 +37,7 @@ public class UserModel implements Model {
                 user.getAddress(),
                 user.getPhone(),
                 user.getCellphone(),
-                user.Estado_sql()
+                user.getActive()
         );
 
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -45,6 +45,8 @@ public class UserModel implements Model {
 //        Prueba de Mauricio Castillo
 //        String test = "INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`) VALUES\n"
 //                + "('14495546', 'pepe', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'pepe@gmail.com', 'Pepe', 'Perez', 'Calle 3 # 13 - 32', '3247598', '3197842535');";
+        String test = "INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`) VALUES\n"
+                + "('11545489', 'roberto', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'roberto@gmail.com', 'Roberto', 'Gomez', 'Calle 3 # 13 - 32', '3247598', '3197842535');";
 //        System.out.println("Sql con problemas: " + insert);
         
         
