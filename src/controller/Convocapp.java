@@ -6,9 +6,10 @@
 
 package controller;
 
+import entities.User;
+import gui.forms.CreateUserForm;
 import gui.forms.LoginForm;
 import gui.forms.UsersForm;
-import gui.forms.CreateUserForm;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Convocapp {
     public LoginForm loginForm;
     public UsersForm usersForm;
     public CreateUserForm adduser;
+    public static User loggedUser;
 
 
     public Convocapp() {

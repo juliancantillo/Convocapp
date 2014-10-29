@@ -1,15 +1,6 @@
 package resources;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -45,11 +36,21 @@ public class R {
             STR_UPDATE_TIME = "Fecha de Actualización",
             STR_PERSONAL_INFO = "Información Personal",
             STR_LOGIN_INFO = "Información de Ingreso",
-            STR_SAVE = "Guardar";
+            STR_INACTIVE = "Inactivo",
+            STR_SUCCESS = "Exito",
+            STR_SAVE_SUCCESS = "Se guardó un nuevo registro a la Base de Datos.\n\nDetalle: %s",
+            STR_UPDATE_SUCCESS = "Se actualizó el registro a la Base de Datos.\n\nDetalle: %s",
+            STR_DELETE = "Borrar",
+            STR_YES = "Si",
+            STR_NO = "No",
+            STR_SAVE = "Guardar",
+            STR_DELETE_CONFIRMATION = "¿Esta seguro que desea borrar el registro %s ?\n\nESTA ACCIÓN NO SE PUEDE DESHACER";
 
     // String Errors
-    public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos",
+    public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
             ERROR_LOGIN_FAILS = "Error al iniciar sesión.\n\nDescipción: %s",
+            ERROR_SAVE_FAILS = "Ocurrió un error al guadar el registro.\n\nDescipción: %s",
+            ERROR_DELETE_DATA_FAILS = "Ocurrió un error al borrar el registro.\n\nDescipción: %s",
             ERROR_LOGIN_FAILS_PASSWORD_OR_USER = "Usuario o contraseña incorrectos, intente de nuevo\n\nSi no recuerda su información de ingreso comuniquese con el Administrador",
             ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacío, por favor ingrese su información de logueo";
 
@@ -62,6 +63,7 @@ public class R {
     public static final String CMD_LOGIN = "CMD_LOGIN";
     public static final String CMD_CANCEL = "CMD_CANCEL";
     public static final String CMD_SAVE = "CMD_SAVE";
+    public static final String CMD_DELETE = "CMD_DELETE";
 
     // Roles
     public static final String ROL_ADMINISTRATOR = "Administrador";
@@ -81,6 +83,8 @@ public class R {
     public static final ImageIcon ICON_CANCEL_SMALL = getIcon("error-24x24.png");
     public static final ImageIcon ICON_CHECK = getIcon("check.png");
     public static final ImageIcon ICON_CHECK_SMALL = getIcon("check-24x24.png");
+    public static final ImageIcon ICON_TRASH = getIcon("trashcan.png");
+    public static final ImageIcon ICON_TRASH_SMALL = getIcon("trashcan-24x24.png");
 
     private static ImageIcon getIcon(String path) {
         URL resource = R.class.getResource("icons/" + path);

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
@@ -24,8 +26,8 @@ import resources.R;
  *
  * @author kahmos
  */
-public class UsersForm extends JFrame implements ActionListener, TableModelListener, MouseListener {
-    
+public class UsersForm extends JFrame implements ActionListener, TableModelListener, MouseListener, WindowListener {
+
     private JTable tblUsers;
 
     public UsersForm() {
@@ -68,20 +70,36 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
     }
 
     @Override
-   
+
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals(R.CMD_NEW_USER)){
+        if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
             CreateUserForm newUserForm = new CreateUserForm();
+            newUserForm.addWindowListener(this);
             newUserForm.setVisible(true);
         }
     }
 
     @Override
     public void tableChanged(TableModelEvent e) {
+        try {
+            tblUsers.setModel(new ResultsetTableModel(new UserModel().read(), R.SRT_USERS_COLUMNS, this));
+            tblUsers.updateUI();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == tblUsers) {
+            int row = tblUsers.getSelectedRow();
+            Integer id = (Integer) tblUsers.getValueAt(row, 0);
+            CreateUserForm userForm = new CreateUserForm(id);
+            userForm.fillForm();
+            userForm.addWindowListener(this);
+            userForm.setVisible(true);
+        }
     }
 
     @Override
@@ -98,5 +116,37 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        if (e.getSource() instanceof CreateUserForm) {
+            ResultsetTableModel rm = (ResultsetTableModel) tblUsers.getModel();
+            rm.fireTableDataChanged();
+        }
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
     }
 }

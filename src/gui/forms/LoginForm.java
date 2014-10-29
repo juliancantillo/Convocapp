@@ -6,13 +6,13 @@ package gui.forms;
  * Desarrollo de Software 
  * @author kahmos
  */
+import controller.Convocapp;
 import dbhandler.dao.UserModel;
 import entities.User;
 import helpers.GBHelper;
 import helpers.Gap;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,7 +31,7 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
     private JPasswordField fldPass;
 
     public LoginForm() {
-        super("JULIAN");
+        super(R.STR_LOGIN_FORM_TITLE);
         
         setIconImage( R.ICON_PASSWORD_SMALL.getImage() );
 
@@ -140,7 +140,7 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
                 User user = userModel.getByCredentials(this.fldUser.getText(), String.valueOf(this.fldPass.getPassword()));
                 
                 if( user != null ){
-                    JOptionPane.showMessageDialog(this, user);
+                    Convocapp.loggedUser = user;
                     this.dispose();
                     UsersForm form = new UsersForm();
                     form.setVisible(true);
