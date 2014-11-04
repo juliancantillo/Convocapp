@@ -325,7 +325,7 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
          */
         User newUser = user;
         newUser.setUsername(fldUsername.getText());
-        newUser.setPassword(String.valueOf(fldPassword.getPassword()));
+        newUser.setPassword( String.valueOf(fldPassword.getPassword()) );
         newUser.setIdentification(fldIdentification.getText());
         newUser.setEmail(fldEmail.getText());
         newUser.setFirstname(fldFirstname.getText());

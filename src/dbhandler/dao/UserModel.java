@@ -122,6 +122,26 @@ public class UserModel implements Model {
         st.executeUpdate(sql);
 
     }
+    
+    public void update(Object obj, String password) throws SQLException {
+        User user = (User) obj;
+
+        String sql = String.format("UPDATE user SET username='%s', identification='%s', email='%s', firstname='%s', lastname='%s', address='%s', phone='%s', cellphone='%s', active='%s', password=MD5('%s') WHERE id = %s;",
+                user.getUsername(),
+                user.getIdentification(),
+                user.getEmail(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getAddress(),
+                user.getPhone(),
+                user.getCellphone(),
+                user.getActive(),
+                user.getPassword(),
+                user.getId()
+        );
+        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        st.executeUpdate(sql);
+    }
 
     @Override
     public void delete(int id) throws SQLException {
