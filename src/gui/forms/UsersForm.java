@@ -72,10 +72,17 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
     @Override
 
     public void actionPerformed(ActionEvent e) {
+        //Llama al panel de creacion de usuario
         if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
             CreateUserForm newUserForm = new CreateUserForm();
             newUserForm.addWindowListener(this);
             newUserForm.setVisible(true);
+        }
+        //Llama al panel de creacion de convocatoria
+        if (e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)) {
+            CreateConvocatoryForm newConvocatoryForm = new CreateConvocatoryForm();
+            newConvocatoryForm.addWindowListener(this);
+            newConvocatoryForm.setVisible(true);
         }
     }
 

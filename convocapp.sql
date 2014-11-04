@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-10-2014 a las 10:16:33
+-- Tiempo de generación: 04-11-2014 a las 23:29:27
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.15
 
@@ -19,6 +19,19 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `convocapp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `convocatory`
+--
+
+CREATE TABLE IF NOT EXISTS `convocatory` (
+`identificacion` int(250) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `open_time` date DEFAULT NULL,
+  `closet_time` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -61,14 +74,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `active` tinyint(4) NOT NULL DEFAULT '1',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
 INSERT INTO `user` (`id`, `identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`, `active`, `create_time`, `update_time`) VALUES
-(1, '14495546', 'pepe', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'pepe@gmail.com', 'Pepe', 'Perez', 'Calle 3 # 13 - 32', '3247598', '3197842535', 1, '2014-10-18 07:40:27', '2014-10-18 08:13:06');
+(1, '14495546', 'pepe', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'pepe@gmail.com', 'Pepe', 'Perez', 'Calle 3 # 13 - 32', '3247598', '3197842535', 1, '2014-10-18 07:40:27', '2014-10-18 08:13:06'),
+(2, 'Mauro', 'mauro', 'e10adc3949ba59abbe56e057f20f883e', '', '', '', '', '', '', 1, '2014-11-04 21:58:38', '2014-11-04 22:00:01');
 
 -- --------------------------------------------------------
 
@@ -94,6 +108,12 @@ INSERT INTO `user_has_roles` (`id`, `user_id`, `roles_id`) VALUES
 --
 
 --
+-- Indices de la tabla `convocatory`
+--
+ALTER TABLE `convocatory`
+ ADD PRIMARY KEY (`identificacion`);
+
+--
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -116,6 +136,11 @@ ALTER TABLE `user_has_roles`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `convocatory`
+--
+ALTER TABLE `convocatory`
+MODIFY `identificacion` int(250) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -124,7 +149,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `user_has_roles`
 --
