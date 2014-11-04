@@ -14,6 +14,7 @@ public class R {
 
     // String constans
     public static final String STR_LOGIN_FORM_TITLE = "Ingreso de Usuarios",
+            STR_NEW_CONVOCATORY = "Crear nueva convocatoria",
             STR_USER = "Usuario",
             STR_USERS_MANAGEMENT = "Administración de Usuarios",
             STR_NEW_USER = "Nuevo Usuario",
@@ -59,6 +60,7 @@ public class R {
     public static String[] SRT_USERS_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_USERNAME, STR_PASSWORD, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
 
     // Commands Constans
+    public static final String CMD_NEW_CONVOCATORY = "CMD_NEW_CONVOCATORY";
     public static final String CMD_NEW_USER = "CMD_NEW_USER";
     public static final String CMD_LOGIN = "CMD_LOGIN";
     public static final String CMD_CANCEL = "CMD_CANCEL";
@@ -69,6 +71,9 @@ public class R {
     public static final String ROL_ADMINISTRATOR = "Administrador";
 
     // Icons constans
+    public static final ImageIcon ICON_CONVOCATORY = getIcon("convocatory.png");
+    public static final ImageIcon ICON_CONVOCATORY_SMALL = getIcon("Convocatory-24x24.png");
+    
     public static final ImageIcon ICON_PASSWORD = getIcon("password.png");
     public static final ImageIcon ICON_PASSWORD_SMALL = getIcon("password-24x24.png");
     public static final ImageIcon ICON_UNLOCK = getIcon("lock-open.png");
