@@ -1,6 +1,7 @@
 package dbhandler.dao;
 
 import dbhandler.DBConnector;
+import entities.Convocatory;
 import entities.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -41,17 +42,8 @@ public class UserModel implements Model {
         );
 
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-//        Prueba de Mauricio Castillo
-//        String test = "INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`) VALUES\n"
-//                + "('14495546', 'pepe', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'pepe@gmail.com', 'Pepe', 'Perez', 'Calle 3 # 13 - 32', '3247598', '3197842535');";
-//        String test = "INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`) VALUES\n"
-//                + "('11545489', 'roberto', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'roberto@gmail.com', 'Roberto', 'Gomez', 'Calle 3 # 13 - 32', '3247598', '3197842535');";
-//        System.out.println("Sql con problemas: " + insert);
         st.executeUpdate(insert);
-
         return id;
-
     }
 
     @Override
@@ -71,7 +63,7 @@ public class UserModel implements Model {
         User user = null;
 
         String sql = String.format("SELECT * FROM user WHERE user.id = '%s'", id);
-        
+
         String rolesSql = String.format("SELECT r.id, r.name FROM roles as r LEFT OUTER JOIN user_has_roles as uhr ON uhr.roles_id = r.id AND uhr.user_id = '%s'", id);
 
         Statement st;
@@ -94,9 +86,8 @@ public class UserModel implements Model {
                     rs.getTimestamp("create_time"),
                     rs.getTimestamp("update_time")
             );
-            
+
 //            ResultSet rsRoles = st.executeQuery(rolesSql);
-            
         }
 
         return user;
@@ -160,5 +151,20 @@ public class UserModel implements Model {
         }
 
         return user;
+    }
+
+    public int createConvocatory(Convocatory obj) throws SQLException {
+        Convocatory convocatory = obj;
+        int id = 0; //st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
+
+        String insert = String.format("INSERT INTO `convocatory` (`name`, `open_time`, `closet_time`) VALUES ('%s', '%s', '%s');",
+                convocatory.getName_convocatory(),
+                convocatory.getOpen_time(),
+                convocatory.getCloset_time()
+        );
+
+        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        st.executeUpdate(insert);
+        return id;
     }
 }
