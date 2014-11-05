@@ -17,8 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -77,9 +75,9 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
     }
 
     private void initForm() {
-        setTitle(R.STR_NEW_USER);
+        setTitle(R.STR_NEW_CONVOCATORY);
 
-        setIconImage(R.ICON_ADD_USER_SMALL.getImage());
+        setIconImage(R.ICON_CONVOCATORY_SMALL.getImage());
 
         JPanel pnlContainer = new JPanel();
         pnlContainer.setLayout(new BorderLayout());
@@ -88,7 +86,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         JPanel pnlLogin = new JPanel();
         pnlLogin.setLayout(new GridBagLayout());
 
-        JLabel lblIcon = new JLabel(R.ICON_ADD_USER);
+        JLabel lblIcon = new JLabel(R.ICON_CONVOCATORY);
 
         fldUsername = new JTextField();
         fldPassword = new JPasswordField();

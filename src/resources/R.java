@@ -13,7 +13,8 @@ public class R {
     public static final int GAP = 10, H = 10, W = 10;
 
     // String constans
-    public static final String STR_LOGIN_FORM_TITLE = "Ingreso de Usuarios",
+    public static final 
+            String STR_LOGIN_FORM_TITLE = "Ingreso de Usuarios",
             STR_NEW_CONVOCATORY = "Crear nueva convocatoria",
             STR_USER = "Usuario",
             STR_USERS_MANAGEMENT = "Administración de Usuarios",
@@ -24,6 +25,10 @@ public class R {
             STR_ERROR = "Error",
             STR_CANCEL = "Cancelar",
             STR_ID = "Id",
+            STR_NOMBRE_CONVOCATORIA = "Nombre De la convocatoria:",
+            STR_FECHA_INICIO_CONVOCATORIA= "Fecha de inicio:",
+            STR_FECHA_FIN_CONVOCATORIA= "Fecha de finalización:",
+            STR_FECHA_PUBLICACION_CONVOCATORIA= "Fecha de publiciacion:",
             STR_IDENTIFICATION = "Cédula",
             STR_USERNAME = "Usuario",
             STR_EMAIL = "Correo Eléctronico",
