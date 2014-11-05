@@ -18,10 +18,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,6 +35,9 @@ import javax.swing.border.TitledBorder;
 import org.jdatepicker.JDateComponentFactory;
 import resources.R;
 import org.jdatepicker.JDatePicker;
+import entities.Convocatory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -53,6 +56,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
     private boolean editMode = false;
     private int userId;
     private User user;
+    private Convocatory convocatory;
     JDateComponentFactory data = new JDateComponentFactory();
 
     public CreateConvocatoryForm() {
@@ -137,6 +141,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         data_publicacion.setTextEditable(true);
         data_publicacion.setShowYearButtons(true);
 
+        JLabel lblNombreConvocatoria = new JLabel(R.STR_NEW_CONVOCATORY);
         JLabel lblFechaInicio = new JLabel(R.STR_FECHA_INICIO_CONVOCATORIA);
         JLabel lblFechaFinal = new JLabel(R.STR_FECHA_FIN_CONVOCATORIA);
         JLabel lblFechaPublicacion = new JLabel(R.STR_FECHA_PUBLICACION_CONVOCATORIA);
@@ -152,6 +157,10 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         fldEmail.addKeyListener(this);
 
         GBHelper pos = new GBHelper();
+        
+        panel.add(lblNombreConvocatoria, pos.nextRow());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(fldUsername, pos.nextCol().width(5).expandW());
 
         panel.add(lblFechaInicio, pos);
         panel.add(new Gap(R.GAP), pos.nextCol());
@@ -167,7 +176,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
 
         panel.add(lblFechaPublicacion, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-         panel.add((Component) data_publicacion, pos.nextCol().width(5).expandW());
+        panel.add((Component) data_publicacion, pos.nextCol().width(5).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
@@ -218,17 +227,32 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)) {
-            /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
             UserModel userModel = new UserModel();
-            User newUser = createNewUser();
+            /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
+            //Obtener fecha;
+            String text = data_inicial.getModel().getYear() + "-" + data_inicial.getModel().getMonth() + "-" + data_inicial.getModel().getDay() + " 18:48:05.123";
+            Timestamp inicio = new Timestamp(3);
+            inicio = Timestamp.valueOf(text);
 
+            text = data_final.getModel().getYear() + "-" + data_final.getModel().getMonth() + "-" + data_final.getModel().getDay() + " 18:48:05.123";
+            Timestamp fin = new Timestamp(3);
+            fin = Timestamp.valueOf(text);
+
+            text = data_publicacion.getModel().getYear() + "-" + data_publicacion.getModel().getMonth() + "-" + data_publicacion.getModel().getDay() + " 18:48:05.123";
+            Timestamp publicacion = new Timestamp(3);
+            publicacion = Timestamp.valueOf(text);
+           //creo el objeto convocatoria
+            String ConvocatoryNombre = fldUsername.getText();
+            convocatory = new Convocatory(ConvocatoryNombre,radioActive.isEnabled(), inicio, fin, publicacion);
+            
             try {
-                userModel.create(newUser);
-                JOptionPane.showMessageDialog(this, String.format(R.STR_SAVE_SUCCESS, newUser.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
-                dispose();
+                userModel.createConvocatory(convocatory);
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, String.format(R.ERROR_SAVE_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+               JOptionPane.showMessageDialog(this,"Error al crear Convocatoria" + ex);
             }
+             JOptionPane.showMessageDialog(this,"Crear Convocatoria \n" + ConvocatoryNombre );
+            
+
         }
         if (e.getActionCommand().equals(R.CMD_SAVE)) {
             UserModel userModel = new UserModel();

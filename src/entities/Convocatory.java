@@ -16,9 +16,7 @@ public class Convocatory {
     private String name_convocatory;
     private int id_convocatory;
     private boolean state;
-    private Timestamp open_time, closet_time,publicacion_time;
-
-    
+    private Timestamp open_time, closet_time, publicacion_time;
 
     public Convocatory(String name_convocatory, int id_convocatory, boolean state, Timestamp open_time, Timestamp closet_time, Timestamp publicacion_time) {
         this.name_convocatory = name_convocatory;
@@ -29,18 +27,27 @@ public class Convocatory {
         this.publicacion_time = publicacion_time;
     }
 
-    
-    public boolean isState() {
-        return state;
+    public Convocatory(String name_convocatory, boolean state, Timestamp open_time, Timestamp closet_time, Timestamp publicacion_time) {
+        this.name_convocatory = name_convocatory;
+        this.id_convocatory = id_convocatory;
+        this.state = state;
+        this.open_time = open_time;
+        this.closet_time = closet_time;
+        this.publicacion_time = publicacion_time;
+    }
+
+    public int isState() {
+        int salida = 0;
+        if (state) {
+            salida = 1;
+        }
+        return salida;
     }
 
     public Timestamp getPublicacion_time() {
         return publicacion_time;
     }
 
-    
-    
-    
     public String getName_convocatory() {
         return name_convocatory;
     }
@@ -72,8 +79,5 @@ public class Convocatory {
     public void setCloset_time(Timestamp closet_time) {
         this.closet_time = closet_time;
     }
-    
-    
-    
 
 }

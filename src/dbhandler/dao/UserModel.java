@@ -173,20 +173,19 @@ public class UserModel implements Model {
         return user;
     }
 
-    public int createConvocatory(Convocatory obj) throws SQLException {
-        Convocatory convocatory = obj;
-        int id = 0; //st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
-
-        String insert = String.format("INSERT INTO `convocatory` (`name`, `open_time`, `closet_time`, `state`, `publication_date`) VALUES ('%s', '%s', '%s''%s', '%s');",
+    public int createConvocatory(Object obj) throws SQLException {
+        Convocatory convocatory = (Convocatory)obj;
+        String sql = String.format("INSERT INTO `convocatory`(`name`,`open_time`,`closet_time`,`state`,`publication_date`) VALUES ('%s', '%s', '%s', '%s', '%s');",
                 convocatory.getName_convocatory(),
                 convocatory.getOpen_time(),
                 convocatory.getCloset_time(),
                 convocatory.isState(),
                 convocatory.getPublicacion_time()
         );
-
+        System.out.println("Inser convocatoria " + sql);
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        st.executeUpdate(insert);
-        return id;
+        st.executeUpdate(sql);
+        
+        return 0;
     }
 }
