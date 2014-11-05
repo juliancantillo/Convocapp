@@ -29,6 +29,7 @@ public class R {
             STR_FECHA_INICIO_CONVOCATORIA= "Fecha de inicio:",
             STR_FECHA_FIN_CONVOCATORIA= "Fecha de finalización:",
             STR_FECHA_PUBLICACION_CONVOCATORIA= "Fecha de publiciacion:",
+            STR_ESTADO_COVOCATORIA= "Estado Convocatoria:",
             STR_IDENTIFICATION = "Cédula",
             STR_USERNAME = "Usuario",
             STR_EMAIL = "Correo Eléctronico",
