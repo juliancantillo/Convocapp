@@ -177,10 +177,12 @@ public class UserModel implements Model {
         Convocatory convocatory = obj;
         int id = 0; //st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
 
-        String insert = String.format("INSERT INTO `convocatory` (`name`, `open_time`, `closet_time`) VALUES ('%s', '%s', '%s');",
+        String insert = String.format("INSERT INTO `convocatory` (`name`, `open_time`, `closet_time`, `state`, `publication_date`) VALUES ('%s', '%s', '%s''%s', '%s');",
                 convocatory.getName_convocatory(),
                 convocatory.getOpen_time(),
-                convocatory.getCloset_time()
+                convocatory.getCloset_time(),
+                convocatory.isState(),
+                convocatory.getPublicacion_time()
         );
 
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
