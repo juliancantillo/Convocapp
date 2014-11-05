@@ -15,14 +15,27 @@ public class Convocatory {
 
     private String name_convocatory;
     private int id_convocatory;
-    private Timestamp open_time, closet_time;
+    private boolean state;
+    private Timestamp open_time, closet_time,publicacion_time;
 
     
-    public Convocatory(String name_convocatory, int id_convocatory, Timestamp open_time, Timestamp closet_time) {
+
+    public Convocatory(String name_convocatory, int id_convocatory, boolean state, Timestamp open_time, Timestamp closet_time, Timestamp publicacion_time) {
         this.name_convocatory = name_convocatory;
         this.id_convocatory = id_convocatory;
+        this.state = state;
         this.open_time = open_time;
         this.closet_time = closet_time;
+        this.publicacion_time = publicacion_time;
+    }
+
+    
+    public boolean isState() {
+        return state;
+    }
+
+    public Timestamp getPublicacion_time() {
+        return publicacion_time;
     }
 
     

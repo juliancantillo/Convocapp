@@ -10,13 +10,3 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/Convocapp/nbproject/private/
-/build/
-/dist/
-/nbproject/
-/nbproject/build-impl.xml
-/private/
-/nbproject/project.properties
-/nbproject/project.xml
-/test/
-/build.xml
