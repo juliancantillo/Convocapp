@@ -41,7 +41,7 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
         add(toolBar, BorderLayout.BEFORE_FIRST_LINE);
         add(users(), BorderLayout.CENTER);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
     }
 

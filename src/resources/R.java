@@ -50,7 +50,11 @@ public class R {
             STR_YES = "Si",
             STR_NO = "No",
             STR_SAVE = "Guardar",
-            STR_DELETE_CONFIRMATION = "¿Esta seguro que desea borrar el registro %s ?\n\nESTA ACCIÓN NO SE PUEDE DESHACER";
+            STR_DELETE_CONFIRMATION = "¿Esta seguro que desea borrar el registro %s ?\n\nESTA ACCIÓN NO SE PUEDE DESHACER",
+            STR_CONVOCATORY_MANAGEMENT = "Administración de Convocatorias",
+            STR_WELCOME = "Bienvenido",
+            STR_EXIT = "Salir",
+            STR_VIEW_STATISTICS = "Ver Estadisticas";
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
@@ -71,6 +75,7 @@ public class R {
     public static final String CMD_CANCEL = "CMD_CANCEL";
     public static final String CMD_SAVE = "CMD_SAVE";
     public static final String CMD_DELETE = "CMD_DELETE";
+    public static final String CMD_VIEW_STATISTICS = "CMD_VIEW_STATISTICS";
 
     // Roles
     public static final String ROL_ADMINISTRATOR = "Administrador";
@@ -78,7 +83,8 @@ public class R {
     // Icons constans
     public static final ImageIcon ICON_CONVOCATORY = getIcon("convocatory.png");
     public static final ImageIcon ICON_CONVOCATORY_SMALL = getIcon("Convocatory-24x24.png");
-    
+    public static final ImageIcon ICON_TACHOMETER = getIcon("tachometer.png");
+    public static final ImageIcon ICON_TACHOMETER_SMALL = getIcon("tachometer-24x24.png");
     public static final ImageIcon ICON_PASSWORD = getIcon("password.png");
     public static final ImageIcon ICON_PASSWORD_SMALL = getIcon("password-24x24.png");
     public static final ImageIcon ICON_UNLOCK = getIcon("lock-open.png");
@@ -95,6 +101,8 @@ public class R {
     public static final ImageIcon ICON_CHECK_SMALL = getIcon("check-24x24.png");
     public static final ImageIcon ICON_TRASH = getIcon("trashcan.png");
     public static final ImageIcon ICON_TRASH_SMALL = getIcon("trashcan-24x24.png");
+    public static final ImageIcon ICON_PIN = getIcon("pin.png");
+    public static final ImageIcon ICON_PIN_SMALL = getIcon("pin-24x24.png");
 
     private static ImageIcon getIcon(String path) {
         URL resource = R.class.getResource("icons/" + path);

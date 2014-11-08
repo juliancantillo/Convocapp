@@ -142,8 +142,8 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener{
                 if( user != null ){
                     Convocapp.loggedUser = user;
                     this.dispose();
-                    UsersForm form = new UsersForm();
-                    form.setVisible(true);
+                    DashboardForm dashboard = new DashboardForm();
+                    dashboard.setVisible(true);
                 }else{
                     JOptionPane.showMessageDialog(this, R.ERROR_LOGIN_FAILS_PASSWORD_OR_USER, R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
                 }
