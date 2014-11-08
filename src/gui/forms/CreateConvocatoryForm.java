@@ -10,6 +10,7 @@ import entities.User;
 import helpers.GBHelper;
 import helpers.Gap;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -24,14 +26,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import org.jdatepicker.JDateComponentFactory;
 import resources.R;
+import org.jdatepicker.JDatePicker;
+import entities.Convocatory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,21 +45,19 @@ import resources.R;
  */
 public class CreateConvocatoryForm extends JFrame implements ActionListener, KeyListener {
 
+    private JDatePicker data_inicial, data_final, data_publicacion;
     private JTextField fldUsername;
-    private JPasswordField fldPassword, fldPasswordConfirm;
     private JTextField fldIdentification;
     private JTextField fldEmail;
-    private JTextField fldFirstname;
-    private JTextField fldLastname;
-    private JTextField fldAddress;
-    private JTextField fldPhone;
-    private JTextField fldCellphone;
     private ButtonGroup rardioBtnActive;
     private JRadioButton radioActive;
     private JRadioButton radioInactive;
+
     private boolean editMode = false;
     private int userId;
     private User user;
+    private Convocatory convocatory;
+    JDateComponentFactory data = new JDateComponentFactory();
 
     public CreateConvocatoryForm() {
         user = new User();
@@ -63,20 +67,20 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
     public CreateConvocatoryForm(int userId) {
         this.editMode = true;
         this.userId = userId;
-        
+
         try {
             UserModel userModel = new UserModel();
             user = userModel.read(userId);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
-        
+
         initForm();
+
     }
 
     private void initForm() {
         setTitle(R.STR_NEW_CONVOCATORY);
-
         setIconImage(R.ICON_CONVOCATORY_SMALL.getImage());
 
         JPanel pnlContainer = new JPanel();
@@ -89,15 +93,8 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         JLabel lblIcon = new JLabel(R.ICON_CONVOCATORY);
 
         fldUsername = new JTextField();
-        fldPassword = new JPasswordField();
-        fldPasswordConfirm = new JPasswordField();
         fldIdentification = new JTextField();
         fldEmail = new JTextField();
-        fldFirstname = new JTextField();
-        fldLastname = new JTextField();
-        fldAddress = new JTextField();
-        fldPhone = new JTextField();
-        fldCellphone = new JTextField();
 
         radioActive = new JRadioButton(R.STR_YES);
         radioInactive = new JRadioButton(R.STR_NO);
@@ -109,9 +106,8 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
 
         pnlLogin.add(new Gap(R.W * 2), pos.nextCol());
 
-        pnlLogin.add(pnlPersonalInfo(), pos.nextCol().expandW());
+        pnlLogin.add(pnlDatosConvocatory(), pos.nextCol().expandW());
         pnlLogin.add(new Gap(R.H * 2), pos.nextRow().nextCol().nextCol());
-        pnlLogin.add(pnlLoginFields(), pos.nextRow().nextCol().nextCol().expandW());
         pnlLogin.add(new Gap(), pos.nextRow().expandH());
 
         pnlContainer.add(pnlLogin, BorderLayout.CENTER);
@@ -121,84 +117,74 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//TODO Delete this line
 
         setAlwaysOnTop(true);
-        setSize(750, 480);
+        setSize(650, 280);
         setLocationRelativeTo(null);
     }
 
-    public final JPanel pnlPersonalInfo() {
+    public final JPanel pnlDatosConvocatory() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         Border border = new TitledBorder(R.STR_PERSONAL_INFO);
         Border margin = new EmptyBorder(10, 10, 10, 10);
         panel.setBorder(new CompoundBorder(border, margin));
 
-        JLabel lblIdentification = new JLabel(R.STR_IDENTIFICATION);
-        JLabel lblFirstname = new JLabel(R.STR_FIRSTNAME);
-        JLabel lblLastname = new JLabel(R.STR_LASTNAME);
-        JLabel lblAddress = new JLabel(R.STR_ADDRESS);
-        JLabel lblEmail = new JLabel(R.STR_EMAIL);
-        JLabel lblPhone = new JLabel(R.STR_PHONE);
-        JLabel lblCellphone = new JLabel(R.STR_CELLPHONE);
-        JLabel lblActive = new JLabel(R.STR_ACTIVE);
+        //Fechas de la interface
+        data_inicial = data.createJDatePicker();
+        data_inicial.setTextEditable(true);
+        data_inicial.setShowYearButtons(true);
+
+        data_final = data.createJDatePicker();
+        data_final.setTextEditable(true);
+        data_final.setShowYearButtons(true);
+
+        data_publicacion = data.createJDatePicker();
+        data_publicacion.setTextEditable(true);
+        data_publicacion.setShowYearButtons(true);
+
+        JLabel lblNombreConvocatoria = new JLabel(R.STR_NEW_CONVOCATORY);
+        JLabel lblFechaInicio = new JLabel(R.STR_FECHA_INICIO_CONVOCATORIA);
+        JLabel lblFechaFinal = new JLabel(R.STR_FECHA_FIN_CONVOCATORIA);
+        JLabel lblFechaPublicacion = new JLabel(R.STR_FECHA_PUBLICACION_CONVOCATORIA);
+        JLabel lblEstado = new JLabel(R.STR_ESTADO_COVOCATORIA);
 
         ButtonGroup btnActive = new ButtonGroup();
         btnActive.add(radioActive);
         btnActive.add(radioInactive);
 
         fldUsername.addKeyListener(this);
-        fldPassword.addKeyListener(this);
-        fldPasswordConfirm.addKeyListener(this);
+
         fldIdentification.addKeyListener(this);
         fldEmail.addKeyListener(this);
-        fldFirstname.addKeyListener(this);
-        fldLastname.addKeyListener(this);
-        fldAddress.addKeyListener(this);
-        fldPhone.addKeyListener(this);
-        fldCellphone.addKeyListener(this);
 
         GBHelper pos = new GBHelper();
-
-        panel.add(lblIdentification, pos);
+        
+        panel.add(lblNombreConvocatoria, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldIdentification, pos.nextCol().width(5).expandW());
+        panel.add(fldUsername, pos.nextCol().width(5).expandW());
+
+        panel.add(lblFechaInicio, pos);
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add((Component) data_inicial, pos.nextCol().width(5).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblFirstname, pos.nextRow());
+        panel.add(lblFechaFinal, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldFirstname, pos.nextCol().width(5).expandW());
+        panel.add((Component) data_final, pos.nextCol().width(5).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblLastname, pos.nextRow());
+        panel.add(lblFechaPublicacion, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldLastname, pos.nextCol().width(5).expandW());
+        panel.add((Component) data_publicacion, pos.nextCol().width(5).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(lblAddress, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldAddress, pos.nextCol().expandW());
 
         panel.add(new Gap(R.H), pos.nextCol());
-
-        panel.add(lblEmail, pos.nextCol());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldEmail, pos.nextCol().expandW());
-
+        panel.add(new Gap(R.H), pos.nextRow());
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblPhone, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldPhone, pos.nextCol().expandW());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(lblCellphone, pos.nextCol());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldCellphone, pos.nextCol().expandW());
-
-        panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(lblActive, pos.nextRow());
+        panel.add(lblEstado, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(radioActive, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
@@ -206,42 +192,6 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         panel.add(new Gap(), pos.nextCol().expandW());
 
         return panel;
-    }
-
-    public final JPanel pnlLoginFields() {
-        JPanel panel = new JPanel();
-
-        panel.setLayout(new GridBagLayout());
-        Border border = new TitledBorder(R.STR_LOGIN_INFO);
-        Border margin = new EmptyBorder(10, 10, 10, 10);
-        panel.setBorder(new CompoundBorder(border, margin));
-
-        JLabel lblUsername = new JLabel(R.STR_USERNAME);
-        JLabel lblPassword = new JLabel(R.STR_PASSWORD);
-        JLabel lblPasswordConfirm = new JLabel(R.STR_PASSWORD_CONFIRM);
-
-        GBHelper pos = new GBHelper();
-
-        panel.add(lblUsername, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldUsername, pos.nextCol().expandW());
-
-        panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(lblPassword, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldPassword, pos.nextCol().expandW());
-
-        panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(lblPasswordConfirm, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldPasswordConfirm, pos.nextCol().expandW());
-
-        panel.addKeyListener(this);
-
-        return panel;
-
     }
 
     private JPanel pnlActionButtons() {
@@ -256,7 +206,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         JButton btnSaveUser = new JButton(R.STR_SAVE);
         btnSaveUser.setIcon(R.ICON_SAVE_SMALL);
         btnSaveUser.setMnemonic('G');
-        btnSaveUser.setActionCommand(editMode ? R.CMD_SAVE : R.CMD_NEW_USER);
+        btnSaveUser.setActionCommand(editMode ? R.CMD_SAVE : R.CMD_NEW_CONVOCATORY);
         btnSaveUser.addActionListener(this);
 
         JButton btnCancel = new JButton(R.STR_CANCEL);
@@ -264,35 +214,50 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         btnCancel.setActionCommand(R.CMD_CANCEL);
         btnCancel.addActionListener(this);
 
-        if(editMode){
+        if (editMode) {
             panel.add(btnDeleteUser);
             panel.add(new Gap());
         }
         panel.add(btnSaveUser);
         panel.add(btnCancel);
-        
+
         return panel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)) {
-            /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
             UserModel userModel = new UserModel();
-            User newUser = createNewUser();
+            /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
+            //Obtener fecha;
+            String text = data_inicial.getModel().getYear() + "-" + data_inicial.getModel().getMonth() + "-" + data_inicial.getModel().getDay() + " 18:48:05.123";
+            Timestamp inicio = new Timestamp(3);
+            inicio = Timestamp.valueOf(text);
 
+            text = data_final.getModel().getYear() + "-" + data_final.getModel().getMonth() + "-" + data_final.getModel().getDay() + " 18:48:05.123";
+            Timestamp fin = new Timestamp(3);
+            fin = Timestamp.valueOf(text);
+
+            text = data_publicacion.getModel().getYear() + "-" + data_publicacion.getModel().getMonth() + "-" + data_publicacion.getModel().getDay() + " 18:48:05.123";
+            Timestamp publicacion = new Timestamp(3);
+            publicacion = Timestamp.valueOf(text);
+           //creo el objeto convocatoria
+            String ConvocatoryNombre = fldUsername.getText();
+            convocatory = new Convocatory(ConvocatoryNombre,radioActive.isEnabled(), inicio, fin, publicacion);
+            
             try {
-                userModel.create(newUser);
-                JOptionPane.showMessageDialog(this, String.format(R.STR_SAVE_SUCCESS, newUser.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
-                dispose();
+                userModel.createConvocatory(convocatory);
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, String.format(R.ERROR_SAVE_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+               JOptionPane.showMessageDialog(this,"Error al crear Convocatoria" + ex);
             }
+             JOptionPane.showMessageDialog(this,"Crear Convocatoria \n" + ConvocatoryNombre );
+            
+
         }
         if (e.getActionCommand().equals(R.CMD_SAVE)) {
             UserModel userModel = new UserModel();
             user = createNewUser();
-            
+
             try {
                 userModel.update(user);
                 JOptionPane.showMessageDialog(this, String.format(R.STR_UPDATE_SUCCESS, user.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
@@ -304,7 +269,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
             UserModel userModel = new UserModel();
 
             int confirm = JOptionPane.showConfirmDialog(this, String.format(R.STR_DELETE_CONFIRMATION, user.toString()), R.STR_DELETE, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if(confirm == JOptionPane.YES_OPTION){
+            if (confirm == JOptionPane.YES_OPTION) {
                 try {
                     userModel.delete(userId);
                     dispose();
@@ -323,14 +288,8 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
          */
         User newUser = user;
         newUser.setUsername(fldUsername.getText());
-        newUser.setPassword(String.valueOf(fldPassword.getPassword()));
         newUser.setIdentification(fldIdentification.getText());
         newUser.setEmail(fldEmail.getText());
-        newUser.setFirstname(fldFirstname.getText());
-        newUser.setLastname(fldLastname.getText());
-        newUser.setAddress(fldAddress.getText());
-        newUser.setPhone(fldPhone.getText());
-        newUser.setCellphone(fldCellphone.getText());
         newUser.setActive(radioActive.isSelected());
 
         return newUser;
@@ -340,11 +299,6 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         fldUsername.setText(user.getUsername());
         fldIdentification.setText(user.getIdentification());
         fldEmail.setText(user.getEmail());
-        fldFirstname.setText(user.getFirstname());
-        fldLastname.setText(user.getLastname());
-        fldAddress.setText(user.getAddress());
-        fldPhone.setText(user.getPhone());
-        fldCellphone.setText(user.getCellphone());
         radioActive.setSelected(user.isActive());
         radioInactive.setSelected(!user.isActive());
     }
