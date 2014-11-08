@@ -73,7 +73,7 @@ public class DashboardForm extends JFrame implements ActionListener{
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         
-        JLabel lblUser = new JLabel( Convocapp.loggedUser.getFirstname() );
+        JLabel lblUser = new JLabel(String.format("%s %s, ( %s )", R.STR_WELCOME, Convocapp.loggedUser.getFirstname(), Convocapp.loggedUser.getRole() ));
         
         panel.add(lblUser);
         

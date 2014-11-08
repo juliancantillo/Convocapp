@@ -13,7 +13,7 @@ public class User implements Serializable {
 
     private Integer id, active;
     private String identification, username, password, email, firstname, lastname, address, phone, cellphone;
-    private ArrayList<Rol> roles;
+    private Rol role;
     private Timestamp create_time, update_time;
 
     public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, Timestamp create_time, Timestamp update_time) {
@@ -30,7 +30,7 @@ public class User implements Serializable {
         this.cellphone = cellphone;
         this.create_time = create_time;
         this.update_time = update_time;
-        this.roles = null;
+        this.role = null;
     }
 
     public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone) {
@@ -46,12 +46,12 @@ public class User implements Serializable {
         this.address = address;
         this.phone = phone;
         this.cellphone = cellphone;
-        this.roles = null;
+        this.role = null;
         this.create_time = null;
         this.update_time = null;
     }
 
-    public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, ArrayList<Rol> roles, Timestamp create_time, Timestamp update_time) {
+    public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, Rol role, Timestamp create_time, Timestamp update_time) {
         this.id = id;
         this.active = active;
         this.identification = identification;
@@ -63,7 +63,7 @@ public class User implements Serializable {
         this.address = address;
         this.phone = phone;
         this.cellphone = cellphone;
-        this.roles = roles;
+        this.role = role;
         this.create_time = create_time;
         this.update_time = update_time;
     }
@@ -173,17 +173,16 @@ public class User implements Serializable {
         return update_time;
     }
 
-    public String[] getRoles() {
-        return this.roles.toArray(new String[ this.roles.size() ]);
+    public String getRole() {
+        return this.role.toString();
+    }
+    
+    public int getRoleId(){
+        return this.role.getId();
     }
     
     public boolean hasRole(String hasRole){
-        for (Rol role : roles) {
-            if(role.getName().equals(hasRole))
-                return true;
-        }
-        
-        return false;
+        return this.role.getName().equals(hasRole);
     }
 
     @Override
@@ -191,34 +190,4 @@ public class User implements Serializable {
         return String.format("%s %s [ %s ]", firstname, lastname, email);
     }
     
-}
-
-class Rol implements Serializable{
-    
-    private Integer id, active;
-    private String name;
-
-    public Rol(Integer id, Integer active, String name) {
-        this.id = id;
-        this.active = active;
-        this.name = name;
-    }
-
-    public Rol(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
 }
