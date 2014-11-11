@@ -113,7 +113,7 @@ public class UserModel implements Model {
         st.executeUpdate(sql);
 
     }
-    
+
     public void update(Object obj, String password) throws SQLException {
         User user = (User) obj;
 
@@ -174,7 +174,7 @@ public class UserModel implements Model {
     }
 
     public int createConvocatory(Object obj) throws SQLException {
-        Convocatory convocatory = (Convocatory)obj;
+        Convocatory convocatory = (Convocatory) obj;
         String sql = String.format("INSERT INTO `convocatory`(`name`,`open_time`,`closet_time`,`state`,`publication_date`) VALUES ('%s', '%s', '%s', '%s', '%s');",
                 convocatory.getName_convocatory(),
                 convocatory.getOpen_time(),
@@ -185,7 +185,24 @@ public class UserModel implements Model {
         System.out.println("Inser convocatoria " + sql);
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         st.executeUpdate(sql);
-        
+
         return 0;
     }
+
+    public int getRolusuer(User usuario) throws SQLException {
+        /*Mauro Castillo
+         Esta funcion recibe un objeto de tipo usuario y retorna su roll en el sistema*/
+        int id_usuario = usuario.getId();
+        int Rol_del_usurio = 0;
+        String sql = String.format("SELECT roles_id FROM user_has_roles WHERE user_has_roles.user_id = %s", id_usuario);
+
+        Statement st;
+        st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = st.executeQuery(sql);
+        if (rs.first()) {
+            Rol_del_usurio = rs.getInt("roles_id");
+        }
+        return Rol_del_usurio;
+    }
+
 }
