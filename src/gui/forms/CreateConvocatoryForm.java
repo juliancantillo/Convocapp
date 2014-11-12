@@ -36,8 +36,6 @@ import org.jdatepicker.JDateComponentFactory;
 import resources.R;
 import org.jdatepicker.JDatePicker;
 import entities.Convocatory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -49,9 +47,6 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
     private JTextField fldUsername;
     private JTextField fldIdentification;
     private JTextField fldEmail;
-    private ButtonGroup rardioBtnActive;
-    private JRadioButton radioActive;
-    private JRadioButton radioInactive;
 
     private boolean editMode = false;
     private int userId;
@@ -96,10 +91,6 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         fldIdentification = new JTextField();
         fldEmail = new JTextField();
 
-        radioActive = new JRadioButton(R.STR_YES);
-        radioInactive = new JRadioButton(R.STR_NO);
-        rardioBtnActive = new ButtonGroup();
-
         GBHelper pos = new GBHelper();
 
         pnlLogin.add(lblIcon, pos.height(4).expandH().align(GBHelper.NORTH));
@@ -141,15 +132,13 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         data_publicacion.setTextEditable(true);
         data_publicacion.setShowYearButtons(true);
 
-        JLabel lblNombreConvocatoria = new JLabel(R.STR_NEW_CONVOCATORY);
+        JLabel lblNombreConvocatoria = new JLabel(R.STR_NOMBRE_CONVOCATORIA);
         JLabel lblFechaInicio = new JLabel(R.STR_FECHA_INICIO_CONVOCATORIA);
         JLabel lblFechaFinal = new JLabel(R.STR_FECHA_FIN_CONVOCATORIA);
         JLabel lblFechaPublicacion = new JLabel(R.STR_FECHA_PUBLICACION_CONVOCATORIA);
         JLabel lblEstado = new JLabel(R.STR_ESTADO_COVOCATORIA);
 
         ButtonGroup btnActive = new ButtonGroup();
-        btnActive.add(radioActive);
-        btnActive.add(radioInactive);
 
         fldUsername.addKeyListener(this);
 
@@ -186,9 +175,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
 
         panel.add(lblEstado, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(radioActive, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(radioInactive, pos.nextCol());
         panel.add(new Gap(), pos.nextCol().expandW());
 
         return panel;
@@ -243,7 +230,6 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
             publicacion = Timestamp.valueOf(text);
            //creo el objeto convocatoria
             String ConvocatoryNombre = fldUsername.getText();
-            convocatory = new Convocatory(ConvocatoryNombre,radioActive.isEnabled(), inicio, fin, publicacion);
             
             try {
                 userModel.createConvocatory(convocatory);
@@ -290,7 +276,6 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         newUser.setUsername(fldUsername.getText());
         newUser.setIdentification(fldIdentification.getText());
         newUser.setEmail(fldEmail.getText());
-        newUser.setActive(radioActive.isSelected());
 
         return newUser;
     }
@@ -299,8 +284,6 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         fldUsername.setText(user.getUsername());
         fldIdentification.setText(user.getIdentification());
         fldEmail.setText(user.getEmail());
-        radioActive.setSelected(user.isActive());
-        radioInactive.setSelected(!user.isActive());
     }
 
     @Override

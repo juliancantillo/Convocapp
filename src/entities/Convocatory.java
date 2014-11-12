@@ -18,7 +18,7 @@ public class Convocatory {
     private boolean state;
     private Timestamp open_time, closet_time, publicacion_time;
 
-    public Convocatory(String name_convocatory, int id_convocatory, boolean state, Timestamp open_time, Timestamp closet_time, Timestamp publicacion_time) {
+    public Convocatory(int id_convocatory,String name_convocatory, boolean state, Timestamp open_time, Timestamp closet_time, Timestamp publicacion_time) {
         this.name_convocatory = name_convocatory;
         this.id_convocatory = id_convocatory;
         this.state = state;

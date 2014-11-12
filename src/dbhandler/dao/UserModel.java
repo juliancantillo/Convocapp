@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 /**
  * Universidad del Valle Desarrollo de Software
@@ -91,6 +92,45 @@ public class UserModel implements Model {
         }
 
         return user;
+    }
+
+    public Vector<Convocatory> readConvocatory(int state) throws SQLException {
+        Convocatory user = null;
+        String sql = "";
+        /*Si state == 3 entoces extrae todas las convocatoria
+         Si state == 0 entoces extrae todas las convocatoria no activa
+         Si state == 1 entoces extrae todas las convocatoria activa
+         */
+        if (state == 3) {
+            sql = String.format("SELECT * FROM `convocatory`");
+        }
+        if (state == 0) {
+            sql = String.format("SELECT * FROM `convocatory` WHERE state = 0");
+        }
+        if (state == 1) {
+            sql = String.format("SELECT * FROM `convocatory` WHERE state = 1");
+        }
+
+        Vector<Convocatory> arrayconvocatory = new Vector<>();
+
+        Statement st;
+        st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            user = new Convocatory(
+                    rs.getInt("identificacion"),
+                    rs.getString("name"),
+                    rs.getBoolean("state"),
+                    rs.getTimestamp("open_time"),
+                    rs.getTimestamp("closet_time"),
+                    rs.getTimestamp("publication_date")
+            );
+
+            arrayconvocatory.add(user);
+        }
+
+        return arrayconvocatory;
     }
 
     @Override
