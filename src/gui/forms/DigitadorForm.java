@@ -116,7 +116,10 @@ public class DigitadorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_closeActionPerformed
 
     private void btFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFormActionPerformed
-idselectconvocatory();
+        int idconvococatory = idselectconvocatory();
+        ApplicantForm applicant = new ApplicantForm(idconvococatory);
+        applicant.setVisible(true);
+                
 
     }//GEN-LAST:event_btFormActionPerformed
 
@@ -144,9 +147,9 @@ idselectconvocatory();
 
     public int idselectconvocatory() {
         int id = 0;
-       String a = cbConvocatory.getSelectedItem().toString();
-       a = a.substring(0,a.indexOf(":"));
-        System.out.println(" Exprecion de lectura a " + a);
+        String stringid = cbConvocatory.getSelectedItem().toString();
+        stringid = stringid.substring(0, stringid.indexOf(":"));
+        id = Integer.parseInt(stringid);
         return id;
     }
 

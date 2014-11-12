@@ -2,6 +2,7 @@ package dbhandler.dao;
 
 import dbhandler.DBConnector;
 import entities.Convocatory;
+import entities.Municipios;
 import entities.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -125,6 +126,35 @@ public class UserModel implements Model {
                     rs.getTimestamp("open_time"),
                     rs.getTimestamp("closet_time"),
                     rs.getTimestamp("publication_date")
+            );
+
+            arrayconvocatory.add(user);
+        }
+
+        return arrayconvocatory;
+    }
+
+    public Vector<Municipios> readMunicipios() throws SQLException {
+        Municipios user = null;
+        String sql = "";
+        /*Si state == 3 entoces extrae todas las convocatoria
+         Si state == 0 entoces extrae todas las convocatoria no activa
+         Si state == 1 entoces extrae todas las convocatoria activa
+         */
+
+        sql = String.format("SELECT * FROM `municipio` ");
+
+        Vector<Municipios> arrayconvocatory = new Vector<>();
+
+        Statement st;
+        st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            user = new Municipios(
+                    rs.getInt("idmunicipio"),
+                    rs.getString("nombreMunicipio")
+ 
             );
 
             arrayconvocatory.add(user);

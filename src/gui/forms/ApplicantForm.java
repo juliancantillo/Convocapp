@@ -5,6 +5,15 @@
  */
 package gui.forms;
 
+import dbhandler.dao.UserModel;
+import entities.Convocatory;
+import entities.Municipios;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Mauro
@@ -14,8 +23,30 @@ public class ApplicantForm extends javax.swing.JFrame {
     /**
      * Creates new form ApplicantForm
      */
-    public ApplicantForm() {
-        initComponents();
+    public ApplicantForm(int idconvocatory) {
+        try {
+            initComponents();
+            loadcombox();
+        } catch (SQLException ex) {
+            System.out.println("Error al cargar conbox de Applicant");
+        }
+    }
+    
+        public void close() {
+        this.setVisible(false);
+        this.dispose();
+    }
+
+    public void loadcombox() throws SQLException {
+        UserModel usermodel = new UserModel();
+        String string = new String();
+
+        Vector<Municipios> arrayconvocatory = usermodel.readMunicipios();
+
+        for (Municipios arraymunicipios1 : arrayconvocatory) {
+            string = arraymunicipios1.getNamemunicipio();
+            CbMunicipios.addItem(string);
+        }
     }
 
     /**
@@ -38,12 +69,13 @@ public class ApplicantForm extends javax.swing.JFrame {
         lbStreetaddress = new javax.swing.JLabel();
         tfinstitution = new javax.swing.JTextField();
         lbinstitution = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        CbMunicipios = new javax.swing.JComboBox();
         lbmunicipio = new javax.swing.JLabel();
         btsave = new javax.swing.JButton();
         btclose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Datos Personales");
 
         lbtitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lbtitle.setText("Datos Personales");
@@ -57,6 +89,7 @@ public class ApplicantForm extends javax.swing.JFrame {
         });
 
         lbnombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbnombre.setText("Nombre:");
 
         tflastname.setToolTipText("");
         tflastname.setName("Nombre"); // NOI18N
@@ -67,6 +100,7 @@ public class ApplicantForm extends javax.swing.JFrame {
         });
 
         lblastname.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblastname.setText("Apellido:");
 
         tfidentification.setToolTipText("");
         tfidentification.setName("Nombre"); // NOI18N
@@ -77,6 +111,7 @@ public class ApplicantForm extends javax.swing.JFrame {
         });
 
         lbidentification.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbidentification.setText("Cedula:");
 
         tfStreetaddress.setToolTipText("");
         tfStreetaddress.setName("Nombre"); // NOI18N
@@ -87,6 +122,7 @@ public class ApplicantForm extends javax.swing.JFrame {
         });
 
         lbStreetaddress.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbStreetaddress.setText("Direccion de residencia:");
 
         tfinstitution.setToolTipText("");
         tfinstitution.setName("Nombre"); // NOI18N
@@ -97,12 +133,19 @@ public class ApplicantForm extends javax.swing.JFrame {
         });
 
         lbinstitution.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbinstitution.setText("Intitucion donde proviene:");
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CbMunicipios.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        lbmunicipio.setText("Municipio de procedencia:");
 
         btsave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btsave.setText("Guardar");
+        btsave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btsaveActionPerformed(evt);
+            }
+        });
 
         btclose.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btclose.setText("Cancelar");
@@ -117,51 +160,56 @@ public class ApplicantForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbtitle, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 94, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
-                                .addComponent(tfNombre))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblastname, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tflastname))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbidentification, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfidentification))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbmunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(tfNombre))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblastname, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tflastname))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lbidentification, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfidentification))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbmunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CbMunicipios, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lbinstitution, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbStreetaddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfStreetaddress))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(tfinstitution))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbStreetaddress, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbinstitution, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfinstitution)
-                            .addComponent(tfStreetaddress))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(btsave, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btclose, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(107, 107, 107)
+                                .addComponent(lbtitle, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(btsave, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btclose, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(lbtitle)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbnombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -189,12 +237,12 @@ public class ApplicantForm extends javax.swing.JFrame {
                     .addComponent(tfinstitution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CbMunicipios, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbmunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btsave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btclose, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                    .addComponent(btclose, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -223,7 +271,14 @@ public class ApplicantForm extends javax.swing.JFrame {
 
     private void btcloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btcloseActionPerformed
         // TODO add your handling code here:
+        close();
     }//GEN-LAST:event_btcloseActionPerformed
+
+    private void btsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btsaveActionPerformed
+        // TODO add your handling code here:
+        
+        JOptionPane.showMessageDialog(this,"Se ha guardado con exito","Guardado",1);
+    }//GEN-LAST:event_btsaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,9 +286,9 @@ public class ApplicantForm extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox CbMunicipios;
     private javax.swing.JButton btclose;
     private javax.swing.JButton btsave;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel lbStreetaddress;
     private javax.swing.JLabel lbidentification;
     private javax.swing.JLabel lbinstitution;
