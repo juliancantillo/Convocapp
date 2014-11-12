@@ -43,7 +43,7 @@ import entities.Convocatory;
  */
 public class CreateConvocatoryForm extends JFrame implements ActionListener, KeyListener {
 
-    private JDatePicker data_inicial, data_final, data_publicacion;
+    private JDatePicker fldStartDate, fldEndDate, fldPublishingDate;
     private JTextField fldUsername;
     private JTextField fldIdentification;
     private JTextField fldEmail;
@@ -120,23 +120,23 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         panel.setBorder(new CompoundBorder(border, margin));
 
         //Fechas de la interface
-        data_inicial = data.createJDatePicker();
-        data_inicial.setTextEditable(true);
-        data_inicial.setShowYearButtons(true);
+        fldStartDate = data.createJDatePicker();
+        fldStartDate.setTextEditable(true);
+        fldStartDate.setShowYearButtons(true);
 
-        data_final = data.createJDatePicker();
-        data_final.setTextEditable(true);
-        data_final.setShowYearButtons(true);
+        fldEndDate = data.createJDatePicker();
+        fldEndDate.setTextEditable(true);
+        fldEndDate.setShowYearButtons(true);
 
-        data_publicacion = data.createJDatePicker();
-        data_publicacion.setTextEditable(true);
-        data_publicacion.setShowYearButtons(true);
+        fldPublishingDate = data.createJDatePicker();
+        fldPublishingDate.setTextEditable(true);
+        fldPublishingDate.setShowYearButtons(true);
 
-        JLabel lblNombreConvocatoria = new JLabel(R.STR_NOMBRE_CONVOCATORIA);
-        JLabel lblFechaInicio = new JLabel(R.STR_FECHA_INICIO_CONVOCATORIA);
-        JLabel lblFechaFinal = new JLabel(R.STR_FECHA_FIN_CONVOCATORIA);
-        JLabel lblFechaPublicacion = new JLabel(R.STR_FECHA_PUBLICACION_CONVOCATORIA);
-        JLabel lblEstado = new JLabel(R.STR_ESTADO_COVOCATORIA);
+        JLabel lblNombreConvocatoria = new JLabel(R.STR_NEW_CONVOCATORY);
+        JLabel lblStartDate = new JLabel(R.STR_START_DATE);
+        JLabel lblEndDate = new JLabel(R.STR_END_DATE);
+        JLabel lblPublishingDate = new JLabel(R.STR_PUBLISH_DATE);
+        JLabel lblStatus = new JLabel(R.STR_STATUS);
 
         ButtonGroup btnActive = new ButtonGroup();
 
@@ -151,21 +151,21 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(fldUsername, pos.nextCol().width(5).expandW());
 
-        panel.add(lblFechaInicio, pos);
+        panel.add(lblStartDate, pos);
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add((Component) data_inicial, pos.nextCol().width(5).expandW());
+        panel.add((Component) fldStartDate, pos.nextCol().width(5).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblFechaFinal, pos.nextRow());
+        panel.add(lblEndDate, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add((Component) data_final, pos.nextCol().width(5).expandW());
+        panel.add((Component) fldEndDate, pos.nextCol().width(5).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblFechaPublicacion, pos.nextRow());
+        panel.add(lblPublishingDate, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add((Component) data_publicacion, pos.nextCol().width(5).expandW());
+        panel.add((Component) fldPublishingDate, pos.nextCol().width(5).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
@@ -173,7 +173,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         panel.add(new Gap(R.H), pos.nextRow());
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblEstado, pos.nextRow());
+        panel.add(lblStatus, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(new Gap(), pos.nextCol().expandW());
@@ -217,15 +217,15 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
             UserModel userModel = new UserModel();
             /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
             //Obtener fecha;
-            String text = data_inicial.getModel().getYear() + "-" + data_inicial.getModel().getMonth() + "-" + data_inicial.getModel().getDay() + " 18:48:05.123";
+            String text = fldStartDate.getModel().getYear() + "-" + fldStartDate.getModel().getMonth() + "-" + fldStartDate.getModel().getDay() + " 18:48:05.123";
             Timestamp inicio = new Timestamp(3);
             inicio = Timestamp.valueOf(text);
 
-            text = data_final.getModel().getYear() + "-" + data_final.getModel().getMonth() + "-" + data_final.getModel().getDay() + " 18:48:05.123";
+            text = fldEndDate.getModel().getYear() + "-" + fldEndDate.getModel().getMonth() + "-" + fldEndDate.getModel().getDay() + " 18:48:05.123";
             Timestamp fin = new Timestamp(3);
             fin = Timestamp.valueOf(text);
 
-            text = data_publicacion.getModel().getYear() + "-" + data_publicacion.getModel().getMonth() + "-" + data_publicacion.getModel().getDay() + " 18:48:05.123";
+            text = fldPublishingDate.getModel().getYear() + "-" + fldPublishingDate.getModel().getMonth() + "-" + fldPublishingDate.getModel().getDay() + " 18:48:05.123";
             Timestamp publicacion = new Timestamp(3);
             publicacion = Timestamp.valueOf(text);
            //creo el objeto convocatoria
@@ -234,10 +234,9 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
             try {
                 userModel.createConvocatory(convocatory);
             } catch (SQLException ex) {
-               JOptionPane.showMessageDialog(this,"Error al crear Convocatoria" + ex);
+               JOptionPane.showMessageDialog(this, String.format(R.ERROR_SAVE_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
             }
-             JOptionPane.showMessageDialog(this,"Crear Convocatoria \n" + ConvocatoryNombre );
-            
+             JOptionPane.showMessageDialog(this, R.STR_SAVE_SUCCESS, R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
 
         }
         if (e.getActionCommand().equals(R.CMD_SAVE)) {

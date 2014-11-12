@@ -4,6 +4,7 @@ import dbhandler.DBConnector;
 import entities.Convocatory;
 import entities.Municipios;
 import entities.User;
+import entities.Rol;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,9 +29,7 @@ public class UserModel implements Model {
     @Override
     public int create(Object obj) throws SQLException {
         User user = (User) obj;
-        int id = 0; //st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
-        user.setId(id);
-        String insert = String.format("INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`, `active`) VALUES ('%s', '%s', MD5('%s'), '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+        String insert = String.format("INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`, `active`, `roles_id`) VALUES ('%s', '%s', MD5('%s'), '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s);",
                 user.getIdentification(),
                 user.getUsername(),
                 user.getPassword(),
@@ -40,12 +39,12 @@ public class UserModel implements Model {
                 user.getAddress(),
                 user.getPhone(),
                 user.getCellphone(),
-                user.getActive()
+                user.getActive(),
+                user.getRoleId()
         );
 
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        st.executeUpdate(insert);
-        return id;
+        return st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
     }
 
     @Override
@@ -66,13 +65,15 @@ public class UserModel implements Model {
 
         String sql = String.format("SELECT * FROM user WHERE user.id = '%s'", id);
 
-        String rolesSql = String.format("SELECT r.id, r.name FROM roles as r LEFT OUTER JOIN user_has_roles as uhr ON uhr.roles_id = r.id AND uhr.user_id = '%s'", id);
-
         Statement st;
         st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = st.executeQuery(sql);
 
         if (rs.first()) {
+            
+            RolModel rolModel = new RolModel();
+            Rol rol = rolModel.read( rs.getInt("roles_id") );
+            
             user = new User(
                     rs.getInt("id"),
                     rs.getInt("active"),
@@ -242,9 +243,12 @@ public class UserModel implements Model {
 
         return user;
     }
-
+    
     public int createConvocatory(Object obj) throws SQLException {
+
+        //TODO: Remove from this class, this belongs to ConvocatoryModel Class!
         Convocatory convocatory = (Convocatory) obj;
+
         String sql = String.format("INSERT INTO `convocatory`(`name`,`open_time`,`closet_time`,`state`,`publication_date`) VALUES ('%s', '%s', '%s', '%s', '%s');",
                 convocatory.getName_convocatory(),
                 convocatory.getOpen_time(),
@@ -259,6 +263,13 @@ public class UserModel implements Model {
         return 0;
     }
 
+    /**
+     * 
+     * @author Mauro Castillo
+     * @param usuario
+     * @return int rol_id
+     * @throws SQLException 
+     */
     public int getRolusuer(User usuario) throws SQLException {
         /*Mauro Castillo
          Esta funcion recibe un objeto de tipo usuario y retorna su roll en el sistema*/

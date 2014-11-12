@@ -5,7 +5,9 @@
  */
 package gui.forms;
 
+import dbhandler.dao.RolModel;
 import dbhandler.dao.UserModel;
+import entities.Rol;
 import entities.User;
 import helpers.GBHelper;
 import helpers.Gap;
@@ -17,9 +19,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,6 +53,7 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
     private JTextField fldAddress;
     private JTextField fldPhone;
     private JTextField fldCellphone;
+    private JComboBox<Rol> slctRol;
     private ButtonGroup rardioBtnActive;
     private JRadioButton radioActive;
     private JRadioButton radioInactive;
@@ -56,11 +62,13 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
     private User user;
 
     public CreateUserForm() {
+        setTitle(R.STR_NEW_USER);
         user = new User();
         initForm();
     }
 
     public CreateUserForm(int userId) {
+        setTitle(R.STR_EDIT_USER);
         this.editMode = true;
         this.userId = userId;
         
@@ -75,8 +83,6 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
     }
 
     private void initForm() {
-        setTitle(R.STR_NEW_USER);
-
         setIconImage(R.ICON_ADD_USER_SMALL.getImage());
 
         JPanel pnlContainer = new JPanel();
@@ -98,6 +104,12 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         fldAddress = new JTextField();
         fldPhone = new JTextField();
         fldCellphone = new JTextField();
+        
+        try {
+            slctRol = new JComboBox<>( new RolModel().toArray() );
+        } catch (SQLException ex) {
+            slctRol = new JComboBox<>();
+        }
 
         radioActive = new JRadioButton(R.STR_YES);
         radioInactive = new JRadioButton(R.STR_NO);
@@ -140,6 +152,7 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         JLabel lblPhone = new JLabel(R.STR_PHONE);
         JLabel lblCellphone = new JLabel(R.STR_CELLPHONE);
         JLabel lblActive = new JLabel(R.STR_ACTIVE);
+        JLabel lblRole = new JLabel(R.STR_ROLE);
 
         ButtonGroup btnActive = new ButtonGroup();
         btnActive.add(radioActive);
@@ -160,27 +173,27 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
 
         panel.add(lblIdentification, pos);
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldIdentification, pos.nextCol().width(5).expandW());
+        panel.add(fldIdentification, pos.nextCol().width(7).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
         panel.add(lblFirstname, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldFirstname, pos.nextCol().width(5).expandW());
+        panel.add(fldFirstname, pos.nextCol().width(7).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
         panel.add(lblLastname, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldLastname, pos.nextCol().width(5).expandW());
+        panel.add(fldLastname, pos.nextCol().width(7).expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
         panel.add(lblAddress, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldAddress, pos.nextCol().expandW());
+        panel.add(fldAddress, pos.nextCol().width(3).expandW());
 
-        panel.add(new Gap(R.H), pos.nextCol());
+        panel.add(new Gap(), pos.nextCol().nextCol().nextCol());
 
         panel.add(lblEmail, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
@@ -190,8 +203,10 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
 
         panel.add(lblPhone, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldPhone, pos.nextCol().expandW());
-        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(fldPhone, pos.nextCol().width(3).expandW());
+        
+        panel.add(new Gap(R.GAP), pos.nextCol().nextCol().nextCol());
+        
         panel.add(lblCellphone, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(fldCellphone, pos.nextCol().expandW());
@@ -203,7 +218,12 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         panel.add(radioActive, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(radioInactive, pos.nextCol());
-        panel.add(new Gap(), pos.nextCol().expandW());
+        
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        
+        panel.add(lblRole, pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(slctRol, pos.nextCol().expandW());
 
         return panel;
     }
@@ -266,7 +286,6 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
 
         if(editMode){
             panel.add(btnDeleteUser);
-            panel.add(new Gap());
         }
         panel.add(btnSaveUser);
         panel.add(btnCancel);

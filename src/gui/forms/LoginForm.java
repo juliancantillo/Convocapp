@@ -157,7 +157,6 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
 
         int rol = usersmodel.getRolusuer(user);
         if (rol == 3) {
-            System.out.println("Estoy aqui");
             DigitadorForm digitador = new DigitadorForm(user);
             digitador.setVisible(true);
         }
@@ -166,6 +165,7 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
             form.setVisible(true);
         }
           if (rol == 2) {
+            //PENDING: Remove this test
             JOptionPane.showMessageDialog(this,"Ventana Supervisor");
         }
     }
