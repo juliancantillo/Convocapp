@@ -59,7 +59,10 @@ public class R {
             STR_CONVOCATORY_MANAGEMENT = "Administración de Convocatorias",
             STR_WELCOME = "Bienvenido",
             STR_EXIT = "Salir",
-            STR_VIEW_STATISTICS = "Ver Estadisticas";
+            STR_VIEW_STATISTICS = "Ver Estadisticas",
+            STR_USER_ADMIN = "Administrador";
+            ;
+            
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
