@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import resources.R;
@@ -29,6 +30,7 @@ import resources.R;
 public class ConvocatoryForm extends JFrame implements ActionListener, TableModelListener, MouseListener, WindowListener {
 
     private JTable tblUsers;
+    
 
     public ConvocatoryForm() {
         super(R.STR_USERS_MANAGEMENT);

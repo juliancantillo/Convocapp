@@ -162,7 +162,7 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
             
         }
         if (rol == 1) {
-            DashboardForm dashform = new DashboardForm(user);
+            DashboardForm dashform = new DashboardForm(user, this);
             dashform.setVisible(true);
         }
           if (rol == 2) {

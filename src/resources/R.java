@@ -53,6 +53,8 @@ public class R {
             STR_NO = "No",
             STR_ROLE = "Rol",
             STR_SAVE = "Guardar",
+            STR_SING_OFF = "Sesion cerrada",
+            STR_DESCRIPTION_CONVOCATORY = "Descripcion de Convocatoria:",
             STR_DELETE_CONFIRMATION = "¿Esta seguro que desea borrar el registro %s ?\n\nESTA ACCIÓN NO SE PUEDE DESHACER",
             STR_CONVOCATORY_MANAGEMENT = "Administración de Convocatorias",
             STR_WELCOME = "Bienvenido",
