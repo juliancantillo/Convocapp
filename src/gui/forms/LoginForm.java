@@ -157,12 +157,13 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
 
         int rol = usersmodel.getRolusuer(user);
         if (rol == 3) {
-            DigitadorForm digitador = new DigitadorForm(user);
-            digitador.setVisible(true);
+            DigitadorForm digitadorForm = new DigitadorForm(user);
+            digitadorForm.setVisible(true);
+            
         }
         if (rol == 1) {
-            UsersForm form = new UsersForm();
-            form.setVisible(true);
+            DashboardForm dashform = new DashboardForm(user);
+            dashform.setVisible(true);
         }
           if (rol == 2) {
             //PENDING: Remove this test

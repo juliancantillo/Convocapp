@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2014 a las 07:11:16
+-- Tiempo de generación: 15-11-2014 a las 20:29:39
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.15
 
@@ -63,20 +63,15 @@ CREATE TABLE IF NOT EXISTS `convocatory` (
   `closet_time` date DEFAULT NULL,
   `state` tinyint(1) DEFAULT NULL,
   `publication_date` date NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `convocatory`
 --
 
 INSERT INTO `convocatory` (`identificacion`, `name`, `open_time`, `closet_time`, `state`, `publication_date`) VALUES
-(1, 'mimi', '2014-10-05', '2014-10-05', 0, '2014-10-05'),
-(2, 'lumia', '2014-10-05', '2014-10-05', 0, '2014-10-05'),
-(3, 'rrr', '2014-10-05', '2014-10-05', 0, '2014-10-05'),
-(4, 'ewew', '2014-10-05', '2014-10-05', 1, '2014-10-05'),
-(5, 'dfdsd', '2014-10-05', '2014-10-05', 1, '2014-10-05'),
-(6, 'leon', '2014-10-05', '2014-10-05', 1, '2014-10-05'),
-(7, 'Convocatoria ', '2014-10-05', '2014-10-05', 1, '2014-10-12');
+(1, 'Convocatoria Universitaria', '2014-11-11', '2014-11-11', 1, '2014-11-03'),
+(2, 'Convocatoria Tolima', '2014-11-26', '2014-11-19', 1, '2014-11-12');
 
 -- --------------------------------------------------------
 
@@ -1369,7 +1364,7 @@ ALTER TABLE `user_has_roles`
 -- AUTO_INCREMENT de la tabla `convocatory`
 --
 ALTER TABLE `convocatory`
-MODIFY `identificacion` int(250) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `identificacion` int(250) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --

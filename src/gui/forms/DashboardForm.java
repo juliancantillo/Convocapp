@@ -1,6 +1,6 @@
 package gui.forms;
 
-import controller.Convocapp;
+import entities.User;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -17,10 +17,17 @@ import resources.R;
  * Desarrollo de Software 
  * @author kahmos
  */
-public class DashboardForm extends JFrame implements ActionListener{
 
-    public DashboardForm() {
+public class DashboardForm extends JFrame implements ActionListener{
+    User user;
+    
+
+    public DashboardForm(User user_intro) {
         super(R.STR_WELCOME);
+        user = new User();
+        user = user_intro;
+        
+        
         
         setLayout(new BorderLayout(R.GAP, R.GAP));
         
@@ -72,11 +79,12 @@ public class DashboardForm extends JFrame implements ActionListener{
     private JPanel pnlUserInformation(){
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        //Comente
+        String roleuser = "Rol de usuario";
+        //String roleuser = user.getRole();
         
-        JLabel lblUser = new JLabel(String.format("%s %s, ( %s )", R.STR_WELCOME, Convocapp.loggedUser.getFirstname(), Convocapp.loggedUser.getRole() ));
-        
-        panel.add(lblUser);
-        
+     JLabel lblUser = new JLabel(String.format("%s %s, ( %s )", R.STR_WELCOME, user.getFirstname(), roleuser ));
+      panel.add(lblUser);
         return panel;
     }
 
