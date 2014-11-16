@@ -40,7 +40,14 @@ public class ConvocatoryModel implements Model{
 
     @Override
     public ResultSet read() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = st.executeQuery("SELECT id, name, start_date, end_date, active FROM convocatory");
+
+        if (rs != null) {
+            return rs;
+        }
+
+        return null;
     }
 
     @Override

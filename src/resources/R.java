@@ -18,6 +18,7 @@ public class R {
             STR_NEW_CONVOCATORY = "Crear nueva convocatoria",
             STR_USER = "Usuario",
             STR_USERS_MANAGEMENT = "Administración de Usuarios",
+            STR_APPLICANT_MANAGEMENT = "Administración de Aspirantes",
             STR_NEW_USER = "Nuevo Usuario",
             STR_EDIT_USER = "Editar Usuario",
             STR_PASSWORD = "Contraseña",
@@ -35,6 +36,7 @@ public class R {
             STR_USERNAME = "Usuario",
             STR_EMAIL = "Correo Eléctronico",
             STR_FIRSTNAME = "Nombre",
+            STR_NAME = "Nombre",
             STR_LASTNAME = "Apellido",
             STR_ADDRESS = "Dirección",
             STR_PHONE = "Teléfono",
@@ -57,6 +59,21 @@ public class R {
             STR_CONVOCATORY_MANAGEMENT = "Administración de Convocatorias",
             STR_WELCOME = "Bienvenido",
             STR_EXIT = "Salir",
+            STR_DESCRIPTION = "Descripción",
+            STR_PUBLISHING_DATE = "Fecha de Publicación",
+            STR_IDENTIFICATION_TYPE = "Tipo de Identifiación",
+            STR_BIRTHDATE = "Fecha de Nacimiento",
+            STR_SEX = "Sexo",
+            STR_COMPANY = "Nombre",
+            STR_COMPANY_CITY = "Ciudad de Trabajo",
+            STR_COMPANY_ADDRESS = "Dirección de Trabajo",
+            STR_COMPANY_PHONE = "Teléfono de Trabajo",
+            STR_WORKING_TIME = "Jornada de Trabajo",
+            STR_CITY = "Ciudad",
+            STR_CREATED_BY = "Ingresado por",
+            STR_TOTAL_SCORE = "Puntaje Total",
+            STR_FULLNAME = "Nombre Completo",
+            STR_VERIFIED = "Verificado",
             STR_VIEW_STATISTICS = "Ver Estadisticas";
 
     // String Errors
@@ -68,8 +85,13 @@ public class R {
             ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacío, por favor ingrese su información de logueo";
 
     // Columns Names
+    public static String[] SRT_APPLICANT_COLUMNS = { STR_ID, STR_IDENTIFICATION, STR_FULLNAME, STR_COMPANY, STR_CITY, STR_CREATED_BY, STR_TOTAL_SCORE, STR_VERIFIED };
+    public static String[] SRT_APPLICANT_COLUMNS_FULL = { STR_ID, STR_IDENTIFICATION, STR_IDENTIFICATION_TYPE, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_BIRTHDATE, STR_SEX, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_COMPANY, STR_COMPANY_CITY, STR_COMPANY_ADDRESS, STR_COMPANY_PHONE, STR_WORKING_TIME, STR_ACTIVE, STR_CITY, STR_CREATED_BY, STR_CREATE_TIME, STR_UPDATE_TIME, STR_TOTAL_SCORE, STR_VERIFIED };
     public static String[] SRT_USERS_COLUMNS = {STR_ID, STR_FIRSTNAME, STR_LASTNAME, STR_EMAIL, STR_ACTIVE};
     public static String[] SRT_USERS_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_USERNAME, STR_PASSWORD, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
+    public static String[] SRT_CONVOCATORY_COLUMNS = { STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE };
+    public static String[] SRT_CONVOCATORY_COLUMNS_FULL = { STR_ID, STR_NAME, STR_DESCRIPTION, STR_START_DATE, STR_END_DATE, STR_PUBLISHING_DATE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME };
+    
 
     // Commands Constans
     public static final String CMD_NEW_CONVOCATORY = "CMD_NEW_CONVOCATORY";
