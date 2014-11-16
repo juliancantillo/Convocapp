@@ -32,7 +32,7 @@ public class ConvocatoryModel implements Model{
                 convocatory.isState(),
                 convocatory.getPublicacion_time()
         );
-        System.out.println("Inser convocatoria " + sql);
+        
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         
         return st.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
