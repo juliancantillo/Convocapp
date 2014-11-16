@@ -1,5 +1,5 @@
 
-INSERT INTO `state` (`sid`, `id_finca_raiz`, `nombre`, `department_name`, `codigo`, `habilitado`) VALUES
+INSERT INTO `state` (`id`, `name`, `code`) VALUES
 (1, 'Amazonas', '54'),
 (2, 'Antioquia', '55'),
 (3, 'Arauca', '56'),
@@ -32,4 +32,4 @@ INSERT INTO `state` (`sid`, `id_finca_raiz`, `nombre`, `department_name`, `codig
 (30, 'Tolima', '81'),
 (31, 'Valle del Cauca', '82'),
 (32, 'Vaupés', '83'),
-(33, 'Vichada', '84'),
+(33, 'Vichada', '84');

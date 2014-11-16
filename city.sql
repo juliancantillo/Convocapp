@@ -1,5 +1,5 @@
 
-INSERT INTO `city` (`id`, `name`, `code`, `state_id`) VALUES
+INSERT INTO `city` (`id`, `state_id`, `name`, `code`) VALUES
 (1, 1, 'Amazonas', '91000'),
 (2, 1, 'El Encanto', '91263'),
 (3, 1, 'La Chorrera', '91405'),

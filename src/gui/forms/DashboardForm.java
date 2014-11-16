@@ -39,7 +39,7 @@ public class DashboardForm extends JFrame implements ActionListener{
     
     private JPanel pnlButtons(){
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(1, 2));
+        panel.setLayout(new GridLayout(2, 2));
         
         JButton btnManageUsers = new JButton(R.STR_USERS_MANAGEMENT);
         btnManageUsers.addActionListener(this);
@@ -55,6 +55,13 @@ public class DashboardForm extends JFrame implements ActionListener{
         btnManageConvocatory.setIcon(R.ICON_PIN);
         btnManageConvocatory.setActionCommand(R.CMD_NEW_CONVOCATORY);
         
+        JButton btnManageApplicants = new JButton(R.STR_APPLICANT_MANAGEMENT);
+        btnManageApplicants.addActionListener(this);
+        btnManageApplicants.setVerticalTextPosition(JButton.BOTTOM);
+        btnManageApplicants.setHorizontalTextPosition(JButton.CENTER);
+        btnManageApplicants.setIcon(R.ICON_PIN);
+        btnManageApplicants.setActionCommand(R.CMD_MANAGE_APPLICANTS);
+        
         JButton btnViewStatistics = new JButton(R.STR_VIEW_STATISTICS);
         btnViewStatistics.addActionListener(this);
         btnViewStatistics.setVerticalTextPosition(JButton.BOTTOM);
@@ -64,6 +71,7 @@ public class DashboardForm extends JFrame implements ActionListener{
         
         panel.add(btnManageUsers);
         panel.add(btnManageConvocatory);
+        panel.add(btnManageApplicants);
         panel.add(btnViewStatistics);
         
         return panel;
@@ -89,6 +97,10 @@ public class DashboardForm extends JFrame implements ActionListener{
         if(e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)){
             ConvocatoryForm convocatoryForm = new ConvocatoryForm();
             convocatoryForm.setVisible(true);
+        }
+        if(e.getActionCommand().equals(R.CMD_MANAGE_APPLICANTS)){
+            ApplicantsForm applicantsForm = new ApplicantsForm();
+            applicantsForm.setVisible(true);
         }
     }
 }

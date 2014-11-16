@@ -60,7 +60,7 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
 
-        tblUsers = new JTable(new ResultsetTableModel(tableData, R.SRT_APPLICANT_COLUMNS));
+        tblUsers = new JTable(new ResultsetTableModel(tableData, R.STR_APPLICANT_COLUMNS));
         tblUsers.getModel().addTableModelListener(this);
         tblUsers.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         tblUsers.setRowHeight(28);
@@ -91,7 +91,7 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
     @Override
     public void tableChanged(TableModelEvent e) {
         try {
-            tblUsers.setModel(new ResultsetTableModel(new UserModel().read(), R.SRT_USERS_COLUMNS, this));
+            tblUsers.setModel(new ResultsetTableModel(new ApplicantModel().read(), R.STR_APPLICANT_COLUMNS, this));
             tblUsers.updateUI();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);

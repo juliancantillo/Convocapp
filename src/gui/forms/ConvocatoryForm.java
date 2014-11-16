@@ -43,7 +43,7 @@ public class ConvocatoryForm extends JFrame implements ActionListener, TableMode
         add(toolBar, BorderLayout.BEFORE_FIRST_LINE);
         add(convocatory(), BorderLayout.CENTER);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
     }
 

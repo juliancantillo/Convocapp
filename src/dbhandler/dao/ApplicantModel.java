@@ -29,9 +29,10 @@ public class ApplicantModel implements Model{
     @Override
     public ResultSet read() throws SQLException {
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = st.executeQuery("SELECT a.id as id, CONCAT( a.identification, ' ', a.identification_type) as identification , CONCAT( a.firstname, ' ', a.lastname) as fullname, a.company, c.name as city, u.name as created_by, a.total_score, a.verified "
-                + "FROM applicant as a"
-                + "LEFT JOIN ( city as c, user as u ) ON ( a.city_id = c.id, a.created_by_id = u.id )");
+        ResultSet rs = st.executeQuery(
+                "SELECT a.id as id, CONCAT( a.identification_type, ' ', a.identification ) as identification , CONCAT( a.firstname, ' ', a.lastname) as fullname, a.company, c.name as city, u.firstname as created_by "
+                + "FROM applicant as a "
+                + "LEFT JOIN ( city as c, user as u ) ON ( a.city_id = c.id AND a.created_by_id = u.id )");
 
         if (rs != null) {
             return rs;
