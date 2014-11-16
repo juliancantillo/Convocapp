@@ -141,30 +141,34 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
                 if (user != null) {
                     Convocapp.loggedUser = user;
                     this.dispose();
-                    selectForn(user);
+                    DashboardForm dashboard = new DashboardForm();
+                    dashboard.setVisible(true);
+                    // DEPRECATED: The different options will be shown on the dashboard
+                    //selectForm(user);
                 } else {
                     JOptionPane.showMessageDialog(this, R.ERROR_LOGIN_FAILS_PASSWORD_OR_USER, R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException | NullPointerException ex) {
                 JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOGIN_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
         }
     }
 
-    public void selectForn(User user) throws SQLException {
+    public void selectForm(User user) throws SQLException {
         /*Funcion que realiza la seleccion de ventanas*/
         UserModel usersmodel = new UserModel();
 
-        int rol = usersmodel.getRolusuer(user);
-        if (rol == 3) {
+        int role = usersmodel.getUserRole(user);
+        if (role == 3) {
             DigitadorForm digitador = new DigitadorForm(user);
             digitador.setVisible(true);
         }
-        if (rol == 1) {
+        if (role == 1) {
             UsersForm form = new UsersForm();
             form.setVisible(true);
         }
-          if (rol == 2) {
+          if (role == 2) {
             //PENDING: Remove this test
             JOptionPane.showMessageDialog(this,"Ventana Supervisor");
         }

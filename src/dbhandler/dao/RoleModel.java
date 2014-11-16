@@ -5,19 +5,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import entities.Rol;
+import entities.Role;
 
 /**
  * Universidad del Valle Desarrollo de Software
  *
  * @author kahmos
  */
-public class RolModel {
+public class RoleModel {
 
     private Connection conn;
     private DBConnector dbc;
 
-    public RolModel() {
+    public RoleModel() {
         dbc = new DBConnector();
         conn = dbc.connect();
     }
@@ -33,8 +33,8 @@ public class RolModel {
         return null;
     }
     
-    public Rol read(int id) throws SQLException {
-    Rol rol = null;
+    public Role read(int id) throws SQLException {
+    Role rol = null;
 
     String sql = String.format("SELECT * FROM roles WHERE id=%s AND active = 1", id);
 
@@ -44,20 +44,20 @@ public class RolModel {
 
     rs.first();
 
-    rol = new Rol(
+    rol = new Role(
             rs.getInt("id"),
             rs.getString("name"));
 
     return rol;
   }
 
-    public Rol[] toArray() throws SQLException{
+    public Role[] toArray() throws SQLException{
         ResultSet rs = read();
         rs.last();
-        Rol roles[] = new Rol[rs.getRow()];
+        Role roles[] = new Role[rs.getRow()];
         rs.beforeFirst();
         while (rs.next()) {
-            roles[rs.getRow() - 1] = new Rol(
+            roles[rs.getRow() - 1] = new Role(
                     rs.getInt("id"),
                     rs.getString("name")
                 );
