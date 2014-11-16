@@ -91,9 +91,19 @@ public class DashboardForm extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
         if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
             UsersForm form = new UsersForm();
             form.setVisible(true);
+=======
+        if(e.getActionCommand().equals(R.CMD_NEW_USER)){
+            UsersForm userForm = new UsersForm();
+            userForm.setVisible(true);
+        }
+        if(e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)){
+            ConvocatoryForm convocatoryForm = new ConvocatoryForm();
+            convocatoryForm.setVisible(true);
+>>>>>>> dev-julian
         }
         if (e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)) {
             CreateConvocatoryForm newConvocatoryForm = new CreateConvocatoryForm();

@@ -5,9 +5,9 @@
  */
 package gui.forms;
 
-import dbhandler.dao.RolModel;
+import dbhandler.dao.RoleModel;
 import dbhandler.dao.UserModel;
-import entities.Rol;
+import entities.Role;
 import entities.User;
 import helpers.GBHelper;
 import helpers.Gap;
@@ -53,7 +53,7 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
     private JTextField fldAddress;
     private JTextField fldPhone;
     private JTextField fldCellphone;
-    private JComboBox<Rol> slctRol;
+    private JComboBox slctRol;
     private ButtonGroup rardioBtnActive;
     private JRadioButton radioActive;
     private JRadioButton radioInactive;
@@ -106,7 +106,7 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         fldCellphone = new JTextField();
         
         try {
-            slctRol = new JComboBox<>( new RolModel().toArray() );
+            slctRol = new JComboBox<>( new RoleModel().toArray() );
         } catch (SQLException ex) {
             slctRol = new JComboBox<>();
         }

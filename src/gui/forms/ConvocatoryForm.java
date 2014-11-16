@@ -1,5 +1,6 @@
 package gui.forms;
 
+import controller.Convocapp;
 import dbhandler.dao.UserModel;
 import gui.toolbar.RolesToolBar;
 import helpers.ResultsetTableModel;
@@ -33,12 +34,12 @@ public class ConvocatoryForm extends JFrame implements ActionListener, TableMode
     
 
     public ConvocatoryForm() {
-        super(R.STR_USERS_MANAGEMENT);
+        super(R.STR_CONVOCATORY_MANAGEMENT);
         setIconImage(R.ICON_USERS_SMALL.getImage());
 
         setLayout(new BorderLayout(R.H, R.W));
 
-        RolesToolBar toolBar = new RolesToolBar(R.ROL_ADMINISTRATOR, this);
+        RolesToolBar toolBar = new RolesToolBar(Convocapp.loggedUser.getRole(), this);
 
         add(toolBar, BorderLayout.BEFORE_FIRST_LINE);
         add(users(), BorderLayout.CENTER);

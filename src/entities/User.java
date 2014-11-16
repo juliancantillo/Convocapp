@@ -1,8 +1,9 @@
 package entities;
 
+import dbhandler.dao.RoleModel;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /**
  * Universidad del Valle Desarrollo de Software
@@ -11,9 +12,9 @@ import java.util.ArrayList;
  */
 public class User implements Serializable {
 
-    private Integer id, active;
+    private Integer id, active, roleId;
     private String identification, username, password, email, firstname, lastname, address, phone, cellphone;
-    private Rol role;
+    private Role role;
     private Timestamp create_time, update_time;
 
     public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, Timestamp create_time, Timestamp update_time) {
@@ -51,7 +52,7 @@ public class User implements Serializable {
         this.update_time = null;
     }
 
-    public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, Rol role, Timestamp create_time, Timestamp update_time) {
+    public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, Role role, Timestamp create_time, Timestamp update_time) {
         this.id = id;
         this.active = active;
         this.identification = identification;
@@ -66,6 +67,27 @@ public class User implements Serializable {
         this.role = role;
         this.create_time = create_time;
         this.update_time = update_time;
+    }
+    
+    
+    public User(Integer id, Integer active, String identification, String username, String password, String email, String firstname, String lastname, String address, String phone, String cellphone, int roleId, Timestamp create_time, Timestamp update_time) throws SQLException {
+        this.id = id;
+        this.active = active;
+        this.identification = identification;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        this.roleId = roleId;
+        this.create_time = create_time;
+        this.update_time = update_time;
+        
+        RoleModel roleModel = new RoleModel();
+        this.role = roleModel.read(roleId);
     }
     
     public User() {

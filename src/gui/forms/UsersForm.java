@@ -1,5 +1,6 @@
 package gui.forms;
 
+import controller.Convocapp;
 import dbhandler.dao.UserModel;
 import gui.toolbar.RolesToolBar;
 import helpers.ResultsetTableModel;
@@ -36,7 +37,7 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
 
         setLayout(new BorderLayout(R.H, R.W));
 
-        RolesToolBar toolBar = new RolesToolBar(R.ROL_ADMINISTRATOR, this);
+        RolesToolBar toolBar = new RolesToolBar(Convocapp.loggedUser.getRole(), this);
 
         add(toolBar, BorderLayout.BEFORE_FIRST_LINE);
         add(users(), BorderLayout.CENTER);

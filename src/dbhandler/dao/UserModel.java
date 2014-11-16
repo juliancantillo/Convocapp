@@ -4,7 +4,7 @@ import dbhandler.DBConnector;
 import entities.Convocatory;
 import entities.Municipios;
 import entities.User;
-import entities.Rol;
+import entities.Role;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,8 +71,8 @@ public class UserModel implements Model {
 
         if (rs.first()) {
             
-            RolModel rolModel = new RolModel();
-            Rol rol = rolModel.read( rs.getInt("roles_id") );
+            RoleModel rolModel = new RoleModel();
+            Role rol = rolModel.read( rs.getInt("roles_id") );
             
             user = new User(
                     rs.getInt("id"),
@@ -236,6 +236,7 @@ public class UserModel implements Model {
                     rs.getString("address"),
                     rs.getString("phone"),
                     rs.getString("cellphone"),
+                    rs.getInt("roles_id"),
                     rs.getTimestamp("create_time"),
                     rs.getTimestamp("update_time")
             );
@@ -270,20 +271,20 @@ public class UserModel implements Model {
      * @return int rol_id
      * @throws SQLException 
      */
-    public int getRolusuer(User usuario) throws SQLException {
+    public int getUserRole(User usuario) throws SQLException {
         /*Mauro Castillo
          Esta funcion recibe un objeto de tipo usuario y retorna su roll en el sistema*/
         int id_usuario = usuario.getId();
-        int Rol_del_usurio = 0;
-        String sql = String.format("SELECT roles_id FROM user_has_roles WHERE user_has_roles.user_id = %s", id_usuario);
+        int userRole = 0;
+        String sql = String.format("SELECT roles.* FROM roles, user WHERE user.id = %s AND roles.id = user.roles_id", id_usuario);
 
         Statement st;
         st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = st.executeQuery(sql);
         if (rs.first()) {
-            Rol_del_usurio = rs.getInt("roles_id");
+            userRole = rs.getInt("roles_id");
         }
-        return Rol_del_usurio;
+        return userRole;
     }
 
 }
