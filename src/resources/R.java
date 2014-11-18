@@ -74,7 +74,8 @@ public class R {
             STR_TOTAL_SCORE = "Puntaje Total",
             STR_FULLNAME = "Nombre Completo",
             STR_VERIFIED = "Verificado",
-            STR_VIEW_STATISTICS = "Ver Estadisticas";
+            STR_VIEW_STATISTICS = "Ver Estadisticas",
+            STR_NEW_APPLICANT = "Nuevo Aspirante";
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
@@ -86,7 +87,7 @@ public class R {
 
     // Columns Names
     public static String[] STR_APPLICANT_COLUMNS = { STR_ID, STR_IDENTIFICATION, STR_FULLNAME, STR_COMPANY, STR_CITY, STR_CREATED_BY, STR_TOTAL_SCORE, STR_VERIFIED };
-    public static String[] SRT_APPLICANT_COLUMNS_FULL = { STR_ID, STR_IDENTIFICATION, STR_IDENTIFICATION_TYPE, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_BIRTHDATE, STR_SEX, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_COMPANY, STR_COMPANY_CITY, STR_COMPANY_ADDRESS, STR_COMPANY_PHONE, STR_WORKING_TIME, STR_ACTIVE, STR_CITY, STR_CREATED_BY, STR_CREATE_TIME, STR_UPDATE_TIME, STR_TOTAL_SCORE, STR_VERIFIED };
+    public static String[] STR_APPLICANT_COLUMNS_FULL = { STR_ID, STR_IDENTIFICATION, STR_IDENTIFICATION_TYPE, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_BIRTHDATE, STR_SEX, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_COMPANY, STR_COMPANY_CITY, STR_COMPANY_ADDRESS, STR_COMPANY_PHONE, STR_WORKING_TIME, STR_ACTIVE, STR_CITY, STR_CREATED_BY, STR_CREATE_TIME, STR_UPDATE_TIME, STR_TOTAL_SCORE, STR_VERIFIED };
     public static String[] SRT_USERS_COLUMNS = {STR_ID, STR_FIRSTNAME, STR_LASTNAME, STR_EMAIL, STR_ACTIVE};
     public static String[] SRT_USERS_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_USERNAME, STR_PASSWORD, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
     public static String[] SRT_CONVOCATORY_COLUMNS = { STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE };
@@ -102,6 +103,7 @@ public class R {
     public static final String CMD_DELETE = "CMD_DELETE";
     public static final String CMD_VIEW_STATISTICS = "CMD_VIEW_STATISTICS";
     public static final String CMD_MANAGE_APPLICANTS = "CMD_MANAGE_APPLICANTS";
+    public static final String CMD_NEW_APPLICANT = "CMD_NEW_APPLICANT";
 
     // Roles
     public static final String ROL_ADMINISTRATOR = "Administrador";
@@ -129,6 +131,8 @@ public class R {
     public static final ImageIcon ICON_TRASH_SMALL = getIcon("trashcan-24x24.png");
     public static final ImageIcon ICON_PIN = getIcon("pin.png");
     public static final ImageIcon ICON_PIN_SMALL = getIcon("pin-24x24.png");
+    public static final ImageIcon ICON_APPLICANT = getIcon("applicant.png");
+    public static final ImageIcon ICON_APPLICANT_SMALL = getIcon("applicant-24x24.png");
 
     private static ImageIcon getIcon(String path) {
         URL resource = R.class.getResource("icons/" + path);

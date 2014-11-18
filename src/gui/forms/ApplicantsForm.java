@@ -86,6 +86,13 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
             newConvocatoryForm.addWindowListener(this);
             newConvocatoryForm.setVisible(true);
         }
+        
+        //Llama al panel de creacion de convocatoria
+        if (e.getActionCommand().equals(R.CMD_NEW_APPLICANT)) {
+            CreateApplicantResumeForm applicantForm = new CreateApplicantResumeForm();
+            applicantForm.addWindowListener(this);
+            applicantForm.setVisible(true);
+        }
     }
 
     @Override
