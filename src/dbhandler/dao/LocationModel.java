@@ -31,7 +31,7 @@ private final Connection conn;
     @Override
     public ResultSet read() throws SQLException {
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = st.executeQuery("SELECT * FROM city");
+        ResultSet rs = st.executeQuery("SELECT city.*, s.name as state_name, s.id as state_id, s.code as state_code FROM city, state as s WHERE city.state_id = s.id ORDER BY city.name");
 
         if (rs != null) {
             return rs;
@@ -71,6 +71,28 @@ private final Connection conn;
     @Override
     public void delete(int id) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public City[] toArray() throws SQLException{
+        ResultSet rs = read();
+        rs.last();
+        City roles[] = new City[rs.getRow()];
+        rs.beforeFirst();
+        while (rs.next()) {
+            roles[rs.getRow() - 1] = new City(
+                    rs.getInt("id"),
+                    rs.getInt("state_id"),
+                    rs.getString("name"),
+                    rs.getString("code"),
+                    new State(
+                        rs.getInt("state_id"),
+                        rs.getString("state_name"),
+                        rs.getString("state_code")
+                    )
+                );
+        }
+
+        return roles;
     }
     
 }

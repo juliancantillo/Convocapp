@@ -1,5 +1,6 @@
 package resources;
 
+import helpers.Item;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
@@ -33,6 +34,8 @@ public class R {
             STR_PUBLISH_DATE= "Fecha de publiciación",
             STR_STATUS= "Estado",
             STR_IDENTIFICATION = "Cédula",
+            STR_FOREING_IDENTIFICATION = "Cédula de Extranjería",
+            STR_PASSPORT = "Pasaporte",
             STR_USERNAME = "Usuario",
             STR_EMAIL = "Correo Eléctronico",
             STR_FIRSTNAME = "Nombre",
@@ -75,7 +78,16 @@ public class R {
             STR_FULLNAME = "Nombre Completo",
             STR_VERIFIED = "Verificado",
             STR_VIEW_STATISTICS = "Ver Estadisticas",
-            STR_NEW_APPLICANT = "Nuevo Aspirante";
+            STR_NEW_APPLICANT = "Nuevo Aspirante",
+            STR_NULL_SELECTION = "-- Sin Selección --",
+            STR_MALE = "Masculino",
+            STR_FEMME = "Femenino",
+            STR_DAY = "Diurno",
+            STR_NIGHT = "Nocturno",
+            STR_WORK_INFO = "Información Laboral",
+            STR_DAY_NIGHT = "Ambos",
+            STR_NEXT = "Siguiente",
+            STR_PREV = "Anterior";
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
@@ -133,6 +145,9 @@ public class R {
     public static final ImageIcon ICON_PIN_SMALL = getIcon("pin-24x24.png");
     public static final ImageIcon ICON_APPLICANT = getIcon("applicant.png");
     public static final ImageIcon ICON_APPLICANT_SMALL = getIcon("applicant-24x24.png");
+    
+    public static String VALIDATION_LETTERS_ONLY = "En %s solo se permiten letras";
+    public static String VALIDATION_VALUE_NOT_ALLOWED = "En %s valor no permitido";
 
     private static ImageIcon getIcon(String path) {
         URL resource = R.class.getResource("icons/" + path);
@@ -142,4 +157,24 @@ public class R {
         }
         return new ImageIcon(resource);
     }
+    
+    public static final Object[] LIST_IDENTIFICATION_TYPES = {
+        new Item("", R.STR_NULL_SELECTION),
+        new Item("C.C.", R.STR_IDENTIFICATION),
+        new Item("C.E.", R.STR_FOREING_IDENTIFICATION),
+        new Item("P", R.STR_PASSPORT)
+    };
+    
+    public static final Object[] LIST_SEX_VALUES = {
+        new Item("", R.STR_NULL_SELECTION),
+        new Item("M", R.STR_MALE),
+        new Item("F", R.STR_FEMME)
+    };
+    
+        public static final Object[] LIST_WORK_TIME_VALUES = {
+        new Item("", R.STR_NULL_SELECTION),
+        new Item("DIURNO", R.STR_DAY),
+        new Item("NOCTURNO", R.STR_NIGHT),
+        new Item("AMBOS", R.STR_DAY_NIGHT)
+    };
 }

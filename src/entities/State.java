@@ -28,5 +28,9 @@ public class State{
     public String getCode() {
         return code;
     }
-    
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

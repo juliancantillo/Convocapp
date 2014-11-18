@@ -1,13 +1,20 @@
 package gui.steps;
 
+import dbhandler.dao.LocationModel;
+import entities.City;
 import helpers.GBHelper;
 import helpers.Gap;
+import helpers.validation.ValidationHelper;
+import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
+import java.text.NumberFormat;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -15,6 +22,8 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import org.jdatepicker.JDateComponentFactory;
+import org.jdatepicker.JDatePicker;
 import resources.R;
 
 /**
@@ -29,8 +38,7 @@ public class PersonalInformationPanel extends JPanel {
     private JTextField fldEmail;
     private JTextField fldFirstname;
     private JTextField fldLastname;
-    private JTextField fldBirthdate;
-    private JTextField fldSex;
+    private JDatePicker fldBirthdate;
     private JTextField fldAddress;
     private JTextField fldPhone;
     private JTextField fldCellphone;
@@ -38,6 +46,7 @@ public class PersonalInformationPanel extends JPanel {
     private JTextField fldCompanyAddress;
     private JTextField fldCompanyPhone;
 
+    private JComboBox slctSex;
     private JComboBox slctIdentificationType;
     private JComboBox slctCompanyCity;
     private JComboBox slctWorkingTime;
@@ -54,12 +63,16 @@ public class PersonalInformationPanel extends JPanel {
     private JRadioButton radioInactive;
 
     private KeyListener keyListener;
+    
+    private JDateComponentFactory dateFieldFactory;
 
     public PersonalInformationPanel(KeyListener keyListener) {
         this.keyListener = keyListener;
+        
+        init();
     }
     
-    public void init(){
+    private void init(){
         setLayout(new GridBagLayout());
         
         initFields();
@@ -67,31 +80,56 @@ public class PersonalInformationPanel extends JPanel {
         GBHelper pos = new GBHelper();
         JLabel icon = new JLabel(R.ICON_APPLICANT);
         
-        add(icon, pos);
-        add(pnlPersonalInfo(), pos.nextCol());
+        add(icon, pos.height(3).align(GBHelper.NORTH));
+        add(pnlPersonalInfo(), pos.nextCol().expandW());
+        add(pnlWorkInfo(), pos.nextRow().nextCol().expandW());
+        add(new Gap(), pos.nextRow().nextCol().expandH());
     }
 
-    public void initFields() {
-
+    private void initFields() {
+        
+        dateFieldFactory = new JDateComponentFactory();
         fldId = new JTextField();
         fldIdentification = new JTextField();
-        fldEmail = new JTextField();
+        fldEmail = new JTextField( );
         fldFirstname = new JTextField();
         fldLastname = new JTextField();
-        fldBirthdate = new JTextField();
-        fldSex = new JTextField();
+        fldBirthdate =  dateFieldFactory.createJDatePicker();
         fldAddress = new JTextField();
         fldPhone = new JTextField();
         fldCellphone = new JTextField();
         fldCompany = new JTextField();
         fldCompanyAddress = new JTextField();
         fldCompanyPhone = new JTextField();
+        
+        fldIdentification.setName(R.STR_IDENTIFICATION);
+        fldEmail.setName(R.STR_EMAIL);
+        fldFirstname.setName(R.STR_FIRSTNAME);
+        fldLastname.setName(R.STR_LASTNAME);
+        fldAddress.setName(R.STR_ADDRESS);
+        fldPhone.setName(R.STR_PHONE);
+        fldCellphone.setName(R.STR_CELLPHONE);
+        fldCompany.setName(R.STR_COMPANY);
+        fldCompanyAddress.setName(R.STR_COMPANY_ADDRESS);
+        fldCompanyPhone.setName(R.STR_COMPANY_PHONE);
 
-        slctIdentificationType = new JComboBox();
-        slctCompanyCity = new JComboBox();
-        slctWorkingTime = new JComboBox();
-        slctCity = new JComboBox();
-
+        slctSex = new JComboBox(R.LIST_SEX_VALUES);
+        slctIdentificationType = new JComboBox(R.LIST_IDENTIFICATION_TYPES);
+        slctWorkingTime = new JComboBox(R.LIST_WORK_TIME_VALUES);
+        
+        LocationModel location = new LocationModel();
+        City cities[] = { new City(0, 0, R.STR_NULL_SELECTION, null, null) };
+        try {
+            cities = location.toArray();
+            slctCity = new JComboBox(cities);
+            slctCompanyCity = new JComboBox(cities);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+        }
+        
+        slctCity = new JComboBox(cities);
+        slctCompanyCity = new JComboBox(cities);
+        
         fldCreateTime = new JTextField();
         fldUpdateTime = new JTextField();
         fldCreatedBy = new JTextField();
@@ -103,7 +141,13 @@ public class PersonalInformationPanel extends JPanel {
         radioInactive = new JRadioButton(R.STR_NO);
     }
 
-    public void buildForm() {
+    private JPanel pnlWorkInfo() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        Border border = new TitledBorder(R.STR_WORK_INFO);
+        Border margin = new EmptyBorder(10, 10, 10, 10);
+        panel.setBorder(new CompoundBorder(border, margin));
+        
         JLabel lblId = new JLabel(R.STR_ID);
         JLabel lblCompany = new JLabel(R.STR_COMPANY);
         JLabel lblCompanyAddress = new JLabel(R.STR_COMPANY_ADDRESS);
@@ -116,10 +160,41 @@ public class PersonalInformationPanel extends JPanel {
         JLabel lblActive = new JLabel(R.STR_ACTIVE);
         JLabel lblTotalScore = new JLabel(R.STR_TOTAL_SCORE);
         JLabel lblVerified = new JLabel(R.STR_VERIFIED);
+        
+        GBHelper pos = new GBHelper();
 
+        panel.add(lblCompany, pos);
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(fldCompany, pos.nextCol().width(7).expandW());
+
+        panel.add(new Gap(R.H), pos.nextRow());
+        
+        panel.add(lblWorkingTime, pos.nextRow());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(slctWorkingTime, pos.nextCol().expandW());
+        
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        
+        panel.add(lblCompanyPhone, pos.nextCol().nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(fldCompanyPhone, pos.nextCol().expandW());
+
+        panel.add(new Gap(R.H), pos.nextRow());
+
+        panel.add(lblCompanyAddress, pos.nextRow());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(fldCompanyAddress, pos.nextCol().expandW());
+
+        panel.add(new Gap(R.GAP), pos.nextCol());
+
+        panel.add(lblCompanyCity, pos.nextCol().nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(slctCompanyCity, pos.nextCol().expandW());
+        
+        return panel;
     }
 
-    public final JPanel pnlPersonalInfo() {
+    private JPanel pnlPersonalInfo() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         Border border = new TitledBorder(R.STR_PERSONAL_INFO);
@@ -159,7 +234,7 @@ public class PersonalInformationPanel extends JPanel {
         
         panel.add(new Gap(), pos.nextCol().nextCol().nextCol());
         
-        panel.add(lblIdentificationType, pos);
+        panel.add(lblIdentificationType, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(slctIdentificationType, pos.nextCol().expandW());
 
@@ -175,6 +250,18 @@ public class PersonalInformationPanel extends JPanel {
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(fldLastname, pos.nextCol().width(7).expandW());
 
+        panel.add(new Gap(R.H), pos.nextRow());
+
+        panel.add(lblBirthdate, pos.nextRow());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add((Component) fldBirthdate, pos.nextCol().width(3).expandW());
+
+        panel.add(new Gap(), pos.nextCol().nextCol().nextCol());
+
+        panel.add(lblSex, pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(slctSex, pos.nextCol().expandW());
+        
         panel.add(new Gap(R.H), pos.nextRow());
 
         panel.add(lblAddress, pos.nextRow());
@@ -214,6 +301,21 @@ public class PersonalInformationPanel extends JPanel {
         panel.add(slctCity, pos.nextCol().expandW());
 
         return panel;
+    }
+    
+    public boolean validateForm(){
+        
+        return ValidationHelper.validate(fldIdentification, ValidationHelper.NUMBERS_ONLY) ||
+        ValidationHelper.validate(fldEmail, ValidationHelper.LETTERS_ONLY) ||
+        ValidationHelper.validate(fldFirstname, ValidationHelper.LETTERS_ONLY) ||
+        ValidationHelper.validate(fldLastname, ValidationHelper.LETTERS_ONLY) ||
+//        ValidationHelper.validate(fldAddress, ValidationHelper.LETTERS_ONLY) ||
+//        ValidationHelper.validate(fldPhone, ValidationHelper.LETTERS_ONLY) ||
+//        ValidationHelper.validate(fldCellphone, ValidationHelper.LETTERS_ONLY) ||
+//        ValidationHelper.validate(fldCompany, ValidationHelper.LETTERS_ONLY) ||
+//        ValidationHelper.validate(fldCompanyAddress, ValidationHelper.LETTERS_ONLY) ||
+        ValidationHelper.validate(fldCompanyPhone, ValidationHelper.NUMBERS_ONLY);
+        
     }
 
 }
