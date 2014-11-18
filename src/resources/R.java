@@ -1,5 +1,6 @@
 package resources;
 
+import helpers.Item;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
@@ -18,6 +19,7 @@ public class R {
             STR_NEW_CONVOCATORY = "Crear nueva convocatoria",
             STR_USER = "Usuario",
             STR_USERS_MANAGEMENT = "Administración de Usuarios",
+            STR_APPLICANT_MANAGEMENT = "Administración de Aspirantes",
             STR_NEW_USER = "Nuevo Usuario",
             STR_EDIT_USER = "Editar Usuario",
             STR_PASSWORD = "Contraseña",
@@ -32,9 +34,12 @@ public class R {
             STR_PUBLISH_DATE= "Fecha de publiciación",
             STR_STATUS= "Estado",
             STR_IDENTIFICATION = "Cédula",
+            STR_FOREING_IDENTIFICATION = "Cédula de Extranjería",
+            STR_PASSPORT = "Pasaporte",
             STR_USERNAME = "Usuario",
             STR_EMAIL = "Correo Eléctronico",
             STR_FIRSTNAME = "Nombre",
+            STR_NAME = "Nombre",
             STR_LASTNAME = "Apellido",
             STR_ADDRESS = "Dirección",
             STR_PHONE = "Teléfono",
@@ -60,9 +65,32 @@ public class R {
             STR_WELCOME = "Bienvenido",
             STR_EXIT = "Salir",
             STR_VIEW_STATISTICS = "Ver Estadisticas",
-            STR_USER_ADMIN = "Administrador";
-            ;
-            
+            STR_USER_ADMIN = "Administrador",
+            STR_DESCRIPTION = "Descripción",
+            STR_PUBLISHING_DATE = "Fecha de Publicación",
+            STR_IDENTIFICATION_TYPE = "Tipo de Identifiación",
+            STR_BIRTHDATE = "Fecha de Nacimiento",
+            STR_SEX = "Sexo",
+            STR_COMPANY = "Nombre",
+            STR_COMPANY_CITY = "Ciudad de Trabajo",
+            STR_COMPANY_ADDRESS = "Dirección de Trabajo",
+            STR_COMPANY_PHONE = "Teléfono de Trabajo",
+            STR_WORKING_TIME = "Jornada de Trabajo",
+            STR_CITY = "Ciudad",
+            STR_CREATED_BY = "Ingresado por",
+            STR_TOTAL_SCORE = "Puntaje Total",
+            STR_FULLNAME = "Nombre Completo",
+            STR_VERIFIED = "Verificado",
+            STR_NEW_APPLICANT = "Nuevo Aspirante",
+            STR_NULL_SELECTION = "-- Sin Selección --",
+            STR_MALE = "Masculino",
+            STR_FEMME = "Femenino",
+            STR_DAY = "Diurno",
+            STR_NIGHT = "Nocturno",
+            STR_WORK_INFO = "Información Laboral",
+            STR_DAY_NIGHT = "Ambos",
+            STR_NEXT = "Siguiente",
+            STR_PREV = "Anterior";
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
@@ -73,8 +101,13 @@ public class R {
             ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacío, por favor ingrese su información de logueo";
 
     // Columns Names
+    public static String[] STR_APPLICANT_COLUMNS = { STR_ID, STR_IDENTIFICATION, STR_FULLNAME, STR_COMPANY, STR_CITY, STR_CREATED_BY, STR_TOTAL_SCORE, STR_VERIFIED };
+    public static String[] STR_APPLICANT_COLUMNS_FULL = { STR_ID, STR_IDENTIFICATION, STR_IDENTIFICATION_TYPE, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_BIRTHDATE, STR_SEX, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_COMPANY, STR_COMPANY_CITY, STR_COMPANY_ADDRESS, STR_COMPANY_PHONE, STR_WORKING_TIME, STR_ACTIVE, STR_CITY, STR_CREATED_BY, STR_CREATE_TIME, STR_UPDATE_TIME, STR_TOTAL_SCORE, STR_VERIFIED };
     public static String[] SRT_USERS_COLUMNS = {STR_ID, STR_FIRSTNAME, STR_LASTNAME, STR_EMAIL, STR_ACTIVE};
     public static String[] SRT_USERS_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_USERNAME, STR_PASSWORD, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
+    public static String[] SRT_CONVOCATORY_COLUMNS = { STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE };
+    public static String[] SRT_CONVOCATORY_COLUMNS_FULL = { STR_ID, STR_NAME, STR_DESCRIPTION, STR_START_DATE, STR_END_DATE, STR_PUBLISHING_DATE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME };
+    
 
     // Commands Constans
     public static final String CMD_NEW_CONVOCATORY = "CMD_NEW_CONVOCATORY";
@@ -84,6 +117,8 @@ public class R {
     public static final String CMD_SAVE = "CMD_SAVE";
     public static final String CMD_DELETE = "CMD_DELETE";
     public static final String CMD_VIEW_STATISTICS = "CMD_VIEW_STATISTICS";
+    public static final String CMD_MANAGE_APPLICANTS = "CMD_MANAGE_APPLICANTS";
+    public static final String CMD_NEW_APPLICANT = "CMD_NEW_APPLICANT";
 
     // Roles
     public static final String ROL_ADMINISTRATOR = "Administrador";
@@ -111,6 +146,11 @@ public class R {
     public static final ImageIcon ICON_TRASH_SMALL = getIcon("trashcan-24x24.png");
     public static final ImageIcon ICON_PIN = getIcon("pin.png");
     public static final ImageIcon ICON_PIN_SMALL = getIcon("pin-24x24.png");
+    public static final ImageIcon ICON_APPLICANT = getIcon("applicant.png");
+    public static final ImageIcon ICON_APPLICANT_SMALL = getIcon("applicant-24x24.png");
+    
+    public static String VALIDATION_LETTERS_ONLY = "En %s solo se permiten letras";
+    public static String VALIDATION_VALUE_NOT_ALLOWED = "En %s valor no permitido";
 
     private static ImageIcon getIcon(String path) {
         URL resource = R.class.getResource("icons/" + path);
@@ -120,4 +160,24 @@ public class R {
         }
         return new ImageIcon(resource);
     }
+    
+    public static final Object[] LIST_IDENTIFICATION_TYPES = {
+        new Item("", R.STR_NULL_SELECTION),
+        new Item("C.C.", R.STR_IDENTIFICATION),
+        new Item("C.E.", R.STR_FOREING_IDENTIFICATION),
+        new Item("P", R.STR_PASSPORT)
+    };
+    
+    public static final Object[] LIST_SEX_VALUES = {
+        new Item("", R.STR_NULL_SELECTION),
+        new Item("M", R.STR_MALE),
+        new Item("F", R.STR_FEMME)
+    };
+    
+        public static final Object[] LIST_WORK_TIME_VALUES = {
+        new Item("", R.STR_NULL_SELECTION),
+        new Item("DIURNO", R.STR_DAY),
+        new Item("NOCTURNO", R.STR_NIGHT),
+        new Item("AMBOS", R.STR_DAY_NIGHT)
+    };
 }

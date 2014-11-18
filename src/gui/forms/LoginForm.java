@@ -141,7 +141,7 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
                 if (user != null) {
                     Convocapp.loggedUser = user;
                     this.dispose();
-                    DashboardForm dashboard = new DashboardForm();
+                    DashboardForm dashboard = new DashboardForm(this);
                     dashboard.setVisible(true);
                     // DEPRECATED: The different options will be shown on the dashboard
                     //selectForm(user);
@@ -158,18 +158,6 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
     public void selectForm(User user) throws SQLException {
         /*Funcion que realiza la seleccion de ventanas*/
         UserModel usersmodel = new UserModel();
-
-<<<<<<< HEAD
-        int rol = usersmodel.getRolusuer(user);
-        if (rol == 3) {
-            DigitadorForm digitadorForm = new DigitadorForm(user);
-            digitadorForm.setVisible(true);
-            
-        }
-        if (rol == 1) {
-            DashboardForm dashform = new DashboardForm(user,this,R.STR_USER_ADMIN);
-            dashform.setVisible(true);
-=======
         int role = usersmodel.getUserRole(user);
         if (role == 3) {
             DigitadorForm digitador = new DigitadorForm(user);
@@ -178,7 +166,6 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
         if (role == 1) {
             UsersForm form = new UsersForm();
             form.setVisible(true);
->>>>>>> dev-julian
         }
           if (role == 2) {
             //PENDING: Remove this test

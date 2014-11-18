@@ -1,6 +1,6 @@
 package gui.forms;
 
-import entities.User;
+import controller.Convocapp;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -20,15 +20,12 @@ import resources.R;
  */
 public class DashboardForm extends JFrame implements ActionListener {
 
-    private User user;
-    private LoginForm loginwindows;
+    private LoginForm loginWindow;
     private String rol;
     
-    public DashboardForm(User user_intro,LoginForm loginwindows,String rol) {
+    public DashboardForm(LoginForm loginWindow) {
         super(R.STR_WELCOME);
-       this.loginwindows = loginwindows;
-        user = user_intro;
-        this.rol = rol;
+        this.loginWindow = loginWindow;
 
         setLayout(new BorderLayout(R.GAP, R.GAP));
 
@@ -47,8 +44,8 @@ public class DashboardForm extends JFrame implements ActionListener {
 
     private JPanel pnlButtons() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(1, 2));
-
+        panel.setLayout(new GridLayout(2, 2));
+        
         JButton btnManageUsers = new JButton(R.STR_USERS_MANAGEMENT);
         btnManageUsers.addActionListener(this);
         btnManageUsers.setIcon(R.ICON_USERS);
@@ -62,7 +59,14 @@ public class DashboardForm extends JFrame implements ActionListener {
         btnManageConvocatory.setHorizontalTextPosition(JButton.CENTER);
         btnManageConvocatory.setIcon(R.ICON_PIN);
         btnManageConvocatory.setActionCommand(R.CMD_NEW_CONVOCATORY);
-
+        
+        JButton btnManageApplicants = new JButton(R.STR_APPLICANT_MANAGEMENT);
+        btnManageApplicants.addActionListener(this);
+        btnManageApplicants.setVerticalTextPosition(JButton.BOTTOM);
+        btnManageApplicants.setHorizontalTextPosition(JButton.CENTER);
+        btnManageApplicants.setIcon(R.ICON_PIN);
+        btnManageApplicants.setActionCommand(R.CMD_MANAGE_APPLICANTS);
+        
         JButton btnViewStatistics = new JButton(R.STR_VIEW_STATISTICS);
         btnViewStatistics.addActionListener(this);
         btnViewStatistics.setVerticalTextPosition(JButton.BOTTOM);
@@ -72,6 +76,7 @@ public class DashboardForm extends JFrame implements ActionListener {
 
         panel.add(btnManageUsers);
         panel.add(btnManageConvocatory);
+        panel.add(btnManageApplicants);
         panel.add(btnViewStatistics);
 
         return panel;
@@ -84,18 +89,13 @@ public class DashboardForm extends JFrame implements ActionListener {
         String roleuser = rol;
         //String roleuser = user.getRole();
 
-        JLabel lblUser = new JLabel(String.format("%s %s, ( %s )", R.STR_WELCOME, user.getFirstname(), roleuser));
+        JLabel lblUser = new JLabel(String.format("%s %s, ( %s )", R.STR_WELCOME, Convocapp.loggedUser.getFirstname(), Convocapp.loggedUser.getRole()));
         panel.add(lblUser);
         return panel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-        if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
-            UsersForm form = new UsersForm();
-            form.setVisible(true);
-=======
         if(e.getActionCommand().equals(R.CMD_NEW_USER)){
             UsersForm userForm = new UsersForm();
             userForm.setVisible(true);
@@ -103,7 +103,6 @@ public class DashboardForm extends JFrame implements ActionListener {
         if(e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)){
             ConvocatoryForm convocatoryForm = new ConvocatoryForm();
             convocatoryForm.setVisible(true);
->>>>>>> dev-julian
         }
         if (e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)) {
             CreateConvocatoryForm newConvocatoryForm = new CreateConvocatoryForm();
@@ -111,11 +110,14 @@ public class DashboardForm extends JFrame implements ActionListener {
         }
         if (e.getActionCommand().equals(R.CMD_CANCEL)) {
             this.setVisible(false);
-            loginwindows.cleanForm();
+            loginWindow.cleanForm();
             JOptionPane.showMessageDialog(this,R.STR_SING_OFF);
-            loginwindows.setVisible(true);
+            loginWindow.setVisible(true);
             
         }
-
+        if(e.getActionCommand().equals(R.CMD_MANAGE_APPLICANTS)){
+            ApplicantsForm applicantsForm = new ApplicantsForm();
+            applicantsForm.setVisible(true);
+        }
     }
 }
