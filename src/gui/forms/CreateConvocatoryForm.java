@@ -183,7 +183,11 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         panel.add(new Gap(), pos.nextCol().expandW());
         
         taDescription.setSize(100, 323);
-        panel.add((Component) taDescription, pos.nextCol().width(5).expandW());
+        panel.add(taDescription, pos.nextRow());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
        
         return panel;
     }
