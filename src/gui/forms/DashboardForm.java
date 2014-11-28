@@ -21,7 +21,6 @@ import resources.R;
 public class DashboardForm extends JFrame implements ActionListener {
 
     private LoginForm loginWindow;
-    private String rol;
     
     public DashboardForm(LoginForm loginWindow) {
         super(R.STR_WELCOME);
@@ -85,8 +84,8 @@ public class DashboardForm extends JFrame implements ActionListener {
     private JPanel pnlUserInformation() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        //Correccion probicional de nombre del rol de usuario Mauro castillo
-        String roleuser = rol;
+        //Comente
+        String roleuser = "Rol de usuario";
         //String roleuser = user.getRole();
 
         JLabel lblUser = new JLabel(String.format("%s %s, ( %s )", R.STR_WELCOME, Convocapp.loggedUser.getFirstname(), Convocapp.loggedUser.getRole()));
