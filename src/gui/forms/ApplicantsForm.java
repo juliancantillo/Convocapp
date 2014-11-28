@@ -1,6 +1,7 @@
 package gui.forms;
 
 import controller.Convocapp;
+import dbhandler.dao.ApplicantModel;
 import dbhandler.dao.UserModel;
 import gui.toolbar.RolesToolBar;
 import helpers.ResultsetTableModel;
@@ -27,12 +28,12 @@ import resources.R;
  *
  * @author kahmos
  */
-public class UsersForm extends JFrame implements ActionListener, TableModelListener, MouseListener, WindowListener {
+public class ApplicantsForm extends JFrame implements ActionListener, TableModelListener, MouseListener, WindowListener {
 
     private JTable tblUsers;
 
-    public UsersForm() {
-        super(R.STR_USERS_MANAGEMENT);
+    public ApplicantsForm() {
+        super(R.STR_APPLICANT_MANAGEMENT);
         setIconImage(R.ICON_USERS_SMALL.getImage());
 
         setLayout(new BorderLayout(R.H, R.W));
@@ -40,26 +41,26 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
         RolesToolBar toolBar = new RolesToolBar(Convocapp.loggedUser.getRole(), this);
 
         add(toolBar, BorderLayout.BEFORE_FIRST_LINE);
-        add(users(), BorderLayout.CENTER);
+        add(applicants(), BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
     }
 
-    private JPanel users() {
+    private JPanel applicants() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        UserModel userModel = new UserModel();
+        ApplicantModel applicantModel = new ApplicantModel();
 
         ResultSet tableData = null;
         try {
-            tableData = userModel.read();
+            tableData = applicantModel.read();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
 
-        tblUsers = new JTable(new ResultsetTableModel(tableData, R.SRT_USERS_COLUMNS));
+        tblUsers = new JTable(new ResultsetTableModel(tableData, R.STR_APPLICANT_COLUMNS));
         tblUsers.getModel().addTableModelListener(this);
         tblUsers.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         tblUsers.setRowHeight(28);
@@ -85,12 +86,19 @@ public class UsersForm extends JFrame implements ActionListener, TableModelListe
             newConvocatoryForm.addWindowListener(this);
             newConvocatoryForm.setVisible(true);
         }
+        
+        //Llama al panel de creacion de convocatoria
+        if (e.getActionCommand().equals(R.CMD_NEW_APPLICANT)) {
+            CreateApplicantResumeForm applicantForm = new CreateApplicantResumeForm();
+            applicantForm.addWindowListener(this);
+            applicantForm.setVisible(true);
+        }
     }
 
     @Override
     public void tableChanged(TableModelEvent e) {
         try {
-            tblUsers.setModel(new ResultsetTableModel(new UserModel().read(), R.SRT_USERS_COLUMNS, this));
+            tblUsers.setModel(new ResultsetTableModel(new ApplicantModel().read(), R.STR_APPLICANT_COLUMNS, this));
             tblUsers.updateUI();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);

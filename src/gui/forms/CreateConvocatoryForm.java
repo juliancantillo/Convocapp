@@ -36,6 +36,7 @@ import org.jdatepicker.JDateComponentFactory;
 import resources.R;
 import org.jdatepicker.JDatePicker;
 import entities.Convocatory;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -47,6 +48,7 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
     private JTextField fldUsername;
     private JTextField fldIdentification;
     private JTextField fldEmail;
+
 
     private boolean editMode = false;
     private int userId;
@@ -108,7 +110,8 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//TODO Delete this line
 
         setAlwaysOnTop(true);
-        setSize(650, 280);
+        //Modifico el tamaño del Jframe
+        setSize(670, 380);
         setLocationRelativeTo(null);
     }
 
@@ -131,12 +134,13 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         fldPublishingDate = data.createJDatePicker();
         fldPublishingDate.setTextEditable(true);
         fldPublishingDate.setShowYearButtons(true);
-
+        
+        JTextArea taDescription = new JTextArea();
         JLabel lblNombreConvocatoria = new JLabel(R.STR_NEW_CONVOCATORY);
         JLabel lblStartDate = new JLabel(R.STR_START_DATE);
         JLabel lblEndDate = new JLabel(R.STR_END_DATE);
         JLabel lblPublishingDate = new JLabel(R.STR_PUBLISH_DATE);
-        JLabel lblStatus = new JLabel(R.STR_STATUS);
+        JLabel lblDescription = new JLabel(R.STR_DESCRIPTION_CONVOCATORY);
 
         ButtonGroup btnActive = new ButtonGroup();
 
@@ -173,11 +177,18 @@ public class CreateConvocatoryForm extends JFrame implements ActionListener, Key
         panel.add(new Gap(R.H), pos.nextRow());
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblStatus, pos.nextRow());
+        panel.add(lblDescription, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(new Gap(), pos.nextCol().expandW());
-
+        
+        taDescription.setSize(100, 323);
+        panel.add(taDescription, pos.nextRow());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+        panel.add(new Gap(R.GAP), pos.nextCol());
+       
         return panel;
     }
 
