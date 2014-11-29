@@ -5,299 +5,269 @@
  */
 package gui.forms;
 
-import dbhandler.dao.UserModel;
-import entities.User;
-import helpers.GBHelper;
-import helpers.Gap;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import org.jdatepicker.JDateComponentFactory;
 import resources.R;
-import org.jdatepicker.JDatePicker;
 import entities.Convocatory;
+import dbhandler.dao.UserModel;
+import java.sql.SQLException;
+import java.sql.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Mauro
  */
-public class CreateConvocatoryForm extends JFrame implements ActionListener, KeyListener {
+public class CreateConvocatoryForm extends javax.swing.JFrame {
 
-    private JDatePicker data_inicial, data_final, data_publicacion;
-    private JTextField fldUsername;
-    private JTextField fldIdentification;
-    private JTextField fldEmail;
-
-    private boolean editMode = false;
-    private int userId;
-    private User user;
-    private Convocatory convocatory;
-    JDateComponentFactory data = new JDateComponentFactory();
-
+    /**
+     * Creates new form CreateConvocatoryForm
+     */
     public CreateConvocatoryForm() {
-        user = new User();
-        initForm();
-    }
-
-    public CreateConvocatoryForm(int userId) {
-        this.editMode = true;
-        this.userId = userId;
-
-        try {
-            UserModel userModel = new UserModel();
-            user = userModel.read(userId);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
-        }
-
-        initForm();
-
-    }
-
-    private void initForm() {
-        setTitle(R.STR_NEW_CONVOCATORY);
-        setIconImage(R.ICON_CONVOCATORY_SMALL.getImage());
-
-        JPanel pnlContainer = new JPanel();
-        pnlContainer.setLayout(new BorderLayout());
-        pnlContainer.setBorder(BorderFactory.createEmptyBorder(R.GAP, R.GAP, R.GAP, R.GAP));
-
-        JPanel pnlLogin = new JPanel();
-        pnlLogin.setLayout(new GridBagLayout());
-
-        JLabel lblIcon = new JLabel(R.ICON_CONVOCATORY);
-
-        fldUsername = new JTextField();
-        fldIdentification = new JTextField();
-        fldEmail = new JTextField();
-
-        GBHelper pos = new GBHelper();
-
-        pnlLogin.add(lblIcon, pos.height(4).expandH().align(GBHelper.NORTH));
-
-        pnlLogin.add(new Gap(R.W * 2), pos.nextCol());
-
-        pnlLogin.add(pnlDatosConvocatory(), pos.nextCol().expandW());
-        pnlLogin.add(new Gap(R.H * 2), pos.nextRow().nextCol().nextCol());
-        pnlLogin.add(new Gap(), pos.nextRow().expandH());
-
-        pnlContainer.add(pnlLogin, BorderLayout.CENTER);
-        pnlContainer.add(pnlActionButtons(), BorderLayout.SOUTH);
-        add(pnlContainer);
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//TODO Delete this line
-
-        setAlwaysOnTop(true);
-        setSize(650, 280);
-        setLocationRelativeTo(null);
-    }
-
-    public final JPanel pnlDatosConvocatory() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        Border border = new TitledBorder(R.STR_PERSONAL_INFO);
-        Border margin = new EmptyBorder(10, 10, 10, 10);
-        panel.setBorder(new CompoundBorder(border, margin));
-
-        //Fechas de la interface
-        data_inicial = data.createJDatePicker();
-        data_inicial.setTextEditable(true);
-        data_inicial.setShowYearButtons(true);
-
-        data_final = data.createJDatePicker();
-        data_final.setTextEditable(true);
-        data_final.setShowYearButtons(true);
-
-        data_publicacion = data.createJDatePicker();
-        data_publicacion.setTextEditable(true);
-        data_publicacion.setShowYearButtons(true);
-
-        JLabel lblNombreConvocatoria = new JLabel(R.STR_NOMBRE_CONVOCATORIA);
-        JLabel lblFechaInicio = new JLabel(R.STR_FECHA_INICIO_CONVOCATORIA);
-        JLabel lblFechaFinal = new JLabel(R.STR_FECHA_FIN_CONVOCATORIA);
-        JLabel lblFechaPublicacion = new JLabel(R.STR_FECHA_PUBLICACION_CONVOCATORIA);
-        JLabel lblEstado = new JLabel(R.STR_ESTADO_COVOCATORIA);
-
-        ButtonGroup btnActive = new ButtonGroup();
-
-        fldUsername.addKeyListener(this);
-
-        fldIdentification.addKeyListener(this);
-        fldEmail.addKeyListener(this);
-
-        GBHelper pos = new GBHelper();
+        initComponents();
+        /*Modifico los elementos de la interface para asociarlos a la clase R*/
         
-        panel.add(lblNombreConvocatoria, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(fldUsername, pos.nextCol().width(5).expandW());
-
-        panel.add(lblFechaInicio, pos);
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add((Component) data_inicial, pos.nextCol().width(5).expandW());
-
-        panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(lblFechaFinal, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add((Component) data_final, pos.nextCol().width(5).expandW());
-
-        panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(lblFechaPublicacion, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add((Component) data_publicacion, pos.nextCol().width(5).expandW());
-
-        panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(new Gap(R.H), pos.nextCol());
-        panel.add(new Gap(R.H), pos.nextRow());
-        panel.add(new Gap(R.H), pos.nextRow());
-
-        panel.add(lblEstado, pos.nextRow());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(new Gap(R.GAP), pos.nextCol());
-        panel.add(new Gap(), pos.nextCol().expandW());
-
-        return panel;
+        lbtitle.setText(R.STR_NEW_CONVOCATORY);
+        lbdatestart.setText(R.STR_START_DATE + ":");
+        lbdateend.setText(R.STR_END_DATE + ":");
+        lbdescription.setText(R.STR_DESCRIPTION_CONVOCATORY);
+        /*Control de la ventana*/
+        this.setIconImage(R.ICON_CONVOCATORY_SMALL.getImage());
+        this.setTitle(R.STR_TITLE_CONVOCATORY);
+        
+        lbico.setIcon(R.ICON_CONVOCATORY);
+        lbnameconvocatory.setText(R.STR_NAME_CONVOCATORY);
+        tfnameconvocatory.setText("");
+        lbdatepublish.setText(R.STR_DATE_PUBLIC);
+        
+        btexit.setText(R.STR_CANCEL);
+        btnewconvocatory.setText(R.STR_ADD);
+        
+    }
+    
+    public void close() {
+        this.setVisible(false);
+        this.dispose();
     }
 
-    private JPanel pnlActionButtons() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-
-        JButton btnDeleteUser = new JButton(R.STR_DELETE);
-        btnDeleteUser.setIcon(R.ICON_TRASH_SMALL);
-        btnDeleteUser.setActionCommand(R.CMD_DELETE);
-        btnDeleteUser.addActionListener(this);
-
-        JButton btnSaveUser = new JButton(R.STR_SAVE);
-        btnSaveUser.setIcon(R.ICON_SAVE_SMALL);
-        btnSaveUser.setMnemonic('G');
-        btnSaveUser.setActionCommand(editMode ? R.CMD_SAVE : R.CMD_NEW_CONVOCATORY);
-        btnSaveUser.addActionListener(this);
-
-        JButton btnCancel = new JButton(R.STR_CANCEL);
-        btnCancel.setIcon(R.ICON_CANCEL_SMALL);
-        btnCancel.setActionCommand(R.CMD_CANCEL);
-        btnCancel.addActionListener(this);
-
-        if (editMode) {
-            panel.add(btnDeleteUser);
-            panel.add(new Gap());
-        }
-        panel.add(btnSaveUser);
-        panel.add(btnCancel);
-
-        return panel;
+    public void clear() {
+        taDescription.setText("");
+        tfnameconvocatory.setText("");
+        dtend.setDate(null);
+        dtpublicher.setDate(null);
+        dtstart.setDate(null);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)) {
-            UserModel userModel = new UserModel();
-            /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
-            //Obtener fecha;
-            String text = data_inicial.getModel().getYear() + "-" + data_inicial.getModel().getMonth() + "-" + data_inicial.getModel().getDay() + " 18:48:05.123";
-            Timestamp inicio = new Timestamp(3);
-            inicio = Timestamp.valueOf(text);
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-            text = data_final.getModel().getYear() + "-" + data_final.getModel().getMonth() + "-" + data_final.getModel().getDay() + " 18:48:05.123";
-            Timestamp fin = new Timestamp(3);
-            fin = Timestamp.valueOf(text);
+        lbtitle = new javax.swing.JLabel();
+        dtend = new com.toedter.calendar.JDateChooser();
+        dtstart = new com.toedter.calendar.JDateChooser();
+        btnewconvocatory = new javax.swing.JButton();
+        btexit = new javax.swing.JButton();
+        lbdatestart = new javax.swing.JLabel();
+        lbdateend = new javax.swing.JLabel();
+        lbico = new javax.swing.JLabel();
+        lbnameconvocatory = new javax.swing.JLabel();
+        tfnameconvocatory = new javax.swing.JTextField();
+        lbdatepublish = new javax.swing.JLabel();
+        dtpublicher = new com.toedter.calendar.JDateChooser();
+        lbdescription = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taDescription = new javax.swing.JTextArea();
 
-            text = data_publicacion.getModel().getYear() + "-" + data_publicacion.getModel().getMonth() + "-" + data_publicacion.getModel().getDay() + " 18:48:05.123";
-            Timestamp publicacion = new Timestamp(3);
-            publicacion = Timestamp.valueOf(text);
-           //creo el objeto convocatoria
-            String ConvocatoryNombre = fldUsername.getText();
-            
-            try {
-                userModel.createConvocatory(convocatory);
-            } catch (SQLException ex) {
-               JOptionPane.showMessageDialog(this,"Error al crear Convocatoria" + ex);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lbtitle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lbtitle.setText("Titulo");
+
+        dtend.setName("clistart"); // NOI18N
+
+        dtstart.setName("clistart"); // NOI18N
+
+        btnewconvocatory.setText("Crear");
+        btnewconvocatory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnewconvocatoryActionPerformed(evt);
             }
-             JOptionPane.showMessageDialog(this,"Crear Convocatoria \n" + ConvocatoryNombre );
-            
+        });
 
-        }
-        if (e.getActionCommand().equals(R.CMD_SAVE)) {
-            UserModel userModel = new UserModel();
-            user = createNewUser();
-
-            try {
-                userModel.update(user);
-                JOptionPane.showMessageDialog(this, String.format(R.STR_UPDATE_SUCCESS, user.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+        btexit.setText("Cancelar");
+        btexit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btexitActionPerformed(evt);
             }
-        }
-        if (e.getActionCommand().equals(R.CMD_DELETE)) {
-            UserModel userModel = new UserModel();
+        });
 
-            int confirm = JOptionPane.showConfirmDialog(this, String.format(R.STR_DELETE_CONFIRMATION, user.toString()), R.STR_DELETE, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (confirm == JOptionPane.YES_OPTION) {
-                try {
-                    userModel.delete(userId);
-                    dispose();
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, String.format(R.ERROR_DELETE_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
-                }
+        lbdatestart.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbdatestart.setText("Inicio");
+
+        lbdateend.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbdateend.setText("Fecha de finalizacion");
+
+        lbnameconvocatory.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbnameconvocatory.setText("name");
+
+        tfnameconvocatory.setText("nombre");
+        tfnameconvocatory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfnameconvocatoryActionPerformed(evt);
             }
+        });
+
+        lbdatepublish.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbdatepublish.setText("Fecha de publicavion");
+
+        lbdescription.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbdescription.setText("descripcion");
+
+        taDescription.setColumns(20);
+        taDescription.setRows(5);
+        jScrollPane1.setViewportView(taDescription);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbdatepublish, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(81, 81, 81)
+                                .addComponent(btexit)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnewconvocatory)
+                                .addGap(79, 79, 79))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lbico, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lbtitle, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(jScrollPane1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbnameconvocatory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfnameconvocatory, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(dtpublicher, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbdateend, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                                    .addComponent(lbdatestart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dtstart, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dtend, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbdescription, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(106, 106, 106))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbico, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbtitle))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfnameconvocatory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbnameconvocatory))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbdatepublish)
+                    .addComponent(dtpublicher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dtstart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbdatestart))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbdateend)
+                    .addComponent(dtend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lbdescription)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnewconvocatory)
+                    .addComponent(btexit))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btexitActionPerformed
+        // TODO add your handling code here:
+        close();
+    }//GEN-LAST:event_btexitActionPerformed
+
+    private void btnewconvocatoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnewconvocatoryActionPerformed
+        // TODO add your handling code here: 
+        String stNameconvocatory, stdescription;
+        Date stStartdate;
+        Date stEnddate;
+        Date stPubilcdate;
+        /*En este punta agregar excpciones*/
+        stdescription = taDescription.getText();
+        stNameconvocatory = tfnameconvocatory.getText();
+        stStartdate = new java.sql.Date(dtstart.getDate().getTime());
+        stEnddate = new java.sql.Date(dtend.getDate().getTime());
+        stPubilcdate = new java.sql.Date(dtpublicher.getDate().getTime());
+        
+        Convocatory convocatoria = new Convocatory(stNameconvocatory, true, stStartdate, stEnddate, stPubilcdate, stdescription);
+        /*Crea convocatoria*/
+        UserModel usermodel = new UserModel();
+        try {
+            usermodel.createConvocatory(convocatoria);
+        } catch (SQLException ex) {
+            System.out.println("Error Sql al guardar la convocatoria " + ex);
+            clear();
         }
-        if (e.getActionCommand().equals(R.CMD_CANCEL)) {
-            dispose();
-        }
-    }
+        /*mensaje fin de la convocatoria*/
+        clear();
+        JOptionPane.showMessageDialog(this, R.STR_CONVOCATORY_ADD);
+    }//GEN-LAST:event_btnewconvocatoryActionPerformed
 
-    private User createNewUser() {
-        /*Agrega al nuevo usuario a la base de datos
-         */
-        User newUser = user;
-        newUser.setUsername(fldUsername.getText());
-        newUser.setIdentification(fldIdentification.getText());
-        newUser.setEmail(fldEmail.getText());
+    private void tfnameconvocatoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfnameconvocatoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfnameconvocatoryActionPerformed
 
-        return newUser;
-    }
-
-    public void fillForm() {
-        fldUsername.setText(user.getUsername());
-        fldIdentification.setText(user.getIdentification());
-        fldEmail.setText(user.getEmail());
-    }
-
-    @Override
-    public void keyTyped(KeyEvent ke) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent ke) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            dispose();
-        }
-    }
+    /**
+     * @param args the command line arguments
+     */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btexit;
+    private javax.swing.JButton btnewconvocatory;
+    private com.toedter.calendar.JDateChooser dtend;
+    private com.toedter.calendar.JDateChooser dtpublicher;
+    private com.toedter.calendar.JDateChooser dtstart;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbdateend;
+    private javax.swing.JLabel lbdatepublish;
+    private javax.swing.JLabel lbdatestart;
+    private javax.swing.JLabel lbdescription;
+    private javax.swing.JLabel lbico;
+    private javax.swing.JLabel lbnameconvocatory;
+    private javax.swing.JLabel lbtitle;
+    private javax.swing.JTextArea taDescription;
+    private javax.swing.JTextField tfnameconvocatory;
+    // End of variables declaration//GEN-END:variables
 }

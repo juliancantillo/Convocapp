@@ -7,6 +7,7 @@
 package controller;
 
 import entities.User;
+import gui.forms.CreateApplicantResumeForm;
 import gui.forms.CreateUserForm;
 import gui.forms.LoginForm;
 import gui.forms.UsersForm;
@@ -24,10 +25,10 @@ public class Convocapp {
 
 
     public Convocapp() {
-            loginForm = new LoginForm();
-            loginForm.setVisible(true);
-//        adduser = new CreateUserForm();
-//        adduser.setVisible(true);
+        loginForm = new LoginForm();
+        loginForm.setVisible(true);
+//        CreateApplicantResumeForm applicant = new CreateApplicantResumeForm();
+//        applicant.setVisible(true);
     }
     
     /**

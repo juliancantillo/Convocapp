@@ -1,7 +1,7 @@
 package gui.forms;
 
 import controller.Convocapp;
-import dbhandler.dao.ConvocatoryModel;
+import dbhandler.dao.ApplicantModel;
 import dbhandler.dao.UserModel;
 import gui.toolbar.RolesToolBar;
 import helpers.ResultsetTableModel;
@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import resources.R;
@@ -29,12 +28,12 @@ import resources.R;
  *
  * @author kahmos
  */
-public class ConvocatoryForm extends JFrame implements ActionListener, TableModelListener, MouseListener, WindowListener {
+public class ApplicantsForm extends JFrame implements ActionListener, TableModelListener, MouseListener, WindowListener {
 
-    private JTable tblConvocatory;
+    private JTable tblUsers;
 
-    public ConvocatoryForm() {
-        super(R.STR_CONVOCATORY_MANAGEMENT);
+    public ApplicantsForm() {
+        super(R.STR_APPLICANT_MANAGEMENT);
         setIconImage(R.ICON_USERS_SMALL.getImage());
 
         setLayout(new BorderLayout(R.H, R.W));
@@ -42,32 +41,32 @@ public class ConvocatoryForm extends JFrame implements ActionListener, TableMode
         RolesToolBar toolBar = new RolesToolBar(Convocapp.loggedUser.getRole(), this);
 
         add(toolBar, BorderLayout.BEFORE_FIRST_LINE);
-        add(convocatory(), BorderLayout.CENTER);
+        add(applicants(), BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
     }
 
-    private JPanel convocatory() {
+    private JPanel applicants() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        ConvocatoryModel convocatoryModel = new ConvocatoryModel();
+        ApplicantModel applicantModel = new ApplicantModel();
 
         ResultSet tableData = null;
         try {
-            tableData = convocatoryModel.read();
+            tableData = applicantModel.read();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
 
-        tblConvocatory = new JTable(new ResultsetTableModel(tableData, R.SRT_CONVOCATORY_COLUMNS));
-        tblConvocatory.getModel().addTableModelListener(this);
-        tblConvocatory.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblConvocatory.setRowHeight(28);
-        tblConvocatory.addMouseListener(this);
+        tblUsers = new JTable(new ResultsetTableModel(tableData, R.STR_APPLICANT_COLUMNS));
+        tblUsers.getModel().addTableModelListener(this);
+        tblUsers.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblUsers.setRowHeight(28);
+        tblUsers.addMouseListener(this);
 
-        panel.add(new JScrollPane(tblConvocatory), BorderLayout.CENTER);
+        panel.add(new JScrollPane(tblUsers), BorderLayout.CENTER);
 
         return panel;
     }
@@ -87,13 +86,20 @@ public class ConvocatoryForm extends JFrame implements ActionListener, TableMode
             newConvocatoryForm.addWindowListener(this);
             newConvocatoryForm.setVisible(true);
         }
+        
+        //Llama al panel de creacion de convocatoria
+        if (e.getActionCommand().equals(R.CMD_NEW_APPLICANT)) {
+            CreateApplicantResumeForm applicantForm = new CreateApplicantResumeForm();
+            applicantForm.addWindowListener(this);
+            applicantForm.setVisible(true);
+        }
     }
 
     @Override
     public void tableChanged(TableModelEvent e) {
         try {
-            tblConvocatory.setModel(new ResultsetTableModel(new UserModel().read(), R.SRT_USERS_COLUMNS, this));
-            tblConvocatory.updateUI();
+            tblUsers.setModel(new ResultsetTableModel(new ApplicantModel().read(), R.STR_APPLICANT_COLUMNS, this));
+            tblUsers.updateUI();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
@@ -102,9 +108,9 @@ public class ConvocatoryForm extends JFrame implements ActionListener, TableMode
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == tblConvocatory) {
-            int row = tblConvocatory.getSelectedRow();
-            Integer id = (Integer) tblConvocatory.getValueAt(row, 0);
+        if (e.getSource() == tblUsers) {
+            int row = tblUsers.getSelectedRow();
+            Integer id = (Integer) tblUsers.getValueAt(row, 0);
             CreateUserForm userForm = new CreateUserForm(id);
             userForm.fillForm();
             userForm.addWindowListener(this);
@@ -139,7 +145,7 @@ public class ConvocatoryForm extends JFrame implements ActionListener, TableMode
     @Override
     public void windowClosed(WindowEvent e) {
         if (e.getSource() instanceof CreateUserForm) {
-            ResultsetTableModel rm = (ResultsetTableModel) tblConvocatory.getModel();
+            ResultsetTableModel rm = (ResultsetTableModel) tblUsers.getModel();
             rm.fireTableDataChanged();
         }
     }

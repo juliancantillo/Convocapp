@@ -4,6 +4,7 @@ import dbhandler.DBConnector;
 import entities.Convocatory;
 import entities.Municipios;
 import entities.User;
+import entities.Role;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,9 +29,7 @@ public class UserModel implements Model {
     @Override
     public int create(Object obj) throws SQLException {
         User user = (User) obj;
-        int id = 0; //st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
-        user.setId(id);
-        String insert = String.format("INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`, `active`) VALUES ('%s', '%s', MD5('%s'), '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+        String insert = String.format("INSERT INTO `user` (`identification`, `username`, `password`, `email`, `firstname`, `lastname`, `address`, `phone`, `cellphone`, `active`, `roles_id`) VALUES ('%s', '%s', MD5('%s'), '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s);",
                 user.getIdentification(),
                 user.getUsername(),
                 user.getPassword(),
@@ -40,12 +39,12 @@ public class UserModel implements Model {
                 user.getAddress(),
                 user.getPhone(),
                 user.getCellphone(),
-                user.getActive()
+                user.getActive(),
+                user.getRoleId()
         );
 
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        st.executeUpdate(insert);
-        return id;
+        return st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
     }
 
     @Override
@@ -66,13 +65,15 @@ public class UserModel implements Model {
 
         String sql = String.format("SELECT * FROM user WHERE user.id = '%s'", id);
 
-        String rolesSql = String.format("SELECT r.id, r.name FROM roles as r LEFT OUTER JOIN user_has_roles as uhr ON uhr.roles_id = r.id AND uhr.user_id = '%s'", id);
-
         Statement st;
         st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = st.executeQuery(sql);
 
         if (rs.first()) {
+            
+            RoleModel rolModel = new RoleModel();
+            Role rol = rolModel.read( rs.getInt("roles_id") );
+            
             user = new User(
                     rs.getInt("id"),
                     rs.getInt("active"),
@@ -95,21 +96,21 @@ public class UserModel implements Model {
         return user;
     }
 
-    public Vector<Convocatory> readConvocatory(int state) throws SQLException {
+    public Vector<Convocatory> readConvocatory(int start_date) throws SQLException {
         Convocatory user = null;
         String sql = "";
-        /*Si state == 3 entoces extrae todas las convocatoria
-         Si state == 0 entoces extrae todas las convocatoria no activa
-         Si state == 1 entoces extrae todas las convocatoria activa
+        /*Si start_date == 3 entoces extrae todas las convocatoria
+         Si start_date == 0 entoces extrae todas las convocatoria no activa
+         Si start_date == 1 entoces extrae todas las convocatoria activa
          */
-        if (state == 3) {
+        if (start_date == 3) {
             sql = String.format("SELECT * FROM `convocatory`");
         }
-        if (state == 0) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE state = 0");
+        if (start_date == 0) {
+            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 0");
         }
-        if (state == 1) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE state = 1");
+        if (start_date == 1) {
+            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 1");
         }
 
         Vector<Convocatory> arrayconvocatory = new Vector<>();
@@ -122,10 +123,10 @@ public class UserModel implements Model {
             user = new Convocatory(
                     rs.getInt("identificacion"),
                     rs.getString("name"),
-                    rs.getBoolean("state"),
-                    rs.getTimestamp("open_time"),
-                    rs.getTimestamp("closet_time"),
-                    rs.getTimestamp("publication_date")
+                    rs.getBoolean("start_date"),
+                    rs.getDate("start_time"),
+                    rs.getDate("end_time"),
+                    rs.getDate("publishing_date")
             );
 
             arrayconvocatory.add(user);
@@ -137,9 +138,9 @@ public class UserModel implements Model {
     public Vector<Municipios> readMunicipios() throws SQLException {
         Municipios user = null;
         String sql = "";
-        /*Si state == 3 entoces extrae todas las convocatoria
-         Si state == 0 entoces extrae todas las convocatoria no activa
-         Si state == 1 entoces extrae todas las convocatoria activa
+        /*Si start_date == 3 entoces extrae todas las convocatoria
+         Si start_date == 0 entoces extrae todas las convocatoria no activa
+         Si start_date == 1 entoces extrae todas las convocatoria activa
          */
 
         sql = String.format("SELECT * FROM `municipio` ");
@@ -235,6 +236,7 @@ public class UserModel implements Model {
                     rs.getString("address"),
                     rs.getString("phone"),
                     rs.getString("cellphone"),
+                    rs.getInt("roles_id"),
                     rs.getTimestamp("create_time"),
                     rs.getTimestamp("update_time")
             );
@@ -242,37 +244,47 @@ public class UserModel implements Model {
 
         return user;
     }
-
+    
     public int createConvocatory(Object obj) throws SQLException {
+
+        //TODO: Remove from this class, this belongs to ConvocatoryModel Class!
         Convocatory convocatory = (Convocatory) obj;
-        String sql = String.format("INSERT INTO `convocatory`(`name`,`open_time`,`closet_time`,`state`,`publication_date`) VALUES ('%s', '%s', '%s', '%s', '%s');",
+
+        String sql = String.format("INSERT INTO `convocatory`(`name`,`start_date`,`end_date`,`active`,`publishing_date`,`description`) VALUES ('%s', '%s', '%s', %s, '%s','%s');",
                 convocatory.getName_convocatory(),
                 convocatory.getOpen_time(),
                 convocatory.getCloset_time(),
                 convocatory.isState(),
-                convocatory.getPublicacion_time()
+                convocatory.getPublicacion_time(),
+                convocatory.getDescription()
         );
-        System.out.println("Inser convocatoria " + sql);
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         st.executeUpdate(sql);
 
         return 0;
     }
 
-    public int getRolusuer(User usuario) throws SQLException {
+    /**
+     * 
+     * @author Mauro Castillo
+     * @param usuario
+     * @return int rol_id
+     * @throws SQLException 
+     */
+    public int getUserRole(User usuario) throws SQLException {
         /*Mauro Castillo
          Esta funcion recibe un objeto de tipo usuario y retorna su roll en el sistema*/
         int id_usuario = usuario.getId();
-        int Rol_del_usurio = 0;
-        String sql = String.format("SELECT roles_id FROM user_has_roles WHERE user_has_roles.user_id = %s", id_usuario);
+        int userRole = 0;
+        String sql = String.format("SELECT roles.* FROM roles, user WHERE user.id = %s AND roles.id = user.roles_id", id_usuario);
 
         Statement st;
         st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = st.executeQuery(sql);
         if (rs.first()) {
-            Rol_del_usurio = rs.getInt("roles_id");
+            userRole = rs.getInt("roles_id");
         }
-        return Rol_del_usurio;
+        return userRole;
     }
 
 }
