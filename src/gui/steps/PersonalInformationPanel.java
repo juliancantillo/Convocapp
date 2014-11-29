@@ -9,10 +9,8 @@ import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
-import java.text.NumberFormat;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -305,16 +303,21 @@ public class PersonalInformationPanel extends JPanel {
     
     public boolean validateForm(){
         
-        return ValidationHelper.validate(fldIdentification, ValidationHelper.NUMBERS_ONLY) ||
-        ValidationHelper.validate(fldEmail, ValidationHelper.LETTERS_ONLY) ||
-        ValidationHelper.validate(fldFirstname, ValidationHelper.LETTERS_ONLY) ||
-        ValidationHelper.validate(fldLastname, ValidationHelper.LETTERS_ONLY) ||
-        ValidationHelper.validate(fldAddress, ValidationHelper.LETTERS_ONLY) ||
-        ValidationHelper.validate(fldPhone, ValidationHelper.NUMBERS_ONLY) ||
-        ValidationHelper.validate(fldCellphone, ValidationHelper.NUMBERS_ONLY) ||
-        ValidationHelper.validate(fldCompany, ValidationHelper.LETTERS_ONLY) ||
-        ValidationHelper.validate(fldCompanyAddress, ValidationHelper.LETTERS_ONLY) ||
-        ValidationHelper.validate(fldCompanyPhone, ValidationHelper.NUMBERS_ONLY);
+        return ValidationHelper.validate(fldIdentification, ValidationHelper.NUMBERS_ONLY) &&
+        ValidationHelper.validate(fldEmail, ValidationHelper.EMAIL) &&
+        ValidationHelper.validate(fldFirstname, ValidationHelper.LETTERS_ONLY) &&
+        ValidationHelper.validate(fldLastname, ValidationHelper.LETTERS_ONLY) &&
+        ValidationHelper.validate(fldAddress, ValidationHelper.LETTERS_ONLY) &&
+        ValidationHelper.validate(fldPhone, ValidationHelper.NUMBERS_ONLY) &&
+        ValidationHelper.validate(fldCellphone, ValidationHelper.NUMBERS_ONLY) &&
+        ValidationHelper.validate(fldCompany, ValidationHelper.LETTERS_ONLY) &&
+        ValidationHelper.validate(fldCompanyAddress, ValidationHelper.LETTERS_ONLY) &&
+        ValidationHelper.validate(fldCompanyPhone, ValidationHelper.NUMBERS_ONLY) &&
+        ValidationHelper.validate(slctCity, ValidationHelper.REQUIRED) &&
+        ValidationHelper.validate(slctCompanyCity, ValidationHelper.REQUIRED) &&
+        ValidationHelper.validate(slctSex, ValidationHelper.REQUIRED) &&
+        ValidationHelper.validate(slctWorkingTime, ValidationHelper.REQUIRED)
+                ;
         
     }
 

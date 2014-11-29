@@ -3,6 +3,8 @@ package resources;
 import helpers.Item;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  * Universidad del Valle Desarrollo de Software
@@ -14,8 +16,7 @@ public class R {
     public static final int GAP = 10, H = 10, W = 10;
 
     // String constans
-    public static final 
-            String STR_LOGIN_FORM_TITLE = "Ingreso de Usuarios",
+    public static final String STR_LOGIN_FORM_TITLE = "Ingreso de Usuarios",
             STR_NEW_CONVOCATORY = "Crear nueva convocatoria",
             STR_USER = "Usuario",
             STR_USERS_MANAGEMENT = "Administración de Usuarios",
@@ -29,10 +30,10 @@ public class R {
             STR_CANCEL = "Cancelar",
             STR_ID = "Id",
             STR_CALL_NAME = "Nombre De la convocatoria",
-            STR_START_DATE= "Fecha de inicio",
-            STR_END_DATE= "Fecha de finalización",
-            STR_PUBLISH_DATE= "Fecha de publiciación",
-            STR_STATUS= "Estado",
+            STR_START_DATE = "Fecha de inicio",
+            STR_END_DATE = "Fecha de finalización",
+            STR_PUBLISH_DATE = "Fecha de publiciación",
+            STR_STATUS = "Estado",
             STR_IDENTIFICATION = "Cédula",
             STR_FOREING_IDENTIFICATION = "Cédula de Extranjería",
             STR_PASSPORT = "Pasaporte",
@@ -90,7 +91,17 @@ public class R {
             STR_WORK_INFO = "Información Laboral",
             STR_DAY_NIGHT = "Ambos",
             STR_NEXT = "Siguiente",
-            STR_PREV = "Anterior";
+            STR_PREV = "Anterior",
+            STR_DEGREE  = "Título",
+            STR_DEGREE_TYPE  = "Tipo de título",
+            STR_INSTITUTION_NAME = "Institución",
+            STR_INSTITUTION_CITY = "Ciudad",
+            STR_TITLE = "Título",
+            STR_GRADUATE_YEAR = "Año de Grado",
+            STR_NOTES = "Notas",
+            STR_DEGREE_INFO = "Información Académica",
+            STR_ADD = "Agregar",
+            STR_REMOVE = "Remover";
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
@@ -101,13 +112,12 @@ public class R {
             ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacío, por favor ingrese su información de logueo";
 
     // Columns Names
-    public static String[] STR_APPLICANT_COLUMNS = { STR_ID, STR_IDENTIFICATION, STR_FULLNAME, STR_COMPANY, STR_CITY, STR_CREATED_BY, STR_TOTAL_SCORE, STR_VERIFIED };
-    public static String[] STR_APPLICANT_COLUMNS_FULL = { STR_ID, STR_IDENTIFICATION, STR_IDENTIFICATION_TYPE, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_BIRTHDATE, STR_SEX, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_COMPANY, STR_COMPANY_CITY, STR_COMPANY_ADDRESS, STR_COMPANY_PHONE, STR_WORKING_TIME, STR_ACTIVE, STR_CITY, STR_CREATED_BY, STR_CREATE_TIME, STR_UPDATE_TIME, STR_TOTAL_SCORE, STR_VERIFIED };
+    public static String[] STR_APPLICANT_COLUMNS = {STR_ID, STR_IDENTIFICATION, STR_FULLNAME, STR_COMPANY, STR_CITY, STR_CREATED_BY, STR_TOTAL_SCORE, STR_VERIFIED};
+    public static String[] STR_APPLICANT_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_IDENTIFICATION_TYPE, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_BIRTHDATE, STR_SEX, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_COMPANY, STR_COMPANY_CITY, STR_COMPANY_ADDRESS, STR_COMPANY_PHONE, STR_WORKING_TIME, STR_ACTIVE, STR_CITY, STR_CREATED_BY, STR_CREATE_TIME, STR_UPDATE_TIME, STR_TOTAL_SCORE, STR_VERIFIED};
     public static String[] SRT_USERS_COLUMNS = {STR_ID, STR_FIRSTNAME, STR_LASTNAME, STR_EMAIL, STR_ACTIVE};
     public static String[] SRT_USERS_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_USERNAME, STR_PASSWORD, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
-    public static String[] SRT_CONVOCATORY_COLUMNS = { STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE };
-    public static String[] SRT_CONVOCATORY_COLUMNS_FULL = { STR_ID, STR_NAME, STR_DESCRIPTION, STR_START_DATE, STR_END_DATE, STR_PUBLISHING_DATE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME };
-    
+    public static String[] SRT_CONVOCATORY_COLUMNS = {STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE};
+    public static String[] SRT_CONVOCATORY_COLUMNS_FULL = {STR_ID, STR_NAME, STR_DESCRIPTION, STR_START_DATE, STR_END_DATE, STR_PUBLISHING_DATE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
 
     // Commands Constans
     public static final String CMD_NEW_CONVOCATORY = "CMD_NEW_CONVOCATORY";
@@ -148,7 +158,7 @@ public class R {
     public static final ImageIcon ICON_PIN_SMALL = getIcon("pin-24x24.png");
     public static final ImageIcon ICON_APPLICANT = getIcon("applicant.png");
     public static final ImageIcon ICON_APPLICANT_SMALL = getIcon("applicant-24x24.png");
-    
+
     public static String VALIDATION_LETTERS_ONLY = "En %s solo se permiten letras";
     public static String VALIDATION_VALUE_NOT_ALLOWED = "En %s valor no permitido";
 
@@ -160,24 +170,29 @@ public class R {
         }
         return new ImageIcon(resource);
     }
-    
+
     public static final Object[] LIST_IDENTIFICATION_TYPES = {
         new Item("", R.STR_NULL_SELECTION),
         new Item("C.C.", R.STR_IDENTIFICATION),
         new Item("C.E.", R.STR_FOREING_IDENTIFICATION),
         new Item("P", R.STR_PASSPORT)
     };
-    
+
     public static final Object[] LIST_SEX_VALUES = {
         new Item("", R.STR_NULL_SELECTION),
         new Item("M", R.STR_MALE),
         new Item("F", R.STR_FEMME)
     };
-    
-        public static final Object[] LIST_WORK_TIME_VALUES = {
+
+    public static final Object[] LIST_WORK_TIME_VALUES = {
         new Item("", R.STR_NULL_SELECTION),
         new Item("DIURNO", R.STR_DAY),
         new Item("NOCTURNO", R.STR_NIGHT),
         new Item("AMBOS", R.STR_DAY_NIGHT)
     };
+
+    public static final Border getDefaultBorder() {
+        JTextField fld = new JTextField();
+        return fld.getBorder();
+    }
 }

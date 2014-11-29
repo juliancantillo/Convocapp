@@ -1,5 +1,6 @@
 package gui.forms;
 
+import gui.steps.DegreeInformationPanel;
 import gui.steps.PersonalInformationPanel;
 import helpers.ButtonsFactory;
 import java.awt.BorderLayout;
@@ -20,6 +21,7 @@ import resources.R;
 public class CreateApplicantResumeForm extends JFrame implements ActionListener, KeyListener{
 
     private PersonalInformationPanel personalInformationPanel;
+    private DegreeInformationPanel degreeInformationPanel;
     private JPanel cards;
     private CardLayout cardsLayout;
     private int currentStep = 0;
@@ -37,6 +39,7 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
         setLayout(new BorderLayout(R.H, R.W));
         
         personalInformationPanel = new PersonalInformationPanel(this);
+        degreeInformationPanel = new DegreeInformationPanel();
         cards = cardsPanel();
         
         
@@ -51,6 +54,7 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
         pnlCards.setLayout(cardsLayout);
         
         pnlCards.add( personalInformationPanel, R.STR_PERSONAL_INFO);
+        pnlCards.add( degreeInformationPanel, R.STR_DEGREE_INFO);
         
         cardsLayout.first(pnlCards);
         return pnlCards;
@@ -81,6 +85,10 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
     public void actionPerformed(ActionEvent e) {
         if( e.getActionCommand().equals(R.STR_NEXT)){
             System.out.print(personalInformationPanel.validateForm());
+            cardsLayout.next(cards);
+        }
+        if( e.getActionCommand().equals(R.STR_PREV) ){
+            cardsLayout.previous(cards);
         }
     }
     

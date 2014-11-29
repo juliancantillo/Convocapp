@@ -15,7 +15,7 @@ import java.sql.Statement;
  */
 public class LocationModel implements Model{
     
-private final Connection conn;
+    private final Connection conn;
     private final DBConnector dbc;
 
     public LocationModel() {
