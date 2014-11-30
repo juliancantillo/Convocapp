@@ -2,15 +2,12 @@ package dbhandler.dao;
 
 import dbhandler.DBConnector;
 import entities.Convocatory;
-import entities.Municipios;
 import entities.User;
 import entities.Role;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
-
 /**
  * Universidad del Valle Desarrollo de Software
  *
@@ -95,75 +92,6 @@ public class UserModel implements Model {
 
         return user;
     }
-
-    public Vector<Convocatory> readConvocatory(int start_date) throws SQLException {
-        Convocatory user = null;
-        String sql = "";
-        /*Si start_date == 3 entoces extrae todas las convocatoria
-         Si start_date == 0 entoces extrae todas las convocatoria no activa
-         Si start_date == 1 entoces extrae todas las convocatoria activa
-         */
-        if (start_date == 3) {
-            sql = String.format("SELECT * FROM `convocatory`");
-        }
-        if (start_date == 0) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 0");
-        }
-        if (start_date == 1) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 1");
-        }
-
-        Vector<Convocatory> arrayconvocatory = new Vector<>();
-
-        Statement st;
-        st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = st.executeQuery(sql);
-
-        while (rs.next()) {
-            user = new Convocatory(
-                    rs.getInt("identificacion"),
-                    rs.getString("name"),
-                    rs.getBoolean("start_date"),
-                    rs.getDate("start_time"),
-                    rs.getDate("end_time"),
-                    rs.getDate("publishing_date")
-            );
-
-            arrayconvocatory.add(user);
-        }
-
-        return arrayconvocatory;
-    }
-
-    public Vector<Municipios> readMunicipios() throws SQLException {
-        Municipios user = null;
-        String sql = "";
-        /*Si start_date == 3 entoces extrae todas las convocatoria
-         Si start_date == 0 entoces extrae todas las convocatoria no activa
-         Si start_date == 1 entoces extrae todas las convocatoria activa
-         */
-
-        sql = String.format("SELECT * FROM `municipio` ");
-
-        Vector<Municipios> arrayconvocatory = new Vector<>();
-
-        Statement st;
-        st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = st.executeQuery(sql);
-
-        while (rs.next()) {
-            user = new Municipios(
-                    rs.getInt("idmunicipio"),
-                    rs.getString("nombreMunicipio")
- 
-            );
-
-            arrayconvocatory.add(user);
-        }
-
-        return arrayconvocatory;
-    }
-
     @Override
     public void update(Object obj) throws SQLException {
         User user = (User) obj;
@@ -245,25 +173,6 @@ public class UserModel implements Model {
         return user;
     }
     
-    public int createConvocatory(Object obj) throws SQLException {
-
-        //TODO: Remove from this class, this belongs to ConvocatoryModel Class!
-        Convocatory convocatory = (Convocatory) obj;
-
-        String sql = String.format("INSERT INTO `convocatory`(`name`,`start_date`,`end_date`,`active`,`publishing_date`,`description`) VALUES ('%s', '%s', '%s', %s, '%s','%s');",
-                convocatory.getName_convocatory(),
-                convocatory.getOpen_time(),
-                convocatory.getCloset_time(),
-                convocatory.isState(),
-                convocatory.getPublicacion_time(),
-                convocatory.getDescription()
-        );
-        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        st.executeUpdate(sql);
-
-        return 0;
-    }
-
     /**
      * 
      * @author Mauro Castillo

@@ -5,13 +5,11 @@
  */
 package gui.forms;
 
+import dbhandler.dao.ConvocatoryModel;
 import resources.R;
 import entities.Convocatory;
-import dbhandler.dao.UserModel;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import resources.Exceptionform;
 
@@ -233,34 +231,31 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
             Date stPubilcdate;
             stdescription = taDescription.getText();
             stNameconvocatory = tfnameconvocatory.getText();
- /*-_-_-_-Bloque de excepciones*/
+            /*-_-_-_-Bloque de excepciones*/
             Exceptionform.Fechavacia(dtstart.getDate());
             Exceptionform.Fechavacia(dtend.getDate());
             Exceptionform.Fechavacia(dtpublicher.getDate());
-            
-            Exceptionform.Fechacorrespondencia(dtend.getDate(),dtstart.getDate());
-            Exceptionform.Fechacorrespondencia(dtpublicher.getDate(),dtend.getDate());
-            
+
+            Exceptionform.Fechacorrespondencia(dtend.getDate(), dtstart.getDate());
+            Exceptionform.Fechacorrespondencia(dtpublicher.getDate(), dtend.getDate());
+
             Exceptionform.campoVacio(tfnameconvocatory);
- /*_-_-_-_-Fin Bloque Excepciones*/
+            /*_-_-_-_-Fin Bloque Excepciones*/
             stStartdate = new java.sql.Date(dtstart.getDate().getTime());
             stEnddate = new java.sql.Date(dtend.getDate().getTime());
             stPubilcdate = new java.sql.Date(dtpublicher.getDate().getTime());
 
-            
-
             Convocatory convocatoria = new Convocatory(stNameconvocatory, true, stStartdate, stEnddate, stPubilcdate, stdescription);
             /*Crea convocatoria*/
-            UserModel usermodel = new UserModel();
-            usermodel.createConvocatory(convocatoria);
+            ConvocatoryModel concocatorymodel = new ConvocatoryModel();
+            concocatorymodel.create(convocatoria);
             /*mensaje fin de la convocatoria*/
             clear();
             JOptionPane.showMessageDialog(this, R.STR_CONVOCATORY_ADD);
-        }
-        catch (SQLException ex) {
-                System.out.println("Error Sql al guardar la convocatoria " + ex);
-                clear();
-            }catch (Exception ex) {
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+            clear();
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex);
         }
     }//GEN-LAST:event_btnewconvocatoryActionPerformed
