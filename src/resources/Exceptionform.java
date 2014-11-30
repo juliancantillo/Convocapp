@@ -18,21 +18,21 @@ public class Exceptionform extends Exception {
         super(name);
     }
 
-    public static void campoVacio(JTextField text) throws Exception {
+    public static void fieldEmpty(JTextField text) throws Exception {
         String test = text.getText();
         if (!test.equals("") && !test.isEmpty()) {
         } else {
-            throw new Exception(R.EXCEPTION_EMPETY);
+            throw new Exception(R.EXCEPTION_EMPTY);
         }
     }
 
-    public static void Fechavacia(Date date) throws Exception {
+    public static void dateEmpty(Date date) throws Exception {
         if (date == null) {
-            throw new Exception(R.EXCEPTION_DATE_EMPETY);
+            throw new Exception(R.EXCEPTION_DATE_EMPTY);
         }
     }
 
-    public static void Fechacorrespondencia(Date mayor, Date menor) throws Exception {
+    public static void correctDate(Date mayor, Date menor) throws Exception {
        int test = mayor.compareTo(menor);
         if (test != 1 || test == 0) {
             throw new Exception(R.EXCEPTION_DATE_ERROR);

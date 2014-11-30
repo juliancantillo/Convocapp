@@ -7,7 +7,6 @@ package gui.forms;
 
 import dbhandler.dao.RoleModel;
 import dbhandler.dao.UserModel;
-import entities.Role;
 import entities.User;
 import helpers.GBHelper;
 import helpers.Gap;
@@ -19,8 +18,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -36,6 +33,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import resources.Exceptionform;
 import resources.R;
 
 /**
@@ -71,14 +69,14 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         setTitle(R.STR_EDIT_USER);
         this.editMode = true;
         this.userId = userId;
-        
+
         try {
             UserModel userModel = new UserModel();
             user = userModel.read(userId);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
-        
+
         initForm();
     }
 
@@ -104,9 +102,9 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         fldAddress = new JTextField();
         fldPhone = new JTextField();
         fldCellphone = new JTextField();
-        
+
         try {
-            slctRol = new JComboBox<>( new RoleModel().toArray() );
+            slctRol = new JComboBox<>(new RoleModel().toArray());
         } catch (SQLException ex) {
             slctRol = new JComboBox<>();
         }
@@ -204,9 +202,9 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         panel.add(lblPhone, pos.nextRow());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(fldPhone, pos.nextCol().width(3).expandW());
-        
+
         panel.add(new Gap(R.GAP), pos.nextCol().nextCol().nextCol());
-        
+
         panel.add(lblCellphone, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(fldCellphone, pos.nextCol().expandW());
@@ -218,9 +216,9 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         panel.add(radioActive, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(radioInactive, pos.nextCol());
-        
+
         panel.add(new Gap(R.GAP), pos.nextCol());
-        
+
         panel.add(lblRole, pos.nextCol());
         panel.add(new Gap(R.GAP), pos.nextCol());
         panel.add(slctRol, pos.nextCol().expandW());
@@ -284,74 +282,88 @@ public class CreateUserForm extends JFrame implements ActionListener, KeyListene
         btnCancel.setActionCommand(R.CMD_CANCEL);
         btnCancel.addActionListener(this);
 
-        if(editMode){
+        if (editMode) {
             panel.add(btnDeleteUser);
         }
         panel.add(btnSaveUser);
         panel.add(btnCancel);
-        
+
         return panel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
-            /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
-            UserModel userModel = new UserModel();
-            User newUser = createNewUser();
+        try {
+            //Bloque de excepciones
 
-            try {
-                userModel.create(newUser);
-                JOptionPane.showMessageDialog(this, String.format(R.STR_SAVE_SUCCESS, newUser.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
-                dispose();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, String.format(R.ERROR_SAVE_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        if (e.getActionCommand().equals(R.CMD_SAVE)) {
-            UserModel userModel = new UserModel();
-            user = createNewUser();
-            
-            try {
-                userModel.update(user);
-                JOptionPane.showMessageDialog(this, String.format(R.STR_UPDATE_SUCCESS, user.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        if (e.getActionCommand().equals(R.CMD_DELETE)) {
-            UserModel userModel = new UserModel();
+            Exceptionform.fieldEmpty(fldAddress);
+            Exceptionform.fieldEmpty(fldLastname);
+            Exceptionform.fieldEmpty(fldFirstname);
+            Exceptionform.fieldEmpty(fldUsername);
+            Exceptionform.fieldEmpty(fldIdentification);
 
-            int confirm = JOptionPane.showConfirmDialog(this, String.format(R.STR_DELETE_CONFIRMATION, user.toString()), R.STR_DELETE, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if(confirm == JOptionPane.YES_OPTION){
+            //Bloque de excepciones
+            if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
+                /*Llama a la funcion que toma los nombres del los texfield y los guarda en la base de datos*/
+                UserModel userModel = new UserModel();
+                User newUser = createNewUser();
+
                 try {
-                    userModel.delete(userId);
+                    userModel.create(newUser);
+                    JOptionPane.showMessageDialog(this, String.format(R.STR_SAVE_SUCCESS, newUser.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, String.format(R.ERROR_DELETE_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, String.format(R.ERROR_SAVE_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }
-        if (e.getActionCommand().equals(R.CMD_CANCEL)) {
-            dispose();
+            if (e.getActionCommand().equals(R.CMD_SAVE)) {
+                UserModel userModel = new UserModel();
+                user = createNewUser();
+
+                try {
+                    userModel.update(user);
+                    JOptionPane.showMessageDialog(this, String.format(R.STR_UPDATE_SUCCESS, user.toString()), R.STR_SUCCESS, JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            if (e.getActionCommand().equals(R.CMD_DELETE)) {
+                UserModel userModel = new UserModel();
+
+                int confirm = JOptionPane.showConfirmDialog(this, String.format(R.STR_DELETE_CONFIRMATION, user.toString()), R.STR_DELETE, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        userModel.delete(userId);
+                        dispose();
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(this, String.format(R.ERROR_DELETE_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            if (e.getActionCommand().equals(R.CMD_CANCEL)) {
+                dispose();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex);
         }
     }
 
     private User createNewUser() {
         /*Agrega al nuevo usuario a la base de datos
          */
-        User newUser = user;
-        newUser.setUsername(fldUsername.getText());
-        newUser.setPassword( String.valueOf(fldPassword.getPassword()) );
-        newUser.setIdentification(fldIdentification.getText());
-        newUser.setEmail(fldEmail.getText());
-        newUser.setFirstname(fldFirstname.getText());
-        newUser.setLastname(fldLastname.getText());
-        newUser.setAddress(fldAddress.getText());
-        newUser.setPhone(fldPhone.getText());
-        newUser.setCellphone(fldCellphone.getText());
-        newUser.setActive(radioActive.isSelected());
+        User newUser = new User();
 
+            newUser.setUsername(fldUsername.getText());
+            newUser.setPassword(String.valueOf(fldPassword.getPassword()));
+            newUser.setIdentification(fldIdentification.getText());
+            newUser.setEmail(fldEmail.getText());
+            newUser.setFirstname(fldFirstname.getText());
+            newUser.setLastname(fldLastname.getText());
+            newUser.setAddress(fldAddress.getText());
+            newUser.setPhone(fldPhone.getText());
+            newUser.setCellphone(fldCellphone.getText());
+            newUser.setActive(radioActive.isSelected());
+        
         return newUser;
     }
 

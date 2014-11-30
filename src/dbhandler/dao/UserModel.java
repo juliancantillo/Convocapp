@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 /**
  * Universidad del Valle Desarrollo de Software
  *
@@ -149,6 +150,7 @@ public class UserModel implements Model {
 
         Statement st;
         st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
         ResultSet rs = st.executeQuery(sql);
 
         if (rs.first()) {
@@ -169,7 +171,7 @@ public class UserModel implements Model {
                     rs.getTimestamp("update_time")
             );
         }
-
+       
         return user;
     }
     
