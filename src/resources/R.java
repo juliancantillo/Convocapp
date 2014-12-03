@@ -1,8 +1,10 @@
 package resources;
 
 import helpers.Item;
+import java.awt.Component;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -80,6 +82,7 @@ public class R {
             STR_CITY = "Ciudad",
             STR_CREATED_BY = "Ingresado por",
             STR_TOTAL_SCORE = "Puntaje Total",
+            STR_SCORE = "Puntaje",
             STR_FULLNAME = "Nombre Completo",
             STR_VERIFIED = "Verificado",
             STR_NEW_APPLICANT = "Nuevo Aspirante",
@@ -118,6 +121,7 @@ public class R {
     public static String[] SRT_USERS_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_USERNAME, STR_PASSWORD, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
     public static String[] SRT_CONVOCATORY_COLUMNS = {STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE};
     public static String[] SRT_CONVOCATORY_COLUMNS_FULL = {STR_ID, STR_NAME, STR_DESCRIPTION, STR_START_DATE, STR_END_DATE, STR_PUBLISHING_DATE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
+    public static String[] SRT_DEGREE_COLUMNS = {STR_ID, STR_SCORE, STR_TITLE, STR_INSTITUTION_NAME, STR_GRADUATE_YEAR };
 
     // Commands Constans
     public static final String CMD_NEW_CONVOCATORY = "CMD_NEW_CONVOCATORY";
@@ -194,5 +198,20 @@ public class R {
     public static final Border getDefaultBorder() {
         JTextField fld = new JTextField();
         return fld.getBorder();
+    }
+    
+    public static final void showErrorMessage(Component parent, String message){
+        JOptionPane.showMessageDialog(parent, String.format(R.ERROR_SAVE_FAILS, message), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public static final Object getItemFromList(String key, Object[] list){
+        for (Object object : list) {
+            Item item = (Item) object;
+            if (item.getKey().equals(key)) {
+                return item;
+            }
+        }
+        
+        return null;
     }
 }

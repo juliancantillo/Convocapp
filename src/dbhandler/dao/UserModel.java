@@ -214,7 +214,7 @@ public class UserModel implements Model {
 
     }
 
-    public User getByCredentials(String username, String password) throws SQLException {
+    public User getByCredentials(String username, String password) throws SQLException, NullPointerException {
         User user = null;
 
         String sql = String.format("SELECT * FROM user WHERE user.username = '%s' AND user.password = MD5('%s') AND user.active = 1", username, password);
