@@ -108,9 +108,9 @@ public class R {
             STR_ADD = "Agregar",
             STR_REMOVE = "Remover";
     //Excepciones
-    public static final String EXCEPTION_EMPTY = "Hay un campo Vacio",
+    public static final String EXCEPTION_EMPETY = "Hay un campo Vacio",
             EXCEPTION_DATE_ERROR = "Fechas ingresadas no validas",
-            EXCEPTION_DATE_EMPTY = "Campo de fecha Vacio";
+            EXCEPTION_DATE_EMPETY = "Campo de fecha Vacio";
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
             ERROR_LOGIN_FAILS = "Error al iniciar sesión.\n\nDescipción: %s",

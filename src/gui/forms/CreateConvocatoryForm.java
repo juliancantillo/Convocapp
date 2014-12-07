@@ -263,15 +263,14 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
             stdescription = taDescription.getText();
             stNameconvocatory = tfnameconvocatory.getText();
             /*-_-_-_-Bloque de excepciones*/
-            Exceptionform.dateEmpty(dtstart.getDate());
-            Exceptionform.dateEmpty(dtend.getDate());
-            Exceptionform.dateEmpty(dtpublicher.getDate());
+            Exceptionform.Fechavacia(dtstart.getDate());
+            Exceptionform.Fechavacia(dtend.getDate());
+            Exceptionform.Fechavacia(dtpublicher.getDate());
 
-            Exceptionform.correctDate(dtend.getDate(), dtstart.getDate());
-            Exceptionform.correctDate(dtpublicher.getDate(), dtend.getDate());
+            Exceptionform.Fechacorrespondencia(dtend.getDate(), dtstart.getDate());
+            Exceptionform.Fechacorrespondencia(dtpublicher.getDate(), dtend.getDate());
 
-            Exceptionform.fieldEmpty(tfnameconvocatory);
-            
+            Exceptionform.campoVacio(tfnameconvocatory);
             /*_-_-_-_-Fin Bloque Excepciones*/
             stStartdate = new java.sql.Date(dtstart.getDate().getTime());
             stEnddate = new java.sql.Date(dtend.getDate().getTime());
