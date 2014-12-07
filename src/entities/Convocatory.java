@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package entities;
-
 import java.sql.Date;
 
 /**
@@ -13,19 +12,18 @@ import java.sql.Date;
  */
 public class Convocatory {
 
-    private String name_convocatory, description;
+    private String name_convocatory,description;
     private int id_convocatory;
     private boolean state;
     private Date open_time, closet_time, publicacion_time;
 
-    public Convocatory(int id_convocatory, String name_convocatory, boolean state, Date open_time, Date closet_time, Date publicacion_time, String description) {
+    public Convocatory(int id_convocatory,String name_convocatory, boolean state, Date open_time, Date closet_time, Date publicacion_time) {
         this.name_convocatory = name_convocatory;
         this.id_convocatory = id_convocatory;
         this.state = state;
         this.open_time = open_time;
         this.closet_time = closet_time;
         this.publicacion_time = publicacion_time;
-        this.description = description;
     }
 
     public Convocatory(String name_convocatory, boolean state, Date open_time, Date closet_time, Date publicacion_time, String description) {
@@ -45,6 +43,8 @@ public class Convocatory {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 
     public void setState(boolean state) {
         this.state = state;
