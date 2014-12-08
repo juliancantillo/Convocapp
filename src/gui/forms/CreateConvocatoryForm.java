@@ -5,15 +5,25 @@
  */
 package gui.forms;
 
+import dbhandler.DBConnector;
 import resources.R;
 import entities.Convocatory;
 import dbhandler.dao.UserModel;
 import java.sql.SQLException;
 import java.sql.Date;
+
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import resources.Exceptionform;
+import dbhandler.DBConnector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import resources.Exceptionform;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -48,7 +58,13 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
 
     }
 
-    public void close() {
+    public void close() throws JRException {
+        DBConnector con = new DBConnector();
+     
+        String dir = "C:\\Users\\Mauro\\Documents\\GitHub\\Convocapp\\src\\report.jrxml";
+        JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile(dir);
+        JasperPrint mostrar = JasperFillManager.fillReport(reporte, null , con.connect()); 
+        JasperViewer.viewReport(mostrar);
         this.setVisible(false);
         this.dispose();
     }
@@ -220,8 +236,12 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btexitActionPerformed
-        // TODO add your handling code here:
-        close();
+        try {
+            // TODO add your handling code here:
+            close();
+        } catch (JRException ex) {
+            Logger.getLogger(CreateConvocatoryForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btexitActionPerformed
 
     private void btnewconvocatoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnewconvocatoryActionPerformed
