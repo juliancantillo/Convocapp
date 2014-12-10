@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cc00c769-82bf-4451-8d96-021ded9a11c5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     aplicant.`id` AS aplicant_id,
+     aplicant.`identification` AS aplicant_identification,
+     aplicant.`identification_type` AS aplicant_identification_type,
+     aplicant.`email` AS aplicant_email,
+     aplicant.`firstname` AS aplicant_firstname,
+     aplicant.`lastname` AS aplicant_lastname,
+     aplicant.`birthdate` AS aplicant_birthdate,
+     aplicant.`sex` AS aplicant_sex,
+     aplicant.`address` AS aplicant_address,
+     aplicant.`phone` AS aplicant_phone,
+     aplicant.`cellphone` AS aplicant_cellphone,
+     aplicant.`company` AS aplicant_company,
+     aplicant.`company_city_id` AS aplicant_company_city_id,
+     aplicant.`company_address` AS aplicant_company_address,
+     aplicant.`company_phone` AS aplicant_company_phone,
+     aplicant.`working_time` AS aplicant_working_time,
+     aplicant.`active` AS aplicant_active,
+     aplicant.`city_id` AS aplicant_city_id,
+     aplicant.`created_by_id` AS aplicant_created_by_id,
+     aplicant.`create_time` AS aplicant_create_time,
+     aplicant.`update_time` AS aplicant_update_time,
+     aplicant.`totalScore` AS aplicant_totalScore,
+     aplicant_has_course.`aplicant_id` AS aplicant_has_course_aplicant_id,
+     aplicant_has_course.`course_id` AS aplicant_has_course_course_id,
+     aplicant_has_course.`max_score` AS aplicant_has_course_max_score,
+     aplicant_has_degree.`aplicant_id` AS aplicant_has_degree_aplicant_id,
+     aplicant_has_degree.`degree_id` AS aplicant_has_degree_degree_id,
+     aplicant_has_degree.`max_score` AS aplicant_has_degree_max_score,
+     aplicant_has_language.`aplicant_id` AS aplicant_has_language_aplicant_id,
+     aplicant_has_language.`language_id_language` AS aplicant_has_language_language_id_language,
+     aplicant_has_language.`max_score` AS aplicant_has_language_max_score,
+     city.`id` AS city_id,
+     city.`state_id` AS city_state_id,
+     city.`name` AS city_name,
+     city.`code` AS city_code,
+     convocatory.`id` AS convocatory_id,
+     convocatory.`name` AS convocatory_name,
+     convocatory.`description` AS convocatory_description,
+     convocatory.`start_date` AS convocatory_start_date,
+     convocatory.`end_date` AS convocatory_end_date,
+     convocatory.`publishing_date` AS convocatory_publishing_date,
+     convocatory.`active` AS convocatory_active,
+     convocatory.`create_time` AS convocatory_create_time,
+     convocatory.`update_time` AS convocatory_update_time,
+     course.`id` AS course_id,
+     course.`score` AS course_score,
+     degree.`id` AS degree_id,
+     degree.`title` AS degree_title,
+     degree.`type` AS degree_type,
+     degree.`score` AS degree_score,
+     language.`id_language` AS language_id_language,
+     language.`name` AS language_name,
+     language.`read score` AS language_read_score,
+     language.`write score` AS language_write_score,
+     language.`talk score` AS language_talk_score,
+     language.`score` AS language_score,
+     roles.`id` AS roles_id,
+     roles.`name` AS roles_name,
+     roles.`active` AS roles_active,
+     specific_knowledge.`id` AS specific_knowledge_id,
+     specific_knowledge.`informatic` AS specific_knowledge_informatic,
+     specific_knowledge.`web` AS specific_knowledge_web,
+     specific_knowledge.`multimedia` AS specific_knowledge_multimedia,
+     specific_knowledge.`digital_contents` AS specific_knowledge_digital_contents,
+     specific_knowledge.`books_development` AS specific_knowledge_books_development,
+     specific_knowledge.`tic_projects` AS specific_knowledge_tic_projects,
+     specific_knowledge.`competences` AS specific_knowledge_competences,
+     specific_knowledge.`score` AS specific_knowledge_score,
+     specific_knowledge.`aplicant_id` AS specific_knowledge_aplicant_id,
+     state.`id` AS state_id,
+     state.`name` AS state_name,
+     state.`code` AS state_code,
+     tic_trraining_experience.`id` AS tic_trraining_experience_id,
+     tic_trraining_experience.`exp_students` AS tic_trraining_experience_exp_students,
+     tic_trraining_experience.`exp_teachers` AS tic_trraining_experience_exp_teachers,
+     tic_trraining_experience.`exp_trainers` AS tic_trraining_experience_exp_trainers,
+     tic_trraining_experience.`score` AS tic_trraining_experience_score,
+     tic_trraining_experience.`aplicant_id` AS tic_trraining_experience_aplicant_id,
+     user.`id` AS user_id,
+     user.`identification` AS user_identification,
+     user.`username` AS user_username,
+     user.`password` AS user_password,
+     user.`email` AS user_email,
+     user.`firstname` AS user_firstname,
+     user.`lastname` AS user_lastname,
+     user.`address` AS user_address,
+     user.`phone` AS user_phone,
+     user.`cellphone` AS user_cellphone,
+     user.`active` AS user_active,
+     user.`create_time` AS user_create_time,
+     user.`update_time` AS user_update_time,
+     user.`roles_id` AS user_roles_id,
+     user_in_convocatory.`user_id` AS user_in_convocatory_user_id,
+     user_in_convocatory.`convocatory_id` AS user_in_convocatory_convocatory_id,
+     user_in_convocatory.`active` AS user_in_convocatory_active
+FROM
+     `aplicant` aplicant INNER JOIN `aplicant_has_course` aplicant_has_course ON aplicant.`id` = aplicant_has_course.`aplicant_id`
+     INNER JOIN `aplicant_has_degree` aplicant_has_degree ON aplicant.`id` = aplicant_has_degree.`aplicant_id`
+     INNER JOIN `aplicant_has_language` aplicant_has_language ON aplicant.`id` = aplicant_has_language.`aplicant_id`
+     INNER JOIN `city` city ON aplicant.`city_id` = city.`id`
+     INNER JOIN `specific_knowledge` specific_knowledge ON aplicant.`id` = specific_knowledge.`aplicant_id`
+     INNER JOIN `tic_trraining_experience` tic_trraining_experience ON aplicant.`id` = tic_trraining_experience.`aplicant_id`
+     INNER JOIN `user` user ON aplicant.`created_by_id` = user.`id`
+     INNER JOIN `roles` roles ON user.`roles_id` = roles.`id`
+     INNER JOIN `user_in_convocatory` user_in_convocatory ON user.`id` = user_in_convocatory.`user_id`
+     INNER JOIN `convocatory` convocatory ON user_in_convocatory.`convocatory_id` = convocatory.`id`
+     INNER JOIN `state` state ON city.`state_id` = state.`id`
+     INNER JOIN `language` language ON aplicant_has_language.`language_id_language` = language.`id_language`
+     INNER JOIN `degree` degree ON aplicant_has_degree.`degree_id` = degree.`id`
+     INNER JOIN `course` course ON aplicant_has_course.`course_id` = course.`id`]]>
+	</queryString>
+	<field name="aplicant_identification_type" class="java.lang.String"/>
+	<field name="aplicant_email" class="java.lang.String"/>
+	<field name="aplicant_firstname" class="java.lang.String"/>
+	<field name="aplicant_lastname" class="java.lang.String"/>
+	<field name="aplicant_birthdate" class="java.sql.Timestamp"/>
+	<field name="aplicant_sex" class="java.lang.String"/>
+	<field name="aplicant_address" class="java.lang.String"/>
+	<field name="aplicant_phone" class="java.lang.String"/>
+	<field name="aplicant_cellphone" class="java.lang.String"/>
+	<field name="aplicant_company" class="java.lang.String"/>
+	<field name="aplicant_company_city_id" class="java.lang.Integer"/>
+	<field name="aplicant_company_address" class="java.lang.String"/>
+	<field name="aplicant_company_phone" class="java.lang.String"/>
+	<field name="aplicant_working_time" class="java.lang.String"/>
+	<field name="aplicant_active" class="java.lang.Integer"/>
+	<field name="aplicant_city_id" class="java.lang.Integer"/>
+	<field name="aplicant_created_by_id" class="java.lang.Integer"/>
+	<field name="aplicant_create_time" class="java.sql.Timestamp"/>
+	<field name="aplicant_update_time" class="java.sql.Timestamp"/>
+	<field name="aplicant_totalScore" class="java.lang.Float"/>
+	<field name="aplicant_has_course_aplicant_id" class="java.lang.Integer"/>
+	<field name="aplicant_has_course_course_id" class="java.lang.Integer"/>
+	<field name="aplicant_has_course_max_score" class="java.lang.Float"/>
+	<field name="aplicant_has_degree_aplicant_id" class="java.lang.Integer"/>
+	<field name="aplicant_has_degree_degree_id" class="java.lang.Integer"/>
+	<field name="aplicant_has_degree_max_score" class="java.lang.String"/>
+	<field name="aplicant_has_language_aplicant_id" class="java.lang.Integer"/>
+	<field name="aplicant_has_language_language_id_language" class="java.lang.Integer"/>
+	<field name="aplicant_has_language_max_score" class="java.lang.Float"/>
+	<field name="city_id" class="java.lang.Integer"/>
+	<field name="city_state_id" class="java.lang.Integer"/>
+	<field name="city_name" class="java.lang.String"/>
+	<field name="city_code" class="java.lang.String"/>
+	<field name="convocatory_id" class="java.lang.Integer"/>
+	<field name="convocatory_name" class="java.lang.String"/>
+	<field name="convocatory_description" class="java.lang.String"/>
+	<field name="convocatory_start_date" class="java.sql.Date"/>
+	<field name="convocatory_end_date" class="java.sql.Date"/>
+	<field name="convocatory_publishing_date" class="java.sql.Date"/>
+	<field name="convocatory_active" class="java.lang.Integer"/>
+	<field name="convocatory_create_time" class="java.sql.Timestamp"/>
+	<field name="convocatory_update_time" class="java.sql.Timestamp"/>
+	<field name="course_id" class="java.lang.Integer"/>
+	<field name="course_score" class="java.lang.Float"/>
+	<field name="degree_id" class="java.lang.Integer"/>
+	<field name="degree_title" class="java.lang.String"/>
+	<field name="degree_type" class="java.lang.String"/>
+	<field name="degree_score" class="java.lang.Float"/>
+	<field name="language_id_language" class="java.lang.Integer"/>
+	<field name="language_name" class="java.lang.String"/>
+	<field name="language_read_score" class="java.lang.Float"/>
+	<field name="language_write_score" class="java.lang.Float"/>
+	<field name="language_talk_score" class="java.lang.Float"/>
+	<field name="language_score" class="java.lang.Float"/>
+	<field name="roles_id" class="java.lang.Integer"/>
+	<field name="roles_name" class="java.lang.String"/>
+	<field name="roles_active" class="java.lang.Integer"/>
+	<field name="specific_knowledge_id" class="java.lang.Integer"/>
+	<field name="specific_knowledge_informatic" class="java.lang.Float"/>
+	<field name="specific_knowledge_web" class="java.lang.Float"/>
+	<field name="specific_knowledge_multimedia" class="java.lang.Float"/>
+	<field name="specific_knowledge_digital_contents" class="java.lang.Float"/>
+	<field name="specific_knowledge_books_development" class="java.lang.Float"/>
+	<field name="specific_knowledge_tic_projects" class="java.lang.Float"/>
+	<field name="specific_knowledge_competences" class="java.lang.Float"/>
+	<field name="specific_knowledge_score" class="java.lang.Float"/>
+	<field name="specific_knowledge_aplicant_id" class="java.lang.Integer"/>
+	<field name="state_id" class="java.lang.Integer"/>
+	<field name="state_name" class="java.lang.String"/>
+	<field name="state_code" class="java.lang.String"/>
+	<field name="tic_trraining_experience_id" class="java.lang.Integer"/>
+	<field name="tic_trraining_experience_exp_students" class="java.lang.Float"/>
+	<field name="tic_trraining_experience_exp_teachers" class="java.lang.Float"/>
+	<field name="tic_trraining_experience_exp_trainers" class="java.lang.Float"/>
+	<field name="tic_trraining_experience_score" class="java.lang.Float"/>
+	<field name="tic_trraining_experience_aplicant_id" class="java.lang.Integer"/>
+	<field name="user_id" class="java.lang.Integer"/>
+	<field name="user_identification" class="java.lang.String"/>
+	<field name="user_username" class="java.lang.String"/>
+	<field name="user_password" class="java.lang.String"/>
+	<field name="user_email" class="java.lang.String"/>
+	<field name="user_firstname" class="java.lang.String"/>
+	<field name="user_lastname" class="java.lang.String"/>
+	<field name="user_address" class="java.lang.String"/>
+	<field name="user_phone" class="java.lang.String"/>
+	<field name="user_cellphone" class="java.lang.String"/>
+	<field name="user_active" class="java.lang.Integer"/>
+	<field name="user_create_time" class="java.sql.Timestamp"/>
+	<field name="user_update_time" class="java.sql.Timestamp"/>
+	<field name="user_roles_id" class="java.lang.Integer"/>
+	<field name="user_in_convocatory_user_id" class="java.lang.Integer"/>
+	<field name="user_in_convocatory_convocatory_id" class="java.lang.Integer"/>
+	<field name="user_in_convocatory_active" class="java.lang.Boolean"/>
+	<field name="aplicant_id" class="java.lang.Integer"/>
+	<field name="aplicant_identification" class="java.lang.String"/>
+	<group name="aplicant_id">
+		<groupExpression><![CDATA[$F{aplicant_id}]]></groupExpression>
+	</group>
+	<group name="convocatory_id">
+		<groupExpression><![CDATA[$F{convocatory_id}]]></groupExpression>
+	</group>
+	<group name="city_id">
+		<groupExpression><![CDATA[$F{city_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement uuid="f33b61a6-da7b-4593-96f7-9d522afc489e" x="0" y="27" width="572" height="335"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Dummy Series"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{city_name}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{aplicant_id}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

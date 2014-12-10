@@ -96,21 +96,21 @@ public class UserModel implements Model {
         return user;
     }
 
-    public Vector<Convocatory> readConvocatory(int state) throws SQLException {
+    public Vector<Convocatory> readConvocatory(int start_date) throws SQLException {
         Convocatory user = null;
         String sql = "";
-        /*Si state == 3 entoces extrae todas las convocatoria
-         Si state == 0 entoces extrae todas las convocatoria no activa
-         Si state == 1 entoces extrae todas las convocatoria activa
+        /*Si start_date == 3 entoces extrae todas las convocatoria
+         Si start_date == 0 entoces extrae todas las convocatoria no activa
+         Si start_date == 1 entoces extrae todas las convocatoria activa
          */
-        if (state == 3) {
+        if (start_date == 3) {
             sql = String.format("SELECT * FROM `convocatory`");
         }
-        if (state == 0) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE state = 0");
+        if (start_date == 0) {
+            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 0");
         }
-        if (state == 1) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE state = 1");
+        if (start_date == 1) {
+            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 1");
         }
 
         Vector<Convocatory> arrayconvocatory = new Vector<>();
@@ -123,10 +123,10 @@ public class UserModel implements Model {
             user = new Convocatory(
                     rs.getInt("identificacion"),
                     rs.getString("name"),
-                    rs.getBoolean("state"),
-                    rs.getTimestamp("open_time"),
-                    rs.getTimestamp("closet_time"),
-                    rs.getTimestamp("publication_date")
+                    rs.getBoolean("start_date"),
+                    rs.getDate("start_time"),
+                    rs.getDate("end_time"),
+                    rs.getDate("publishing_date")
             );
 
             arrayconvocatory.add(user);
@@ -138,9 +138,9 @@ public class UserModel implements Model {
     public Vector<Municipios> readMunicipios() throws SQLException {
         Municipios user = null;
         String sql = "";
-        /*Si state == 3 entoces extrae todas las convocatoria
-         Si state == 0 entoces extrae todas las convocatoria no activa
-         Si state == 1 entoces extrae todas las convocatoria activa
+        /*Si start_date == 3 entoces extrae todas las convocatoria
+         Si start_date == 0 entoces extrae todas las convocatoria no activa
+         Si start_date == 1 entoces extrae todas las convocatoria activa
          */
 
         sql = String.format("SELECT * FROM `municipio` ");
@@ -251,13 +251,15 @@ public class UserModel implements Model {
         Convocatory convocatory = (Convocatory) obj;
 
         String sql = String.format("INSERT INTO `convocatory`(`name`,`open_time`,`closet_time`,`state`,`publication_date`) VALUES ('%s', '%s', '%s', '%s', '%s');",
+        //String sql = String.format("INSERT INTO `convocatory`(`name`,`start_date`,`end_date`,`active`,`publishing_date`,`description`) VALUES ('%s', '%s', '%s', %s, '%s','%s');",
+
                 convocatory.getName_convocatory(),
                 convocatory.getOpen_time(),
                 convocatory.getCloset_time(),
                 convocatory.isState(),
-                convocatory.getPublicacion_time()
+                convocatory.getPublicacion_time(),
+                convocatory.getDescription()
         );
-        System.out.println("Inser convocatoria " + sql);
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         st.executeUpdate(sql);
 

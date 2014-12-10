@@ -41,7 +41,7 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
     
     public CreateApplicantResumeForm(Applicant applicant){
         this.currentApplicant = applicant;
-        System.out.print(String.format("Editing %s", applicant));
+        
         initComponents();
     }
     

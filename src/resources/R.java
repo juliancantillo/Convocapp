@@ -2,9 +2,9 @@ package resources;
 
 import helpers.Item;
 import java.awt.Component;
+import javax.swing.JOptionPane;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -20,6 +20,7 @@ public class R {
     // String constans
     public static final String STR_LOGIN_FORM_TITLE = "Ingreso de Usuarios",
             STR_NEW_CONVOCATORY = "Crear nueva convocatoria",
+            STR_CONVOCATORY_ADD = "¡Convocatoria creada con exito!",
             STR_USER = "Usuario",
             STR_USERS_MANAGEMENT = "Administración de Usuarios",
             STR_APPLICANT_MANAGEMENT = "Administración de Aspirantes",
@@ -43,6 +44,7 @@ public class R {
             STR_EMAIL = "Correo Eléctronico",
             STR_FIRSTNAME = "Nombre",
             STR_NAME = "Nombre",
+            STR_NAME_CONVOCATORY = "Nombre de Convocatoria",
             STR_LASTNAME = "Apellido",
             STR_ADDRESS = "Dirección",
             STR_PHONE = "Teléfono",
@@ -57,6 +59,8 @@ public class R {
             STR_SAVE_SUCCESS = "Se guardó un nuevo registro a la Base de Datos.\n\nDetalle: %s",
             STR_UPDATE_SUCCESS = "Se actualizó el registro a la Base de Datos.\n\nDetalle: %s",
             STR_DELETE = "Borrar",
+            STR_DATE_PUBLIC = "Publicacion de resultados:",
+            STR_TITLE_CONVOCATORY = "Crear Nueva Convocatoria",
             STR_YES = "Si",
             STR_NO = "No",
             STR_ROLE = "Rol",
@@ -107,6 +111,11 @@ public class R {
             STR_REMOVE = "Remover",
             STR_HOURS = "Horas",
             STR_COURSE_INFO = "Información Sobre Cursos TIC";
+
+    //Excepciones
+    public static final String EXCEPTION_EMPETY = "Hay un campo Vacio",
+            EXCEPTION_DATE_ERROR = "Fechas ingresadas no validas",
+            EXCEPTION_DATE_EMPETY = "Campo de fecha Vacio";
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
@@ -219,4 +228,5 @@ public class R {
         
         return null;
     }
+
 }
