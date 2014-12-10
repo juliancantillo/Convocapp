@@ -2,6 +2,7 @@ package gui.steps;
 
 import dbhandler.dao.ApplicantModel;
 import entities.Applicant;
+import gui.forms.CourseItemDialog;
 import gui.forms.DegreeItemDialog;
 import helpers.ButtonsFactory;
 import helpers.GBHelper;
@@ -34,15 +35,15 @@ import resources.R;
  * Desarrollo de Software 
  * @author kahmos
  */
-public class DegreeInformationPanel extends JPanel implements ActionListener, MouseListener, TableModelListener, WindowListener{
+public class CoursesInformationPanel extends JPanel implements ActionListener, MouseListener, TableModelListener, WindowListener{
 
-    private JTable tblDegree;
+    private JTable tblCourse;
     private Applicant applicant = null;
     private ApplicantModel applicantModel;
-    private DegreeItemDialog dialog;
+    private CourseItemDialog dialog;
     private JLabel lblApplicantInfo;
     
-    public DegreeInformationPanel(Applicant applicant) {
+    public CoursesInformationPanel(Applicant applicant) {
         this.applicant = applicant;
         init();
     }
@@ -61,7 +62,7 @@ public class DegreeInformationPanel extends JPanel implements ActionListener, Mo
         add(icon, pos.height(3).align(GBHelper.NORTHWEST));
         add(lblApplicantInfo, pos.nextCol().expandW());
         add(new Gap(R.H), pos.nextRow().nextCol());
-        add(pnlDegree(), pos.nextRow().nextCol().expandW());
+        add(pnlCourse(), pos.nextRow().nextCol().expandW());
         add(new Gap(), pos.nextRow().nextCol().expandH());
     }
     
@@ -73,31 +74,31 @@ public class DegreeInformationPanel extends JPanel implements ActionListener, Mo
         ResultSet tableData;
         try {
             int id = applicant != null ? applicant.getId() : 0;
-            tableData = applicantModel.getDegreeInformation( id );            
-            tblDegree.setModel(new ResultsetTableModel(tableData, R.SRT_DEGREE_COLUMNS, this));
-            tblDegree.updateUI();
+            tableData = applicantModel.getCourseInformation( id );            
+            tblCourse.setModel(new ResultsetTableModel(tableData, R.SRT_COURSE_COLUMNS, this));
+            tblCourse.updateUI();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    private JPanel pnlDegree(){
+    private JPanel pnlCourse(){
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-        Border border = new TitledBorder(R.STR_DEGREE_INFO);
+        Border border = new TitledBorder(R.STR_COURSE_INFO);
         Border margin = new EmptyBorder(10, 10, 10, 10);
         panel.setBorder(new CompoundBorder(border, margin));
                 
         GBHelper pos = new GBHelper();
 
-        tblDegree = new JTable();
+        tblCourse = new JTable();
         initTable();
-        tblDegree.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblDegree.setRowHeight(28);
-        tblDegree.addMouseListener(this);
-        tblDegree.getModel().addTableModelListener(this);
+        tblCourse.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblCourse.setRowHeight(28);
+        tblCourse.addMouseListener(this);
+        tblCourse.getModel().addTableModelListener(this);
                 
-        panel.add(new JScrollPane(tblDegree), pos.expandH().expandW().height(3));
+        panel.add(new JScrollPane(tblCourse), pos.expandH().expandW().height(3));
         panel.add(new Gap(R.W), pos.nextCol());
         panel.add(ButtonsFactory.addButton(R.STR_ADD, R.ICON_ADD_USER_SMALL, this), pos.nextCol());
         panel.add(ButtonsFactory.addButton(R.STR_REMOVE, R.ICON_CANCEL_SMALL, this), pos.nextRow().nextCol().nextCol());
@@ -112,26 +113,22 @@ public class DegreeInformationPanel extends JPanel implements ActionListener, Mo
         lblApplicantInfo.updateUI();
     }
     
-    public boolean hasItems(){
-        return tblDegree.getModel().getRowCount() > 0;
-    }
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         if (cmd.equals(R.STR_ADD)) {
-            dialog = new DegreeItemDialog(this);
+            dialog = new CourseItemDialog(this);
             dialog.addWindowListener(this);
             dialog.setVisible(true);
         }
         if(cmd.equals(R.CMD_SAVE)){
-            try {
-                if(dialog.validateForm()){
-                    System.out.print(String.format("Adding degree info to %s", applicant));
-                    applicantModel.insertDegreeInformation( dialog.getApplicantDegree(applicant) );
+            if (dialog.validateForm()) {
+                try {
+                    System.out.print(String.format("Adding course info to %s", applicant));
+                    applicantModel.insertCourseInformation(dialog.getApplicantCourse(applicant));
+                } catch (SQLException ex) {
+                    R.showErrorMessage(this, ex.getMessage());
                 }
-            } catch (SQLException ex) {
-                R.showErrorMessage(this, ex.getMessage());
             }
         }
         if(cmd.equals(R.CMD_CANCEL)){
@@ -147,7 +144,7 @@ public class DegreeInformationPanel extends JPanel implements ActionListener, Mo
     @Override
     public void windowClosed(WindowEvent e) {
         if (e.getSource() instanceof DegreeItemDialog) {
-            ResultsetTableModel rm = (ResultsetTableModel) tblDegree.getModel();
+            ResultsetTableModel rm = (ResultsetTableModel) tblCourse.getModel();
             rm.fireTableDataChanged();
         }
     }

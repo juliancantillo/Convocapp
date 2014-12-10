@@ -104,7 +104,9 @@ public class R {
             STR_NOTES = "Notas",
             STR_DEGREE_INFO = "Información Académica",
             STR_ADD = "Agregar",
-            STR_REMOVE = "Remover";
+            STR_REMOVE = "Remover",
+            STR_HOURS = "Horas",
+            STR_COURSE_INFO = "Información Sobre Cursos TIC";
 
     // String Errors
     public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
@@ -122,6 +124,7 @@ public class R {
     public static String[] SRT_CONVOCATORY_COLUMNS = {STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE};
     public static String[] SRT_CONVOCATORY_COLUMNS_FULL = {STR_ID, STR_NAME, STR_DESCRIPTION, STR_START_DATE, STR_END_DATE, STR_PUBLISHING_DATE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
     public static String[] SRT_DEGREE_COLUMNS = {STR_ID, STR_SCORE, STR_TITLE, STR_INSTITUTION_NAME, STR_GRADUATE_YEAR };
+    public static String[] SRT_COURSE_COLUMNS = {STR_ID, STR_SCORE, STR_TITLE, STR_INSTITUTION_NAME, STR_GRADUATE_YEAR, STR_HOURS };
 
     // Commands Constans
     public static final String CMD_NEW_CONVOCATORY = "CMD_NEW_CONVOCATORY";
@@ -148,6 +151,8 @@ public class R {
     public static final ImageIcon ICON_UNLOCK_SMALL = getIcon("lock-open-24x24.png");
     public static final ImageIcon ICON_ADD_USER = getIcon("add-user.png");
     public static final ImageIcon ICON_ADD_USER_SMALL = getIcon("add-user-24x24.png");
+    public static final ImageIcon ICON_ADD = getIcon("add.png");
+    public static final ImageIcon ICON_ADD_SMALL = getIcon("add-24x24.png");
     public static final ImageIcon ICON_USERS = getIcon("users.png");
     public static final ImageIcon ICON_USERS_SMALL = getIcon("users-24x24.png");
     public static final ImageIcon ICON_SAVE = getIcon("save.png");

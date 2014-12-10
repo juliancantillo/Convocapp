@@ -3,6 +3,7 @@ package dbhandler.dao;
 import controller.Convocapp;
 import dbhandler.DBConnector;
 import entities.Applicant;
+import entities.ApplicantCourse;
 import entities.ApplicantDegree;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -75,10 +76,14 @@ public class ApplicantModel implements Model {
     @Override
     public Object read(int id) throws SQLException {
         String sql = String.format("SELECT "
-                + "id, identification, identification_type, email, firstname, lastname, birthdate, sex, "
+                + "a.id as id, identification, identification_type, email, firstname, lastname, birthdate, sex, "
                 + "address, phone, cellphone, company, company_city_id, company_address, company_phone, "
-                + "working_time, active, city_id, created_by_id, create_time, update_time, totalScore "
-                + "FROM applicant WHERE id = %s", id);
+                + "working_time, active, city_id, created_by_id, create_time, update_time, totalScore, "
+                + "c.name as city_name, cc.name as company_city_name "
+                + "FROM applicant as a "
+                + "LEFT JOIN ( city as c ) ON ( c.id = a.city_id ) "
+                + "LEFT JOIN ( city as cc ) ON ( cc.id = a.company_city_id ) "
+                + "WHERE a.id = %s", id);
         Applicant applicant = null;
 
         Statement st;
@@ -104,9 +109,14 @@ public class ApplicantModel implements Model {
                     rs.getString("company_phone"),
                     rs.getString("working_time"),
                     rs.getInt("created_by_id"),
+                    rs.getString("city_name"),
+                    rs.getString("company_city_name")
             );
+            applicant.setId( rs.getInt("id") );
         }
- Applicant( Timestamp birthdate, String sex, int cityId, String address, String phone, String cellphone, String company, int companyCityId, String companyAddress, String companyPhone, String workingTime, int createdById, String cityName, String companyCityName)
+        //Applicant( Timestamp birthdate, String sex, int cityId, String address, String phone, String 
+        //, String company, int companyCityId, String companyAddress, String companyPhone, String workingTime,
+        //int createdById, String cityName, String companyCityName)
         return applicant;
     }
 
@@ -124,7 +134,7 @@ public class ApplicantModel implements Model {
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = st.executeQuery(String.format(
                 "SELECT a.id, d.score, d.title as degree_title, a.institution_name, a.graduate_year FROM applicant_has_degree as a "
-                + "LEFT JOIN degree as d ON ( d.id = a.applicant_id ) WHERE a.applicant_id = %s", id));
+                + "LEFT JOIN degree as d ON ( d.id = a.degree_id ) WHERE a.applicant_id = %s", id));
 
         if (rs != null) {
             return rs;
@@ -132,11 +142,11 @@ public class ApplicantModel implements Model {
 
         return null;
     }
-
+    
     public int insertDegreeInformation(ApplicantDegree degree) throws SQLException {
         String insert = String.format("INSERT INTO `convocapp`.`applicant_has_degree` "
                 + "(`applicant_id`, `degree_id`, `institution_name`, `institution_city_id`, `title`, `graduate_year`, `notes`) "
-                + "VALUES (%s, %s, '%s', %s, '%s', '%s', %s);",
+                + "VALUES (%s, %s, '%s', %s, '%s', '%s', '%s');",
                 degree.getApplicantId(),
                 degree.getDegree().getId(),
                 degree.getInstitutionName(),
@@ -144,6 +154,35 @@ public class ApplicantModel implements Model {
                 degree.getTitle(),
                 degree.getGraduateYear(),
                 degree.getNotes()
+        );
+
+        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        return st.executeUpdate(insert, Statement.RETURN_GENERATED_KEYS);
+    }
+    
+    public ResultSet getCourseInformation(int id) throws SQLException {
+        Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = st.executeQuery(String.format(
+                "SELECT applicant_id, score, title, institution, graduate_year, hours FROM applicant_has_course as a WHERE a.applicant_id = %s", id));
+        
+        if (rs != null) {
+            return rs;
+        }
+
+        return null;
+    }
+    
+    public int insertCourseInformation(ApplicantCourse course) throws SQLException {
+        String insert = String.format("INSERT INTO `convocapp`.`applicant_has_course` "
+                + "(`applicant_id`, `title`, `institution`, `institution_city_id`, `hours`, `graduate_year`, `score`) "
+                + "VALUES (%s, '%s', '%s', %s, %s, '%s', %s);",
+                course.getApplicantId(),
+                course.getTitle(),
+                course.getInstitutionName(),
+                course.getInstitutionCity().getId(),
+                course.getHours(),
+                course.getGraduateYear(),
+                course.getScore()
         );
 
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

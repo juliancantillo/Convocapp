@@ -55,6 +55,11 @@ public class Degree implements Serializable{
     public void setScore(float score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
     
     
     

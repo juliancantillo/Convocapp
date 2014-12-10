@@ -3,6 +3,7 @@ package gui.forms;
 import dbhandler.dao.DegreeModel;
 import dbhandler.dao.LocationModel;
 import entities.Applicant;
+import entities.ApplicantCourse;
 import entities.ApplicantDegree;
 import entities.City;
 import entities.Degree;
@@ -35,17 +36,17 @@ import resources.R;
  *
  * @author kahmos
  */
-public class DegreeItemDialog extends JDialog {
+public class CourseItemDialog extends JDialog {
 
     private JTextField fldTitle;
     private JTextField fldGraduateYear;
+    private JTextField fldHours;
     private JTextArea fldNotes;
     private JTextField fldInstitutionName;
     private JComboBox slctInstitutionCity;
-    private JComboBox slctDegree;
     private final ActionListener actionListener;
 
-    public DegreeItemDialog(ActionListener actionListener) {
+    public CourseItemDialog(ActionListener actionListener) {
         this.actionListener = actionListener;
         init();
     }
@@ -68,11 +69,10 @@ public class DegreeItemDialog extends JDialog {
         fldGraduateYear = new JTextField();
         fldNotes = new JTextArea();
         fldInstitutionName = new JTextField();
+        fldHours = new JTextField();
 
-        DegreeModel degreeModel = new DegreeModel();
         LocationModel location = new LocationModel();
         try {
-            slctDegree = new JComboBox(degreeModel.toArray());
             slctInstitutionCity = new JComboBox(location.toArray());
         } catch (SQLException ex) {
             R.showErrorMessage(this, ex.getMessage());
@@ -93,7 +93,7 @@ public class DegreeItemDialog extends JDialog {
     private JPanel pnlFields() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-        Border border = new TitledBorder(R.STR_DEGREE_INFO);
+        Border border = new TitledBorder(R.STR_COURSE_INFO);
         Border margin = new EmptyBorder(10, 10, 10, 10);
         panel.setBorder(new CompoundBorder(border, margin));
 
@@ -102,7 +102,7 @@ public class DegreeItemDialog extends JDialog {
         JLabel lblNotes = new JLabel(R.STR_NOTES);
         JLabel lblInstitutionName = new JLabel(R.STR_INSTITUTION_NAME);
         JLabel lblInstitutionCity = new JLabel(R.STR_INSTITUTION_CITY);
-        JLabel lblDegree = new JLabel(R.STR_DEGREE_TYPE);
+        JLabel lblHours = new JLabel(R.STR_HOURS);
 
         GBHelper pos = new GBHelper();
 
@@ -130,9 +130,9 @@ public class DegreeItemDialog extends JDialog {
 
         panel.add(new Gap(R.H), pos.nextRow());
 
-        panel.add(lblDegree, pos.nextRow());
+        panel.add(lblHours, pos.nextRow());
         panel.add(new Gap(R.W), pos.nextCol());
-        panel.add(slctDegree, pos.nextCol().expandW());
+        panel.add(fldHours, pos.nextCol().expandW());
 
         panel.add(new Gap(R.H), pos.nextRow());
 
@@ -143,29 +143,29 @@ public class DegreeItemDialog extends JDialog {
         return panel;
     }
     
-    public ApplicantDegree getApplicantDegree(Applicant applicant){
+    public ApplicantCourse getApplicantCourse(Applicant applicant){
         
-        ApplicantDegree applicantDegree = null;
+        ApplicantCourse applicantCourse = null;
         
-        Degree degree = (Degree) slctDegree.getSelectedItem();
         String institutionName = fldInstitutionName.getText();
+        Integer hours = Integer.parseInt(fldHours.getText());
         City city = (City) slctInstitutionCity.getSelectedItem();
-        String degree_title = fldTitle.getText();
+        String course_title = fldTitle.getText();
         String graduateYear = fldGraduateYear.getText();
         String notes = fldNotes.getText();
         
         try {
-            applicantDegree = new ApplicantDegree(
+            applicantCourse = new ApplicantCourse(
                     applicant.getId(),
-                    degree, institutionName,
-                    city, degree_title,
-                    graduateYear,
+                    institutionName,
+                    city, course_title,
+                    graduateYear, hours,
                     notes);
         } catch (Exception e) {
             R.showErrorMessage(this, e.getMessage());
         }
         
-        return applicantDegree;
+        return applicantCourse;
     }
     
     public boolean validateForm() {
@@ -174,8 +174,9 @@ public class DegreeItemDialog extends JDialog {
             boolean validTitle = ValidationHelper.validate(fldTitle, ValidationHelper.LETTERS_ONLY);
             boolean validGraduateYear = ValidationHelper.validate(fldGraduateYear, ValidationHelper.NUMBERS_ONLY);
             boolean validInstitutionName = ValidationHelper.validate(fldInstitutionName, ValidationHelper.LETTERS_ONLY);
+            boolean validHours = ValidationHelper.validate(fldHours, ValidationHelper.NUMBERS_ONLY);
 
-            return validTitle && validGraduateYear && validInstitutionName;
+            return validTitle && validGraduateYear && validInstitutionName && validHours;
             
         } catch (FieldIsNotValidException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);

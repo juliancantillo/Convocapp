@@ -11,6 +11,7 @@ import gui.forms.CreateApplicantResumeForm;
 import gui.forms.CreateUserForm;
 import gui.forms.LoginForm;
 import gui.forms.UsersForm;
+import javax.swing.UIManager;
 
 /**
  *
@@ -35,6 +36,12 @@ public class Convocapp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+        try {
+            UIManager.setLookAndFeel(lookAndFeel);
+        } catch (Exception e) {}
+        
         Convocapp app = new Convocapp();
     }
     

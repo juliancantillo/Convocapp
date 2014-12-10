@@ -248,4 +248,8 @@ public class Applicant implements Serializable {
         this.companyCityName = companyCityName;
     }
 
+    @Override
+    public String toString() {
+        return String.format("(%s) %s %s", this.id, this.firstname, this.lastname);
+    }
 }

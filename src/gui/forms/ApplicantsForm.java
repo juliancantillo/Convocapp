@@ -109,7 +109,7 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == tblApplicants) {
+        if (e.getSource() == tblApplicants && e.getClickCount() > 1) {
             int row = tblApplicants.getSelectedRow();
             Integer id = (Integer) tblApplicants.getValueAt(row, 0);
             ApplicantModel applicantModel = new ApplicantModel();

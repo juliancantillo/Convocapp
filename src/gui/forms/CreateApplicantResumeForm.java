@@ -2,6 +2,7 @@ package gui.forms;
 
 import dbhandler.dao.ApplicantModel;
 import entities.Applicant;
+import gui.steps.CoursesInformationPanel;
 import gui.steps.DegreeInformationPanel;
 import gui.steps.PersonalInformationPanel;
 import helpers.ButtonsFactory;
@@ -28,6 +29,7 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
 
     private PersonalInformationPanel personalInformationPanel;
     private DegreeInformationPanel degreeInformationPanel;
+    private CoursesInformationPanel coursesInformationPanel;
     private JPanel cards;
     private CardLayout cardsLayout;
     private int currentStep = 0;
@@ -39,6 +41,7 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
     
     public CreateApplicantResumeForm(Applicant applicant){
         this.currentApplicant = applicant;
+        System.out.print(String.format("Editing %s", applicant));
         initComponents();
     }
     
@@ -46,7 +49,9 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
         setLayout(new BorderLayout(R.H, R.W));
         
         personalInformationPanel = new PersonalInformationPanel(this);
-        degreeInformationPanel = new DegreeInformationPanel(null);
+        degreeInformationPanel = new DegreeInformationPanel(currentApplicant);
+        coursesInformationPanel = new CoursesInformationPanel(currentApplicant);
+        
         cards = cardsPanel();
         
         add(cards, BorderLayout.CENTER);
@@ -63,6 +68,7 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
         
         pnlCards.add( personalInformationPanel, R.STR_PERSONAL_INFO);
         pnlCards.add( degreeInformationPanel, R.STR_DEGREE_INFO);
+        pnlCards.add( coursesInformationPanel, R.STR_COURSE_INFO);
         
         cardsLayout.first(pnlCards);
         return pnlCards;
@@ -99,24 +105,32 @@ public class CreateApplicantResumeForm extends JFrame implements ActionListener,
             
             switch(currentStep){
                 case 1:
-                    break;
-                default:
-                    if( personalInformationPanel.validateForm() && currentApplicant == null ){
-                        currentApplicant = personalInformationPanel.getApplicant();
-                        ApplicantModel applicantModel = new ApplicantModel();
-                        try {
-                            // Create the new applicant in the database
-                            int id = applicantModel.create(currentApplicant);
-                            currentApplicant.setId(id);
-                            // Next step
-                            cardsLayout.next(cards);
-                            currentStep++;
-                        } catch (SQLException ex) {
-                            R.showErrorMessage(this, ex.getMessage());
-                        }
-                    }else if(personalInformationPanel.validateForm() && currentApplicant != null){
+                    if (degreeInformationPanel.hasItems()) {
+                        coursesInformationPanel.setCurrentApplicant(currentApplicant);
                         cardsLayout.next(cards);
                         currentStep++;
+                    }
+                    break;
+                default:
+                    if( personalInformationPanel.validateForm() ){
+                        if(currentApplicant != null){
+                            cardsLayout.next(cards);
+                            currentStep++;
+                        }else{        
+                            currentApplicant = personalInformationPanel.getApplicant();
+                            ApplicantModel applicantModel = new ApplicantModel();
+                            try {
+                                // Create the new applicant in the database
+                                int id = applicantModel.create(currentApplicant);
+                                currentApplicant.setId(id);
+                                degreeInformationPanel.setCurrentApplicant(currentApplicant);
+                                // Next step
+                                cardsLayout.next(cards);
+                                currentStep++;
+                            } catch (SQLException ex) {
+                                R.showErrorMessage(this, ex.getMessage());
+                            }
+                        }
                     }
                     break;
             }
