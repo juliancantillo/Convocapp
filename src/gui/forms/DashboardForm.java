@@ -1,16 +1,21 @@
 package gui.forms;
 
 import controller.Convocapp;
+import dbhandler.DBConnector;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import resources.R;
 
 /**
@@ -93,6 +98,21 @@ public class DashboardForm extends JFrame implements ActionListener {
         return panel;
     }
 
+    public void SimpleReport() {
+        JasperPrint jasperPrint = null;
+
+        DBConnector conecc = new DBConnector();
+        try {
+            String dir = "C://Users//the tecnology//Documents//GitHub//Convocapp//src//report//report.jrxml";
+            JasperCompileManager.compileReportToFile(dir);
+            jasperPrint = JasperFillManager.fillReport(dir, null, conecc.connect());
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
@@ -118,10 +138,10 @@ public class DashboardForm extends JFrame implements ActionListener {
             ApplicantsForm applicantsForm = new ApplicantsForm();
             applicantsForm.setVisible(true);
         }
+        //Llama la funcion de los reportes
         if (e.getActionCommand().equals(R.CMD_VIEW_STATISTICS)) {
-            JOptionPane.showMessageDialog(this, "Funcion");
-            ApplicantsForm applicantsForm = new ApplicantsForm();
-            applicantsForm.setVisible(true);
+            ReportFrom report = new ReportFrom();
+            report.setVisible(true);
         }
     }
 }

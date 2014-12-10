@@ -41,6 +41,11 @@ public class R {
             STR_DESCRIPTION_CONVOCATORY = "Descripcion de Convocatoria:",
             STR_NAME_CONVOCATORY = "Nombre de Convocatoria",
             
+            //report
+            STR_REPORT_ALLAPLICANT = "Todos los aspirantes",
+            STR_REPORT_TOP5 = "Cinco mejores puntajes",
+            STR_REPORT_WNNER = "Aspirantes Seleccionados",
+            STR_REPORT_TITLE = "Reportes Convocatoria",
             STR_STATUS = "Estado",
             STR_IDENTIFICATION = "Cedula",
             STR_FOREING_IDENTIFICATION = "Cedula de Extranjeria",
