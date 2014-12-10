@@ -21,7 +21,7 @@ import resources.R;
 public class DashboardForm extends JFrame implements ActionListener {
 
     private LoginForm loginWindow;
-    
+
     public DashboardForm(LoginForm loginWindow) {
         super(R.STR_WELCOME);
         this.loginWindow = loginWindow;
@@ -38,13 +38,13 @@ public class DashboardForm extends JFrame implements ActionListener {
         add(btnExit, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700,300);
+        setSize(700, 300);
     }
 
     private JPanel pnlButtons() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 2));
-        
+
         JButton btnManageUsers = new JButton(R.STR_USERS_MANAGEMENT);
         btnManageUsers.addActionListener(this);
         btnManageUsers.setIcon(R.ICON_USERS);
@@ -58,14 +58,14 @@ public class DashboardForm extends JFrame implements ActionListener {
         btnManageConvocatory.setHorizontalTextPosition(JButton.CENTER);
         btnManageConvocatory.setIcon(R.ICON_PIN);
         btnManageConvocatory.setActionCommand(R.CMD_NEW_CONVOCATORY);
-        
+
         JButton btnManageApplicants = new JButton(R.STR_APPLICANT_MANAGEMENT);
         btnManageApplicants.addActionListener(this);
         btnManageApplicants.setVerticalTextPosition(JButton.BOTTOM);
         btnManageApplicants.setHorizontalTextPosition(JButton.CENTER);
         btnManageApplicants.setIcon(R.ICON_PIN);
         btnManageApplicants.setActionCommand(R.CMD_MANAGE_APPLICANTS);
-        
+
         JButton btnViewStatistics = new JButton(R.STR_VIEW_STATISTICS);
         btnViewStatistics.addActionListener(this);
         btnViewStatistics.setVerticalTextPosition(JButton.BOTTOM);
@@ -95,11 +95,11 @@ public class DashboardForm extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals(R.CMD_NEW_USER)){
+        if (e.getActionCommand().equals(R.CMD_NEW_USER)) {
             UsersForm userForm = new UsersForm();
             userForm.setVisible(true);
         }
-        if(e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)){
+        if (e.getActionCommand().equals(R.CMD_NEW_CONVOCATORY)) {
             ConvocatoryForm convocatoryForm = new ConvocatoryForm();
             convocatoryForm.setVisible(true);
         }
@@ -110,11 +110,16 @@ public class DashboardForm extends JFrame implements ActionListener {
         if (e.getActionCommand().equals(R.CMD_CANCEL)) {
             this.setVisible(false);
             loginWindow.cleanForm();
-            JOptionPane.showMessageDialog(this,R.STR_SING_OFF);
+            JOptionPane.showMessageDialog(this, R.STR_SING_OFF);
             loginWindow.setVisible(true);
-            
+
         }
-        if(e.getActionCommand().equals(R.CMD_MANAGE_APPLICANTS)){
+        if (e.getActionCommand().equals(R.CMD_MANAGE_APPLICANTS)) {
+            ApplicantsForm applicantsForm = new ApplicantsForm();
+            applicantsForm.setVisible(true);
+        }
+        if (e.getActionCommand().equals(R.CMD_VIEW_STATISTICS)) {
+            JOptionPane.showMessageDialog(this, "Funcion");
             ApplicantsForm applicantsForm = new ApplicantsForm();
             applicantsForm.setVisible(true);
         }
