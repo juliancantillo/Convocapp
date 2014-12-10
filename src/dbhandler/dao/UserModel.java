@@ -96,51 +96,14 @@ public class UserModel implements Model {
         return user;
     }
 
-    public Vector<Convocatory> readConvocatory(int start_date) throws SQLException {
-        Convocatory user = null;
-        String sql = "";
-        /*Si start_date == 3 entoces extrae todas las convocatoria
-         Si start_date == 0 entoces extrae todas las convocatoria no activa
-         Si start_date == 1 entoces extrae todas las convocatoria activa
-         */
-        if (start_date == 3) {
-            sql = String.format("SELECT * FROM `convocatory`");
-        }
-        if (start_date == 0) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 0");
-        }
-        if (start_date == 1) {
-            sql = String.format("SELECT * FROM `convocatory` WHERE start_date = 1");
-        }
-
-        Vector<Convocatory> arrayconvocatory = new Vector<>();
-
-        Statement st;
-        st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        ResultSet rs = st.executeQuery(sql);
-
-        while (rs.next()) {
-            user = new Convocatory(
-                    rs.getInt("identificacion"),
-                    rs.getString("name"),
-                    rs.getBoolean("start_date"),
-                    rs.getDate("start_time"),
-                    rs.getDate("end_time"),
-                    rs.getDate("publishing_date")
-            );
-
-            arrayconvocatory.add(user);
-        }
-
-        return arrayconvocatory;
-    }
+  
 
     public Vector<Municipios> readMunicipios() throws SQLException {
         Municipios user = null;
         String sql = "";
-        /*Si start_date == 3 entoces extrae todas las convocatoria
-         Si start_date == 0 entoces extrae todas las convocatoria no activa
-         Si start_date == 1 entoces extrae todas las convocatoria activa
+        /*Si state == 3 entoces extrae todas las convocatoria
+         Si state == 0 entoces extrae todas las convocatoria no activa
+         Si state == 1 entoces extrae todas las convocatoria activa
          */
 
         sql = String.format("SELECT * FROM `municipio` ");
@@ -214,7 +177,7 @@ public class UserModel implements Model {
 
     }
 
-    public User getByCredentials(String username, String password) throws SQLException {
+    public User getByCredentials(String username, String password) throws SQLException, NullPointerException {
         User user = null;
 
         String sql = String.format("SELECT * FROM user WHERE user.username = '%s' AND user.password = MD5('%s') AND user.active = 1", username, password);
@@ -250,14 +213,14 @@ public class UserModel implements Model {
         //TODO: Remove from this class, this belongs to ConvocatoryModel Class!
         Convocatory convocatory = (Convocatory) obj;
 
-        String sql = String.format("INSERT INTO `convocatory`(`name`,`start_date`,`end_date`,`active`,`publishing_date`,`description`) VALUES ('%s', '%s', '%s', %s, '%s','%s');",
+        String sql = String.format("INSERT INTO `convocatory`(`name`,`open_time`,`closet_time`,`state`,`publication_date`) VALUES ('%s', '%s', '%s', '%s', '%s');",
                 convocatory.getName_convocatory(),
                 convocatory.getOpen_time(),
                 convocatory.getCloset_time(),
                 convocatory.isState(),
-                convocatory.getPublicacion_time(),
-                convocatory.getDescription()
+                convocatory.getPublicacion_time()
         );
+        System.out.println("Inser convocatoria " + sql);
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         st.executeUpdate(sql);
 

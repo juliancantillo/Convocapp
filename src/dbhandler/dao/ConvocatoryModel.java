@@ -25,19 +25,19 @@ public class ConvocatoryModel implements Model{
     @Override
     public int create(Object obj) throws SQLException {
         Convocatory convocatory = (Convocatory)obj;
-        String sql = String.format("INSERT INTO `convocatory`(`name`,`open_time`,`closet_time`,`state`,`publication_date`) VALUES ('%s', '%s', '%s', '%s', '%s');",
+        String sql = String.format("INSERT INTO `convocatory`(`name`,`description`,`start_date`,`end_date`,`publishing_date`,`active`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
                 convocatory.getName_convocatory(),
+                convocatory.getDescription(),
                 convocatory.getOpen_time(),
                 convocatory.getCloset_time(),
-                convocatory.isState(),
-                convocatory.getPublicacion_time()
+                convocatory.getPublicacion_time(),
+                1
         );
         
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         
         return st.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
     }
-
     @Override
     public ResultSet read() throws SQLException {
         Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

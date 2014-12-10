@@ -3,6 +3,7 @@ package gui.forms;
 import controller.Convocapp;
 import dbhandler.dao.ApplicantModel;
 import dbhandler.dao.UserModel;
+import entities.Applicant;
 import gui.toolbar.RolesToolBar;
 import helpers.ResultsetTableModel;
 import java.awt.BorderLayout;
@@ -30,7 +31,7 @@ import resources.R;
  */
 public class ApplicantsForm extends JFrame implements ActionListener, TableModelListener, MouseListener, WindowListener {
 
-    private JTable tblUsers;
+    private JTable tblApplicants;
 
     public ApplicantsForm() {
         super(R.STR_APPLICANT_MANAGEMENT);
@@ -60,13 +61,13 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
 
-        tblUsers = new JTable(new ResultsetTableModel(tableData, R.STR_APPLICANT_COLUMNS));
-        tblUsers.getModel().addTableModelListener(this);
-        tblUsers.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblUsers.setRowHeight(28);
-        tblUsers.addMouseListener(this);
+        tblApplicants = new JTable(new ResultsetTableModel(tableData, R.STR_APPLICANT_COLUMNS));
+        tblApplicants.getModel().addTableModelListener(this);
+        tblApplicants.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblApplicants.setRowHeight(28);
+        tblApplicants.addMouseListener(this);
 
-        panel.add(new JScrollPane(tblUsers), BorderLayout.CENTER);
+        panel.add(new JScrollPane(tblApplicants), BorderLayout.CENTER);
 
         return panel;
     }
@@ -98,8 +99,8 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
     @Override
     public void tableChanged(TableModelEvent e) {
         try {
-            tblUsers.setModel(new ResultsetTableModel(new ApplicantModel().read(), R.STR_APPLICANT_COLUMNS, this));
-            tblUsers.updateUI();
+            tblApplicants.setModel(new ResultsetTableModel(new ApplicantModel().read(), R.STR_APPLICANT_COLUMNS, this));
+            tblApplicants.updateUI();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, String.format(R.ERROR_LOAD_DATA_FAILS, ex.getMessage()), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
         }
@@ -108,13 +109,18 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == tblUsers) {
-            int row = tblUsers.getSelectedRow();
-            Integer id = (Integer) tblUsers.getValueAt(row, 0);
-            CreateUserForm userForm = new CreateUserForm(id);
-            userForm.fillForm();
-            userForm.addWindowListener(this);
-            userForm.setVisible(true);
+        if (e.getSource() == tblApplicants) {
+            int row = tblApplicants.getSelectedRow();
+            Integer id = (Integer) tblApplicants.getValueAt(row, 0);
+            ApplicantModel applicantModel = new ApplicantModel();
+            try {
+                CreateApplicantResumeForm applicantForm = new CreateApplicantResumeForm( (Applicant) applicantModel.read(id) );
+                applicantForm.fillForm();
+                applicantForm.addWindowListener(this);
+                applicantForm.setVisible(true);
+            } catch (SQLException ex) {
+                R.showErrorMessage(this, ex.getMessage());
+            }
         }
     }
 
@@ -145,7 +151,7 @@ public class ApplicantsForm extends JFrame implements ActionListener, TableModel
     @Override
     public void windowClosed(WindowEvent e) {
         if (e.getSource() instanceof CreateUserForm) {
-            ResultsetTableModel rm = (ResultsetTableModel) tblUsers.getModel();
+            ResultsetTableModel rm = (ResultsetTableModel) tblApplicants.getModel();
             rm.fireTableDataChanged();
         }
     }

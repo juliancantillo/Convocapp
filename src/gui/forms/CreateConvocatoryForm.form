@@ -29,7 +29,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="lbdatepublish" max="32767" attributes="0"/>
+                              <Component id="lbdatepublish" pref="163" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                               <Component id="btexit" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -57,23 +57,20 @@
                               <Component id="tfnameconvocatory" min="-2" pref="229" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="dtpublicher" min="-2" pref="151" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lbdateend" pref="159" max="32767" attributes="0"/>
-                                  <Component id="lbdatestart" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="dtstart" min="-2" pref="202" max="-2" attributes="0"/>
-                                  <Component id="dtend" min="-2" pref="202" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" attributes="0">
                               <Component id="lbdescription" min="-2" pref="274" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbdatestart" max="32767" attributes="0"/>
+                                  <Component id="lbdateend" pref="221" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="dtpubicacion" alignment="1" pref="130" max="32767" attributes="0"/>
+                                  <Component id="dtend" max="32767" attributes="0"/>
+                                  <Component id="dtstart" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
@@ -86,29 +83,33 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lbico" min="-2" pref="74" max="-2" attributes="0"/>
-                  <Component id="lbtitle" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tfnameconvocatory" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lbnameconvocatory" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lbdatepublish" min="-2" max="-2" attributes="0"/>
-                  <Component id="dtpublicher" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="dtstart" min="-2" max="-2" attributes="0"/>
-                  <Component id="lbdatestart" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lbdateend" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="dtend" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbico" min="-2" pref="74" max="-2" attributes="0"/>
+                                  <Component id="lbtitle" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tfnameconvocatory" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbnameconvocatory" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="lbdatepublish" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="dtpubicacion" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbdatestart" min="-2" max="-2" attributes="0"/>
+                          <Component id="dtstart" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbdateend" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="dtend" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lbdescription" min="-2" max="-2" attributes="0"/>
@@ -131,16 +132,6 @@
           <Font name="Tahoma" size="18" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Titulo"/>
-      </Properties>
-    </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="dtend">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="clistart" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="dtstart">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="clistart" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnewconvocatory">
@@ -201,8 +192,6 @@
         <Property name="text" type="java.lang.String" value="Fecha de publicavion"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="dtpublicher">
-    </Component>
     <Component class="javax.swing.JLabel" name="lbdescription">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -226,5 +215,11 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="com.toedter.calendar.JDateChooser" name="dtpubicacion">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="dtstart">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="dtend">
+    </Component>
   </SubComponents>
 </Form>

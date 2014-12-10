@@ -160,8 +160,8 @@ public class LoginForm extends JFrame implements ActionListener, KeyListener {
         UserModel usersmodel = new UserModel();
         int role = usersmodel.getUserRole(user);
         if (role == 3) {
-         //   DigitadorForm digitador = new DigitadorForm(user);
-         //   digitador.setVisible(true);
+           // DigitadorForm digitador = new DigitadorForm(user);
+            //digitador.setVisible(true);
         }
         if (role == 1) {
             UsersForm form = new UsersForm();

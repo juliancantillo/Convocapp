@@ -6,6 +6,7 @@
 package gui.forms;
 
 import dbhandler.DBConnector;
+import dbhandler.dao.ConvocatoryModel;
 import resources.R;
 import entities.Convocatory;
 import dbhandler.dao.UserModel;
@@ -13,17 +14,8 @@ import java.sql.SQLException;
 import java.sql.Date;
 
 import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import resources.Exceptionform;
-import dbhandler.DBConnector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+
 
 /**
  *
@@ -51,20 +43,14 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
         lbico.setIcon(R.ICON_CONVOCATORY);
         lbnameconvocatory.setText(R.STR_NAME_CONVOCATORY);
         tfnameconvocatory.setText("");
-        lbdatepublish.setText(R.STR_DATE_PUBLIC);
+        lbdatepublish.setText(R.STR_PUBLISH_DATE);
 
         btexit.setText(R.STR_CANCEL);
         btnewconvocatory.setText(R.STR_ADD);
 
     }
 
-    public void close() throws JRException {
-        DBConnector con = new DBConnector();
-     
-        String dir = "C:\\Users\\Mauro\\Documents\\GitHub\\Convocapp\\src\\report.jrxml";
-        JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile(dir);
-        JasperPrint mostrar = JasperFillManager.fillReport(reporte, null , con.connect()); 
-        JasperViewer.viewReport(mostrar);
+    public void close() {
         this.setVisible(false);
         this.dispose();
     }
@@ -73,8 +59,8 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
         taDescription.setText("");
         tfnameconvocatory.setText("");
         dtend.setDate(null);
-        dtpublicher.setDate(null);
         dtstart.setDate(null);
+        dtpubicacion.setDate(null);
     }
 
     /**
@@ -87,8 +73,6 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
     private void initComponents() {
 
         lbtitle = new javax.swing.JLabel();
-        dtend = new com.toedter.calendar.JDateChooser();
-        dtstart = new com.toedter.calendar.JDateChooser();
         btnewconvocatory = new javax.swing.JButton();
         btexit = new javax.swing.JButton();
         lbdatestart = new javax.swing.JLabel();
@@ -97,19 +81,17 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
         lbnameconvocatory = new javax.swing.JLabel();
         tfnameconvocatory = new javax.swing.JTextField();
         lbdatepublish = new javax.swing.JLabel();
-        dtpublicher = new com.toedter.calendar.JDateChooser();
         lbdescription = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taDescription = new javax.swing.JTextArea();
+        dtpubicacion = new com.toedter.calendar.JDateChooser();
+        dtstart = new com.toedter.calendar.JDateChooser();
+        dtend = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lbtitle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lbtitle.setText("Titulo");
-
-        dtend.setName("clistart"); // NOI18N
-
-        dtstart.setName("clistart"); // NOI18N
 
         btnewconvocatory.setText("Crear");
         btnewconvocatory.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +143,7 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbdatepublish, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbdatepublish, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                                 .addGap(81, 81, 81)
                                 .addComponent(btexit)
                                 .addGap(18, 18, 18)
@@ -183,43 +165,43 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tfnameconvocatory, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(dtpublicher, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lbdateend, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                                    .addComponent(lbdatestart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dtstart, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dtend, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbdescription, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbdatestart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbdateend, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(dtpubicacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                                    .addComponent(dtend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dtstart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(106, 106, 106))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbico, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbtitle))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfnameconvocatory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbnameconvocatory))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbdatepublish)
-                    .addComponent(dtpublicher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dtstart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbdatestart))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbdateend)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbico, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbtitle))
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(tfnameconvocatory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbnameconvocatory))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lbdatepublish))
+                            .addComponent(dtpubicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbdatestart)
+                            .addComponent(dtstart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbdateend))
                     .addComponent(dtend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lbdescription)
@@ -236,12 +218,8 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btexitActionPerformed
-        try {
-            // TODO add your handling code here:
-            close();
-        } catch (JRException ex) {
-            Logger.getLogger(CreateConvocatoryForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        close();
     }//GEN-LAST:event_btexitActionPerformed
 
     private void btnewconvocatoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnewconvocatoryActionPerformed
@@ -253,34 +231,33 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
             Date stPubilcdate;
             stdescription = taDescription.getText();
             stNameconvocatory = tfnameconvocatory.getText();
- /*-_-_-_-Bloque de excepciones*/
+            /*-_-_-_-Bloque de excepciones*/
             Exceptionform.Fechavacia(dtstart.getDate());
             Exceptionform.Fechavacia(dtend.getDate());
-            Exceptionform.Fechavacia(dtpublicher.getDate());
+            Exceptionform.Fechavacia(dtstart.getDate());
+
+            Exceptionform.Fechacorrespondencia(dtend.getDate(), dtstart.getDate());
+            Exceptionform.Fechacorrespondencia(dtpubicacion.getDate(), dtend.getDate());
             
-            Exceptionform.Fechacorrespondencia(dtend.getDate(),dtstart.getDate());
-            Exceptionform.Fechacorrespondencia(dtpublicher.getDate(),dtend.getDate());
-            
+
             Exceptionform.campoVacio(tfnameconvocatory);
- /*_-_-_-_-Fin Bloque Excepciones*/
+            /*_-_-_-_-Fin Bloque Excepciones*/
             stStartdate = new java.sql.Date(dtstart.getDate().getTime());
             stEnddate = new java.sql.Date(dtend.getDate().getTime());
-            stPubilcdate = new java.sql.Date(dtpublicher.getDate().getTime());
-
-            
+            stPubilcdate = new java.sql.Date(dtstart.getDate().getTime());
 
             Convocatory convocatoria = new Convocatory(stNameconvocatory, true, stStartdate, stEnddate, stPubilcdate, stdescription);
             /*Crea convocatoria*/
-            UserModel usermodel = new UserModel();
-            usermodel.createConvocatory(convocatoria);
+            ConvocatoryModel convocatorymodel = new ConvocatoryModel();
+            convocatorymodel.create(convocatoria);
             /*mensaje fin de la convocatoria*/
-            clear();
             JOptionPane.showMessageDialog(this, R.STR_CONVOCATORY_ADD);
-        }
-        catch (SQLException ex) {
-                System.out.println("Error Sql al guardar la convocatoria " + ex);
-                clear();
-            }catch (Exception ex) {
+            clear();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error Sql al guardar la convocatoria " + ex);
+            clear();
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex);
         }
     }//GEN-LAST:event_btnewconvocatoryActionPerformed
@@ -296,7 +273,7 @@ public class CreateConvocatoryForm extends javax.swing.JFrame {
     private javax.swing.JButton btexit;
     private javax.swing.JButton btnewconvocatory;
     private com.toedter.calendar.JDateChooser dtend;
-    private com.toedter.calendar.JDateChooser dtpublicher;
+    private com.toedter.calendar.JDateChooser dtpubicacion;
     private com.toedter.calendar.JDateChooser dtstart;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbdateend;

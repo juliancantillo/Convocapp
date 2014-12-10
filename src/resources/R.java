@@ -1,8 +1,10 @@
 package resources;
 
 import helpers.Item;
+import java.awt.Component;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -18,10 +20,10 @@ public class R {
     // String constans
     public static final String STR_LOGIN_FORM_TITLE = "Ingreso de Usuarios",
             STR_NEW_CONVOCATORY = "Crear nueva convocatoria",
-            STR_CONVOCATORY_ADD = "¡Convocatoria creada con exito!",
+             STR_CONVOCATORY_ADD = "¡Convocatoria creada con exito!",
             STR_USER = "Usuario",
-            STR_USERS_MANAGEMENT = "Administración de Usuarios",
-            STR_APPLICANT_MANAGEMENT = "Administración de Aspirantes",
+            STR_USERS_MANAGEMENT = "Administracion de Usuarios",
+            STR_APPLICANT_MANAGEMENT = "Administracion de Aspirantes",
             STR_NEW_USER = "Nuevo Usuario",
             STR_EDIT_USER = "Editar Usuario",
             STR_PASSWORD = "Contraseña",
@@ -32,93 +34,95 @@ public class R {
             STR_ID = "Id",
             STR_CALL_NAME = "Nombre De la convocatoria",
             STR_START_DATE = "Fecha de inicio",
-            STR_END_DATE = "Fecha de finalización",
-            STR_PUBLISH_DATE = "Fecha de publiciación",
+            STR_END_DATE = "Fecha de finalizacion",
+            //String Convocatoria
+            STR_PUBLISH_DATE = "Fecha de publiciacion",
+            STR_TITLE_CONVOCATORY = "Crear Nueva Convocatoria",
+            STR_DESCRIPTION_CONVOCATORY = "Descripcion de Convocatoria:",
+            STR_NAME_CONVOCATORY = "Nombre de Convocatoria",
+            
             STR_STATUS = "Estado",
-            STR_IDENTIFICATION = "Cédula",
-            STR_FOREING_IDENTIFICATION = "Cédula de Extranjería",
+            STR_IDENTIFICATION = "Cedula",
+            STR_FOREING_IDENTIFICATION = "Cedula de Extranjeria",
             STR_PASSPORT = "Pasaporte",
             STR_USERNAME = "Usuario",
-            STR_EMAIL = "Correo Eléctronico",
+            STR_EMAIL = "Correo Electronico",
             STR_FIRSTNAME = "Nombre",
             STR_NAME = "Nombre",
-            STR_NAME_CONVOCATORY = "Nombre de Convocatoria",
             STR_LASTNAME = "Apellido",
-            STR_ADDRESS = "Dirección",
-            STR_PHONE = "Teléfono",
+            STR_ADDRESS = "Direccion",
+            STR_PHONE = "Telefono",
             STR_CELLPHONE = "Celular",
             STR_ACTIVE = "Activo",
-            STR_CREATE_TIME = "Fecha de Creación",
-            STR_UPDATE_TIME = "Fecha de Actualización",
-            STR_PERSONAL_INFO = "Información Personal",
-            STR_LOGIN_INFO = "Información de Ingreso",
+            STR_CREATE_TIME = "Fecha de Creacion",
+            STR_UPDATE_TIME = "Fecha de Actualizacion",
+            STR_PERSONAL_INFO = "Informacion Personal",
+            STR_LOGIN_INFO = "Informacion de Ingreso",
             STR_INACTIVE = "Inactivo",
             STR_SUCCESS = "Exito",
-            STR_SAVE_SUCCESS = "Se guardó un nuevo registro a la Base de Datos.\n\nDetalle: %s",
-            STR_UPDATE_SUCCESS = "Se actualizó el registro a la Base de Datos.\n\nDetalle: %s",
+            STR_SAVE_SUCCESS = "Se guarda un nuevo registro a la Base de Datos.\n\nDetalle: %s",
+            STR_UPDATE_SUCCESS = "Se actualiza el registro a la Base de Datos.\n\nDetalle: %s",
             STR_DELETE = "Borrar",
-            STR_DATE_PUBLIC = "Publicacion de resultados:",
-            STR_TITLE_CONVOCATORY = "Crear Nueva Convocatoria",
-          
             STR_YES = "Si",
             STR_NO = "No",
             STR_ROLE = "Rol",
             STR_SAVE = "Guardar",
             STR_SING_OFF = "Sesion cerrada",
-            STR_DESCRIPTION_CONVOCATORY = "Descripcion de Convocatoria:",
-            STR_DELETE_CONFIRMATION = "¿Esta seguro que desea borrar el registro %s ?\n\nESTA ACCIÓN NO SE PUEDE DESHACER",
-            STR_CONVOCATORY_MANAGEMENT = "Administración de Convocatorias",
+            
+            STR_DELETE_CONFIRMATION = "¿Esta seguro que desea borrar el registro %s ?\n\nESTA ACCION NO SE PUEDE DESHACER",
+            STR_CONVOCATORY_MANAGEMENT = "Administracion de Convocatorias",
             STR_WELCOME = "Bienvenido",
             STR_EXIT = "Salir",
             STR_VIEW_STATISTICS = "Ver Estadisticas",
             STR_USER_ADMIN = "Administrador",
-            STR_DESCRIPTION = "Descripción",
-            STR_PUBLISHING_DATE = "Fecha de Publicación",
-            STR_IDENTIFICATION_TYPE = "Tipo de Identifiación",
+            STR_DESCRIPTION = "Descripcion",
+            STR_PUBLISHING_DATE = "Fecha de Publicacion",
+            STR_IDENTIFICATION_TYPE = "Tipo de Identifiacion",
             STR_BIRTHDATE = "Fecha de Nacimiento",
             STR_SEX = "Sexo",
             STR_COMPANY = "Nombre",
             STR_COMPANY_CITY = "Ciudad de Trabajo",
-            STR_COMPANY_ADDRESS = "Dirección de Trabajo",
-            STR_COMPANY_PHONE = "Teléfono de Trabajo",
+            STR_COMPANY_ADDRESS = "Direccion de Trabajo",
+            STR_COMPANY_PHONE = "Telefono de Trabajo",
             STR_WORKING_TIME = "Jornada de Trabajo",
             STR_CITY = "Ciudad",
             STR_CREATED_BY = "Ingresado por",
             STR_TOTAL_SCORE = "Puntaje Total",
+            STR_SCORE = "Puntaje",
             STR_FULLNAME = "Nombre Completo",
             STR_VERIFIED = "Verificado",
             STR_NEW_APPLICANT = "Nuevo Aspirante",
-            STR_NULL_SELECTION = "-- Sin Selección --",
+            STR_NULL_SELECTION = "-- Sin Seleccion --",
             STR_MALE = "Masculino",
             STR_FEMME = "Femenino",
             STR_DAY = "Diurno",
             STR_NIGHT = "Nocturno",
-            STR_WORK_INFO = "Información Laboral",
+            STR_WORK_INFO = "Informacion Laboral",
             STR_DAY_NIGHT = "Ambos",
             STR_NEXT = "Siguiente",
             STR_PREV = "Anterior",
-            STR_DEGREE  = "Título",
-            STR_DEGREE_TYPE  = "Tipo de título",
-            STR_INSTITUTION_NAME = "Institución",
+            STR_DEGREE = "TÃ­tulo",
+            STR_DEGREE_TYPE = "Tipo de titulo",
+            STR_INSTITUTION_NAME = "InstituciÃ³n",
             STR_INSTITUTION_CITY = "Ciudad",
-            STR_TITLE = "Título",
-            STR_GRADUATE_YEAR = "Año de Grado",
+            STR_TITLE = "Titulo",
+            STR_GRADUATE_YEAR = "AÃ±o de Grado",
             STR_NOTES = "Notas",
-            STR_DEGREE_INFO = "Información Académica",
+            STR_DEGREE_INFO = "InformaciÃ³n Academica",
             STR_ADD = "Agregar",
             STR_REMOVE = "Remover";
-    //Excepciones
+
+    // String Errors
+    public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
+            ERROR_LOGIN_FAILS = "Error al iniciar sesiÃ³n.\n\nDescipciÃ³n: %s",
+            ERROR_SAVE_FAILS = "OcurriÃ³ un error al guadar el registro.\n\nDescipcion: %s",
+            ERROR_DELETE_DATA_FAILS = "OcurriÃ³ un error al borrar el registro.\n\nDescipcion: %s",
+            ERROR_LOGIN_FAILS_PASSWORD_OR_USER = "Usuario o contraseña incorrectos, intente de nuevo\n\nSi no recuerda su informaciÃ³n de ingreso comuniquese con el Administrador",
+            ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacio, por favor ingrese su informaciin de logueo";
+//Excepciones
     public static final String EXCEPTION_EMPETY = "Hay un campo Vacio",
             EXCEPTION_DATE_ERROR = "Fechas ingresadas no validas",
             EXCEPTION_DATE_EMPETY = "Campo de fecha Vacio";
-    // String Errors
-    public static final String ERROR_LOAD_DATA_FAILS = "Error al cargar los registros de la base de datos.\n\nDetalles: %s",
-            ERROR_LOGIN_FAILS = "Error al iniciar sesión.\n\nDescipción: %s",
-            ERROR_SAVE_FAILS = "Ocurrió un error al guadar el registro.\n\nDescipción: %s",
-            ERROR_DELETE_DATA_FAILS = "Ocurrió un error al borrar el registro.\n\nDescipción: %s",
-            ERROR_LOGIN_FAILS_PASSWORD_OR_USER = "Usuario o contraseña incorrectos, intente de nuevo\n\nSi no recuerda su información de ingreso comuniquese con el Administrador",
-            ERROR_LOGIN_NULL_CREDENTIALS = "Usuario o contraseña vacío, por favor ingrese su información de logueo";
-
     // Columns Names
     public static String[] STR_APPLICANT_COLUMNS = {STR_ID, STR_IDENTIFICATION, STR_FULLNAME, STR_COMPANY, STR_CITY, STR_CREATED_BY, STR_TOTAL_SCORE, STR_VERIFIED};
     public static String[] STR_APPLICANT_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_IDENTIFICATION_TYPE, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_BIRTHDATE, STR_SEX, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_COMPANY, STR_COMPANY_CITY, STR_COMPANY_ADDRESS, STR_COMPANY_PHONE, STR_WORKING_TIME, STR_ACTIVE, STR_CITY, STR_CREATED_BY, STR_CREATE_TIME, STR_UPDATE_TIME, STR_TOTAL_SCORE, STR_VERIFIED};
@@ -126,6 +130,7 @@ public class R {
     public static String[] SRT_USERS_COLUMNS_FULL = {STR_ID, STR_IDENTIFICATION, STR_USERNAME, STR_PASSWORD, STR_EMAIL, STR_FIRSTNAME, STR_LASTNAME, STR_ADDRESS, STR_PHONE, STR_CELLPHONE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
     public static String[] SRT_CONVOCATORY_COLUMNS = {STR_ID, STR_NAME, STR_START_DATE, STR_END_DATE, STR_ACTIVE};
     public static String[] SRT_CONVOCATORY_COLUMNS_FULL = {STR_ID, STR_NAME, STR_DESCRIPTION, STR_START_DATE, STR_END_DATE, STR_PUBLISHING_DATE, STR_ACTIVE, STR_CREATE_TIME, STR_UPDATE_TIME};
+    public static String[] SRT_DEGREE_COLUMNS = {STR_ID, STR_SCORE, STR_TITLE, STR_INSTITUTION_NAME, STR_GRADUATE_YEAR};
 
     // Commands Constans
     public static final String CMD_NEW_CONVOCATORY = "CMD_NEW_CONVOCATORY";
@@ -202,5 +207,20 @@ public class R {
     public static final Border getDefaultBorder() {
         JTextField fld = new JTextField();
         return fld.getBorder();
+    }
+
+    public static final void showErrorMessage(Component parent, String message) {
+        JOptionPane.showMessageDialog(parent, String.format(R.ERROR_SAVE_FAILS, message), R.STR_ERROR, JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static final Object getItemFromList(String key, Object[] list) {
+        for (Object object : list) {
+            Item item = (Item) object;
+            if (item.getKey().equals(key)) {
+                return item;
+            }
+        }
+
+        return null;
     }
 }
